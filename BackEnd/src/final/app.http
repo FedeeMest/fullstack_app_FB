@@ -1,0 +1,38 @@
+GET http://localhost:3000/api/finales
+Content-Type: application/json 
+
+###
+GET http://localhost:3000/api/finales/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+###
+POST http://localhost:3000/api/finales
+Content-Type: application/json
+
+{
+    "materia": "Probabilidad",
+    "nota": 8,
+    "fecha": "2024-08-10"
+}
+
+###
+PUT http://localhost:3000/api/finales/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+{
+    "materia": "programacion",
+    "nota": 2,
+    "fecha": "2024-08-10"
+}
+
+###
+PATCH http://localhost:3000/api/finales/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+{
+    "nota": 3
+}
+
+###
+DELETE http://localhost:3000/api/finales/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
