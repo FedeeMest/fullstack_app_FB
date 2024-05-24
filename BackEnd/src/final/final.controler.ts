@@ -58,7 +58,4 @@ function remove(req:Request, res:Response){
     return res.status(200).json({Message: "Final eliminado"});
 }
 
- 
-
-
 export{InputS,findAll,findOne,add,update,remove}
