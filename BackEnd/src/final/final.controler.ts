@@ -35,7 +35,7 @@ function add (req:Request, res:Response) {
     const input = req.body.InputS;
     const nuevoFinal = new Final(input.materia,input.nota,input.fecha);
     const final = repository.add(nuevoFinal);
-    return res.status(201).json({Usuario_Creado:final});
+    return res.status(201).json({Final_Creado:final});
 }
 
 

@@ -1,0 +1,38 @@
+GET http://localhost:3000/api/horarios
+Content-Type: application/json 
+
+###
+GET http://localhost:3000/api/horarios/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+###
+POST http://localhost:3000/api/horarios
+Content-Type: application/json
+
+{
+    "dia": "jueves",
+    "hora": 8,
+    "materia": "ingles"
+}
+
+###
+PUT http://localhost:3000/api/horarios/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+{
+    "dia": "viernes",
+    "hora": 7,
+    "materia": "biologia"
+}
+
+###
+PATCH http://localhost:3000/api/horarios/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+{
+    "dia": "sabado"
+}
+
+###
+DELETE http://localhost:3000/api/horarios/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
