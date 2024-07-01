@@ -1,9 +1,9 @@
-import { Repository } from "../shared/repository";
-import { Plan } from "./plan.entity";
+import { Repository } from "../shared/repository.js";
+import { Plan } from "./plan.entity.js";
 
 const planes = [
-    new Plan("Plan 2008", []),
-    new Plan("Plan 2023",[])
+    new Plan("Plan 2008","a02bbeb1-3769-4221-beb1-d7a3aeba7dad"),
+    new Plan("Plan 2023","a02b91bc-3769-4221-beb1-beb1aeba7dad")
 ]
 
 export class PlanRepository implements Repository<Plan> {
@@ -38,4 +38,4 @@ export class PlanRepository implements Repository<Plan> {
             return deletedPlan
         }
     }
-}
+} 

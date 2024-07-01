@@ -57,4 +57,4 @@ function remove(req:Request, res:Response){
     return res.status(200).json({Message: "Horario eliminado"});
 }
 
-export{InputS,findAll,findOne,add,update,remove}
+export{InputS,findAll,findOne,add,update,remove} 

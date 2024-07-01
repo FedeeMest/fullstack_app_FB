@@ -7,7 +7,7 @@ const finales = [
     new Final("Historia", 6,"2021-09-03","a02b91bc-3769-4221-beb1-d7a3beb17dad"),
     new Final("Geografia", 4,"2021-09-04","beb191bc-3769-4221-beb1-d7a3aeba7dad"),
     new Final("Biologia", 2,"2021-09-05","a02bbeb1-3769-4221-beb1-d7a3aeba7dad")
-]
+] 
 
 
 export class FinalRepository implements Repository<Final> {

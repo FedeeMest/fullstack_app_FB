@@ -1,5 +1,6 @@
 import express from 'express';
 import { finalRouter } from './final/final.routes.js';
+import { planRouter } from './plan/plan.routes.js';
 import { horarioRouter } from './horarios/horarios.routes.js';
 
 const app = express(); 
@@ -7,6 +8,7 @@ app.use(express.json())
 
 app.use("/api/finales", finalRouter)
 app.use("/api/horarios", horarioRouter)
+app.use("/api/plan",planRouter)
 
 app.use((_, res) => {
     return res.status(404).json({Error:"Ruta no encontrada"});

@@ -1,5 +1,5 @@
 import { Repository } from '../shared/repository.js';
-import { Horario } from '../comisiones/horario.entity.js'
+import { Horario } from '../horarios/horario.entity.js'
 
 const horarios = [
     new Horario ("lunes",18,"matematica","a02b9bb1-3769-4221-beb1-d7a3aeba7dad"),
