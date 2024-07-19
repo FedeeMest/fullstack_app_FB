@@ -28,7 +28,7 @@ Content-Type: application/json
     "plan": "2003",
     "mail": "jorgemartin98@gmail.com",
     "direccion":"salta 1998",
-    "fechaN":"11/06/1998",
+    "fechaN":"11/06/1998"
 }
 
 ###
@@ -36,7 +36,7 @@ PATCH http://localhost:3000/api/alumnos/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
 Content-Type: application/json
 
 {
-    "mail": "jorgemartin1998@gmail.com",
+    "mail": "jorgemartin1998@gmail.com"
 }
 
 ###

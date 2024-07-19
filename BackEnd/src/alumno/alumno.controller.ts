@@ -4,7 +4,7 @@ import { Alumno } from './alumno.entity.js';
 
 const repository = new AlumnoRepository();
 function inputS (req: Request, res: Response, next: NextFunction) {
-    req.body.InputS = {
+    req.body.inputS = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         plan: req.body.plan,
@@ -12,8 +12,8 @@ function inputS (req: Request, res: Response, next: NextFunction) {
         direccion: req.body.direccion,
         fechaN: req.body.fechaN,
     }
-    Object.keys(req.body.InputS).forEach((key) => {
-        if (req.body.InputS[key] === undefined) delete req.body.InputS[key];
+    Object.keys(req.body.inputS).forEach((key) => {
+        if (req.body.inputS[key] === undefined) delete req.body.inputS[key];
     })
 
     next();
