@@ -1,8 +1,10 @@
+import crypto from "node:crypto"
+
 export class Materia {
     constructor(
-        public id_materia: string,
         public nombre: string,
         public horas_anuales: number,
-        public modalidad: string
+        public modalidad: string,
+        public id = crypto.randomUUID()
     ){}
 }

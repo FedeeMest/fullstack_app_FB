@@ -5,7 +5,6 @@ import { Materia } from './materia.entity.js';
 const repository = new MateriaRepository();
 function inputS (req: Request, res: Response, next: NextFunction) {
     req.body.inputS = {
-        id_materia: req.body.id_materia,
         nombre: req.body.nombre,
         horas_anuales: req.body.horas_anuales,
         modalidad: req.body.modalidad,
@@ -32,7 +31,7 @@ function findOne (req:Request, res:Response) {
 
 function add (req:Request, res:Response) { 
     const input = req.body.inputS;
-    const nuevoMateria = new Materia (input.id_materia,input.nombre,input.horas_anuales,input.modalidad);
+    const nuevoMateria = new Materia (input.nombre,input.horas_anuales,input.modalidad);
     const materia = repository.add(nuevoMateria);
     return res.status(201).json({Materia_Creada:materia});
 }

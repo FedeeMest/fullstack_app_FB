@@ -10,7 +10,6 @@ POST http://localhost:3000/api/materia
 Content-Type: application/json
 
 {
-    "id_materia": 4,
     "nombre": "arte",
     "horas_anuales": 18,
     "modalidad": "anual"
@@ -21,7 +20,6 @@ PUT http://localhost:3000/api/materia/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
 Content-Type: application/json
 
 {
-    "id_materia": 5,
     "nombre": "geografia",
     "horas_anuales": 25,
     "modalidad": "cuatrimestral"
