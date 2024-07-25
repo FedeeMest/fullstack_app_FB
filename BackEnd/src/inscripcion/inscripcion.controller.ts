@@ -22,12 +22,13 @@ function inputS (req: Request, res: Response, next: NextFunction) {
     next();
 }
 
-function findAll(req: Request, res: Response) {
-    res.status(200).json({Listado: repository.findAll()});
+async function findAll(req: Request, res: Response) {
+    res.status(200).json({Listado: await repository.findAll()});
 }
 
-function findOne (req:Request, res:Response) {
-    const inscripcion = repository.findOne({id: req.params.id}); 
+async function findOne (req:Request, res:Response) {
+    const id = req.params.id
+    const inscripcion = await repository.findOne({ id }) 
     if (!inscripcion) {
         return res.status(404).json({Error:"Inscripcion no encontrada"});
     }
@@ -35,21 +36,20 @@ function findOne (req:Request, res:Response) {
 }
 
 
-function add (req:Request, res:Response) { 
+async function add (req:Request, res:Response) { 
     const input = req.body.inputS;
-    const alumno = alumnosRepository.findOne({id:input.alumno.id})
-    const materia = materiasRepository.findOne({id:input.materia.id})
+    const alumno =  await alumnosRepository.findOne({id:input.alumno.id})
+    const materia =  await materiasRepository.findOne({id:input.materia.id})
     if (!alumno || !materia) {
         return res.status(404).json({Error:"Alumno o Materia no encontrada"})};
     const nuevoInscripcion = new Inscripcion (alumno,materia,input.fecha);
-    const inscripcion = repository.add(nuevoInscripcion);
+    const inscripcion = await repository.add(nuevoInscripcion);
     return res.status(201).json({Inscripcion_Creada:inscripcion});
 }
 
 
-function update(req:Request, res:Response) {
-    req.body.inputS.id = req.params.id;
-    const inscripcion = repository.update(req.body.inputS);
+async function update(req:Request, res:Response) {
+    const inscripcion = await repository.update(req.params.id, req.body.inputS);
 
     if (!inscripcion) { 
         return res.status(404).json({Error:"Inscripcion no encontrada"});
@@ -57,8 +57,9 @@ function update(req:Request, res:Response) {
     return res.status(200).json({Inscripcion_Actualizado:inscripcion}); 
 }
 
-function remove(req:Request, res:Response){
-    const inscripcion = repository.delete({id: req.params.id});
+async function remove(req:Request, res:Response){
+    const id = req.params.id
+    const inscripcion = await repository.delete({ id })
  
     if (!inscripcion) { 
         return res.status(404).json({Error:"Inscripcion no encontrada"}); 

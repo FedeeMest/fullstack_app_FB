@@ -15,7 +15,7 @@ export class AlumnoRepository implements Repository <Alumno> {
     public async add(item: Alumno): Promise<Alumno | undefined> {
         throw new Error("Method not implemented.");
     }
-    public async update(item: Alumno): Promise<Alumno | undefined> {
+    public async update(id: string, item: Alumno): Promise<Alumno | undefined> {
         throw new Error("Method not implemented.");
     }
     public async delete(item: { id: string; }): Promise<Alumno | undefined> {
