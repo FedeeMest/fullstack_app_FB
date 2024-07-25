@@ -1,36 +1,23 @@
 import { Repository} from "../shared/repository.js";
 import { Materia } from "./materia.entity.js";
+import { pool } from '../shared/db/conn.mysql.js'
+import { ResultSetHeader, RowDataPacket } from 'mysql2'
 
-const materias = [ 
-    new Materia("Matematica",20, "anual","a02b9bb1-3769-4221-beb1-d7a3aeba7dbd"), 
-    new Materia("Lengua", 10, "anual","a02b91bc-3769-5221-beb1-beb1aeba7dad"), 
-    new Materia("Biologia",8, "cuatrimestral","beb192cc-3769-4221-beb1-d7a3aeba7dad")
-     ]
 
 export class MateriaRepository implements Repository <Materia> {
-    public findAll(): Materia[] | undefined {
-        return materias;
+    public async findAll(): Promise<Materia[] | undefined> {
+        throw new Error("Method not implemented.");
     }
-    public findOne(item: { id: string; }): Materia | undefined {
-        return materias.find((materia)=> materia.id === item.id)
+    public async findOne(item: { id: string; }): Promise<Materia | undefined> {
+        throw new Error("Method not implemented.");
     }
-    public add(item: Materia): Materia | undefined {
-        materias.push(item);
-        return item;
+    public async add(item: Materia): Promise<Materia | undefined> {
+        throw new Error("Method not implemented.");
     }
-    public update(item: Materia): Materia | undefined {
-        const materiaIndx = materias.findIndex((materia)=> materia.id === item.id)
-        if (materiaIndx !== -1){
-            Object.assign(materias[materiaIndx], item)
-        }
-        return materias[materiaIndx]
+    public async update(item: Materia): Promise<Materia | undefined> {
+        throw new Error("Method not implemented.");
     }
-    public delete(item: { id: string; }): Materia | undefined {
-        const materiaIndx = materias.findIndex((materia)=> materia.id === item.id)
-        if (materiaIndx !== -1){
-            const deletedMateria = materias[materiaIndx]
-            materias.splice(materiaIndx, 1)[0]
-            return deletedMateria        
-        }
+    public async delete(item: { id: string; }): Promise<Materia | undefined> {
+        throw new Error("Method not implemented.");
     }
 }

@@ -16,12 +16,13 @@ function inputS (req: Request, res: Response, next: NextFunction) {
     next();
 }
 
-function findAll(req: Request, res: Response) {
-    res.status(200).json({Listado: repository.findAll()});
+async function findAll(req: Request, res: Response) {
+    res.status(200).json({Listado: await repository.findAll()});
 }
 
-function findOne (req:Request, res:Response) {
-    const materia = repository.findOne({id: req.params.id}); 
+async function findOne (req:Request, res:Response) {
+    const id = req.params.id
+    const materia = await repository.findOne({ id })
     if (!materia) {
         return res.status(404).json({Error:"Materia no encontrada"});
     }
@@ -29,26 +30,25 @@ function findOne (req:Request, res:Response) {
 }
 
 
-function add (req:Request, res:Response) { 
+async function add (req:Request, res:Response) { 
     const input = req.body.inputS;
     const nuevoMateria = new Materia (input.nombre,input.horas_anuales,input.modalidad);
-    const materia = repository.add(nuevoMateria);
+    const materia = await repository.add(nuevoMateria);
     return res.status(201).json({Materia_Creada:materia});
 }
 
 
-function update(req:Request, res:Response) {
-    req.body.inputS.id = req.params.id;
-    const materia = repository.update(req.body.inputS);
-
+async function update(req:Request, res:Response) {
+    const materia = await repository.update(req.params.id, req.body.sanitizedInput)
     if (!materia) { 
         return res.status(404).json({Error:"Materia no encontrada"});
     }
     return res.status(200).json({Materia_Actualizado:materia}); 
 }
 
-function remove(req:Request, res:Response){
-    const materia = repository.delete({id: req.params.id});
+async function remove(req:Request, res:Response){
+    const id = req.params.id
+    const materia = await repository.delete({ id })
  
     if (!materia) { 
         return res.status(404).json({Error:"Materia no encontrada"}); 
