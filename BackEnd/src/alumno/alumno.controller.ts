@@ -19,12 +19,13 @@ function inputS (req: Request, res: Response, next: NextFunction) {
     next();
 }
 
-function findAll(req: Request, res: Response) {
+async function findAll(req: Request, res: Response) {
     res.status(200).json({Listado: repository.findAll()});
 }
 
-function findOne (req:Request, res:Response) {
-    const alumno = repository.findOne({id: req.params.id}); 
+async function findOne (req:Request, res:Response) {
+    const id = req.params.id
+    const alumno = await repository.findOne({ id })
     if (!alumno) {
         return res.status(404).json({Error:"Alumno no encontrado"});
     }
@@ -32,26 +33,26 @@ function findOne (req:Request, res:Response) {
 }
 
 
-function add (req:Request, res:Response) { 
+async function add (req:Request, res:Response) { 
     const input = req.body.inputS;
     const nuevoAlumno = new Alumno (input.nombre,input.apellido,input.plan,input.mail,input.direccion,input.fechaN);
-    const alumno = repository.add(nuevoAlumno);
-    return res.status(201).json({Alumno_Creado:alumno});
+    const alumno = await repository.add(nuevoAlumno);
+    return res.status(201).json({message: 'Character created', data:alumno});
 }
 
 
-function update(req:Request, res:Response) {
-    req.body.inputS.id = req.params.id;
-    const alumno = repository.update(req.body.inputS);
+async function update(req:Request, res:Response) {
+    const alumno = await repository.update(req.params.id, req.body.inputS)
 
     if (!alumno) { 
         return res.status(404).json({Error:"Alumno no encontrado"});
     }
-    return res.status(200).json({Alumno_Actualizado:alumno}); 
+    return res.status(200).json({message: 'Alumno creado con exito', data:alumno}); 
 }
 
-function remove(req:Request, res:Response){
-    const alumno = repository.delete({id: req.params.id});
+async function remove(req:Request, res:Response){
+    const id = req.params.id
+    const alumno = await repository.delete({ id })
  
     if (!alumno) { 
         return res.status(404).json({Error:"Alumno no encontrado"}); 

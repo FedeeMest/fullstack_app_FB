@@ -5,8 +5,10 @@ import { Materia } from "../materia/materia.entity.js";
 
 const alumno1 = new Alumno("Juan", "Perez", "2002", "juancitoperez@gmail.com","salta 1234", "14/08/2000","a02b9bb1-3769-4221-beb1-d7a3aeba7dad")
 const alumno2 = new Alumno("Raul", "Lopez", "2004", "raullopez@gmail.com","dorrego 1234", "28/02/2004","a02b91bc-3769-4221-beb1-beb1aeba7dad")
+
 const materia1 = new Materia("Matematica",20, "anual","a02b9bb1-3769-4221-beb1-d7a3aeba7dbd")
 const materia2 = new Materia("Lengua", 10, "anual","a02b91bc-3769-5221-beb1-beb1aeba7dad")
+
 const alumnos = [alumno1,alumno2]
 const materias = [materia1,materia2]
 

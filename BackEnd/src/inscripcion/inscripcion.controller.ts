@@ -37,8 +37,11 @@ function findOne (req:Request, res:Response) {
 
 function add (req:Request, res:Response) { 
     const input = req.body.inputS;
-    const alumnno = alumnosRepository.findOne((alumno)=> alumno.id === input.alumno.id)
-    const nuevoInscripcion = new Inscripcion (input.alumno,input.materia,input.fecha);
+    const alumno = alumnosRepository.findOne({id:input.alumno.id})
+    const materia = materiasRepository.findOne({id:input.materia.id})
+    if (!alumno || !materia) {
+        return res.status(404).json({Error:"Alumno o Materia no encontrada"})};
+    const nuevoInscripcion = new Inscripcion (alumno,materia,input.fecha);
     const inscripcion = repository.add(nuevoInscripcion);
     return res.status(201).json({Inscripcion_Creada:inscripcion});
 }
