@@ -7,6 +7,9 @@ coverage
 # dependency directory
 node_modules
 
+# notas de sugerencias
+notas
+
 # OS metadata
 .DS_Store
 Thumbs.db
@@ -27,3 +30,4 @@ dist/**/*
 
 ## built vscode extensions
 *.vsix
+

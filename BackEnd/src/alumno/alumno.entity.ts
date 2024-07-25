@@ -8,6 +8,6 @@ export class Alumno {
         public mail:string,
         public direccion:string,
         public fechaN:string,
-        public id = crypto.randomUUID()
+        public id?: number
     ){}
 }
