@@ -14,7 +14,7 @@ export class MateriaRepository implements Repository <Materia> {
     public async add(item: Materia): Promise<Materia | undefined> {
         throw new Error("Method not implemented.");
     }
-    public async update(item: Materia): Promise<Materia | undefined> {
+    public async update(id: string, item: Materia): Promise<Materia | undefined> {
         throw new Error("Method not implemented.");
     }
     public async delete(item: { id: string; }): Promise<Materia | undefined> {

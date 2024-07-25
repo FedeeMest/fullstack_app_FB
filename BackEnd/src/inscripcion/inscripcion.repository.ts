@@ -13,7 +13,7 @@ export class InscripcionRepository implements Repository <Inscripcion> {
     public async add(item: Inscripcion): Promise<Inscripcion | undefined> {
         throw new Error("Method not implemented.");
     }
-    public async update(item: Inscripcion): Promise<Inscripcion | undefined> {
+    public async update(id: string, item: Inscripcion): Promise<Inscripcion | undefined> {
         throw new Error("Method not implemented.");
     }
     public async delete(item: { id: string; }): Promise<Inscripcion | undefined> {
