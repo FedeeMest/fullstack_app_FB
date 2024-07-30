@@ -20,7 +20,7 @@ function inputS (req: Request, res: Response, next: NextFunction) {
 }
 
 async function findAll(req: Request, res: Response) {
-    res.status(200).json({Listado: repository.findAll()});
+    res.status(200).json({Listado: await repository.findAll()});
 }
 
 async function findOne (req:Request, res:Response) {
