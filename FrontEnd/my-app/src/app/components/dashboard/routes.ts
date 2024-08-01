@@ -12,6 +12,6 @@ export default [
     { path: 'materias',component: MateriasComponent },
     { path: 'inscripciones',component: InscripcionesComponent },
     { path: 'navbar',component: NavbarComponent },
-    { path: 'listaalumnos',component: ListaalumnosComponent},
+    { path: 'alumnos/listaalumnos',component: ListaalumnosComponent},
 
 ] as Route[];
