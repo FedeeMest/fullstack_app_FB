@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { ListaalumnosComponent } from '../dashboard/alumnos/listaalumnos/listaalumnos.component';
 import { AlumnosComponent } from '../dashboard/alumnos/alumnos.component';
+
+
+
 
 @Component({
   selector: 'app-main',
@@ -10,8 +12,7 @@ import { AlumnosComponent } from '../dashboard/alumnos/alumnos.component';
   imports: [
     RouterModule,
     NavbarComponent,
-    ListaalumnosComponent,
-
+    AlumnosComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css',
