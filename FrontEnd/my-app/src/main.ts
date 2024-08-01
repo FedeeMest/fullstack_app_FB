@@ -1,6 +1,13 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app.component';
+import { MainComponent } from './app/components/main/main.component';
+import { routes } from './app/app.routes';
+import { provideRouter } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-bootstrapApplication(AppComponent, appConfig)
+bootstrapApplication(MainComponent,  {
+  providers: [ 
+    provideAnimations(),
+    provideRouter(routes)
+  ]
+})
   .catch((err) => console.error(err));
