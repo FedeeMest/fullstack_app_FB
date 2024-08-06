@@ -4,16 +4,20 @@
       <tr>
         <th scope="col">Nombre</th>
         <th scope="col">Apellido</th>
-        <th scope="col">Fecha Nacimiento</th>
+        <th scope="col">Plan</th>
         <th scope="col">Email</th>
+        <th scope="col">Direccion</th>
+        <th scope="col">Fecha Nacimiento</th>
       </tr>
     </thead>
     <tbody>
-      <tr class="table-active">
-        <th scope="row">Active</th>
-        <td>Column content</td>
-        <td>Column content</td>
-        <td>Column content</td>
+      <tr *ngFor="let item of listAlumnos" class="table-active">
+        <td> {{ item.nombre }} </td>
+        <td> {{ item.apellido }} </td>
+        <td> {{ item.plan }} </td>
+        <td> {{ item.mail }} </td>
+        <td> {{ item.direccion }} </td>
+        <td> {{ item.fechaN }} </td>
       </tr>
       <tr>
     </tbody>

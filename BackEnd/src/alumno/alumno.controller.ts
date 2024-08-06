@@ -20,6 +20,7 @@ function inputS (req: Request, res: Response, next: NextFunction) {
 }
 
 async function findAll(req: Request, res: Response) {
+    res.header('Access-Control-Allow-Origin', '*');
     res.status(200).json({Listado: await repository.findAll()});
 }
 
