@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlumnosService } from '../../../../service/alumnos.service';
-import { Alumno } from '../../../../interfaces/alumno';
+import { AlumnoService } from '../../../../service/service.service';
+import { alumno } from '../../../../models/alumno';
 import { NgFor } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-listaalumnos',
@@ -10,18 +11,23 @@ import { NgFor } from '@angular/common';
   templateUrl: './listaalumnos.component.html',
   styleUrl: './listaalumnos.component.css'
 })
-export class ListaalumnosComponent implements OnInit {
-  listAlumnos: Alumno[] = [];
+export class ListaAlumnosComponent implements OnInit {
 
-  constructor(private _alumnosService: AlumnosService) {}
+  items$: Observable<any[]>
+  listadoAlumnos: any[] = [];
+
+  constructor(private alumnoService: AlumnoService) { }
 
   ngOnInit(): void {
-    this.getListaAlumnos();
-  }
-
-  getListaAlumnos(){
-    this._alumnosService.getListaAlumnos().subscribe((data) => {
-      this.listAlumnos = data;
-  });
-  }
+    this.alumnoService.getAlumnos().subscribe(
+      (response) => {
+        console.log("lista de alumbos:",response);
+        this.listadoAlumnos = response;
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+  
+}
 }

@@ -4,7 +4,7 @@ import { MateriasComponent } from "./materias/materias.component";
 import { InscripcionesComponent } from "./inscripciones/inscripciones.component";
 import { PrincipalComponent } from "./principal/principal.component";
 import { NavbarComponent } from "../navbar/navbar.component";
-import { ListaalumnosComponent } from "./alumnos/listaalumnos/listaalumnos.component";
+import { ListaAlumnosComponent } from "./alumnos/listaalumnos/listaalumnos.component";
 
 export default [
     { path: '', component: PrincipalComponent },
@@ -12,6 +12,6 @@ export default [
     { path: 'materias',component: MateriasComponent },
     { path: 'inscripciones',component: InscripcionesComponent },
     { path: 'navbar',component: NavbarComponent },
-    { path: 'alumnos/listaalumnos',component: ListaalumnosComponent},
+    { path: 'alumnos/listaalumnos',component: ListaAlumnosComponent},
 
 ] as Route[];
