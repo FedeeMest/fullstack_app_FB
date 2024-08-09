@@ -1,5 +1,3 @@
-import crypto from "node:crypto"
-
 export class Alumno {
     constructor(
         public nombre: string,
