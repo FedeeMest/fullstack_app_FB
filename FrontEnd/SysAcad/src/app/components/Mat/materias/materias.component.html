@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="d-flex justify-content-between mt-2 mb-2"> <!-- Ver porque no funciona la class title -->
+        <h4 class="m-3">Listado de Materias</h4>
+        <button type="button" class="btn btn-primary btn-lg m-2" onclick="location.href='http://localhost:4200/add_materia'">Agregar Materia</button>   
+    </div>
+    <div class="search">
+        <table class="table table-hover text-center">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Horas Anuales</th>
+                <th scope="col">Modalidad</th>
+            </tr>
+            <tr *ngFor="let materia of listaMateria" class="table-active">
+                <th scope="row" class="text-center align-middle">{{materia.nombre}}</th>
+                <td class="text-center align-middle">{{materia.horas_anuales}}</td>
+                <td class="text-center align-middle">{{materia.modalidad}}</td>
+                <td class="text-center align-middle">
+                <button type="button" class="btn btn-primary m-2" onclick="location.href='http://localhost:4200/add_alumno'">Editar</button>
+                <button type="button" class="btn btn-danger m-2">Eliminar</button>
+                </td>
+            </tr>
+        </table>
+    </div> 
+</div>

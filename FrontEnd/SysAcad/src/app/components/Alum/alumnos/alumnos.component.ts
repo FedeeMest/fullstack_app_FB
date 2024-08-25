@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Alumno } from '../../interfaces/alumno';
-import { AlumnosService } from '../../services/alumnos.service';
+import { Alumno } from '../../../interfaces/alumno';
+import { AlumnosService } from '../../../services/alumnos.service';
 import { NgFor } from '@angular/common';
 
 @Component({
