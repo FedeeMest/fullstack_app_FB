@@ -8,7 +8,7 @@ function inputS (req: Request, res: Response, next: NextFunction) {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         plan: req.body.plan,
-        mail: req.body.email,
+        mail: req.body.mail,
         direccion: req.body.direccion,
         fechaN: req.body.fechaN,
     }
@@ -48,7 +48,7 @@ async function update(req:Request, res:Response) {
     if (!alumno) { 
         return res.status(404).json({Error:"Alumno no encontrado"});
     }
-    return res.status(200).json({message: 'Alumno creado con exito', data:alumno}); 
+    return res.status(200).json({message: 'Alumno Actualizado con exito', data:alumno}); 
 }
 
 async function remove(req:Request, res:Response){
