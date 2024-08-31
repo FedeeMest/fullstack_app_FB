@@ -1,10 +1,12 @@
-<div class="container">
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
   <div class="title">
      <h4 class="m-3">Listado de Alumnos</h4>
     <button type="button" class="btn btn-primary btn-lg m-2" onclick="location.href='http://localhost:4200/add_alumno'">Agregar Alumno</button>
   </div>
   <div class="search">
     <table class="table table-hover text-center">
+      <thead>
         <tr>
           <th scope="col">Nombre</th>
           <th scope="col">Apellido</th>
@@ -12,8 +14,10 @@
           <th scope="col">Mail</th>
           <th scope="col">Direccion</th>
           <th scope="col">Fecha de Nacimiento</th>
-        <th scope="col">Acciones</th>
+          <th scope="col">Acciones</th>
         </tr>
+      </thead>
+      <tbody>
         <tr *ngFor="let alumno of listaAlumnos" class="table-active">
           <th scope="row" class="text-center align-middle">{{alumno.nombre}}</th>
           <td class="text-center align-middle">{{alumno.apellido}}</td>
@@ -23,9 +27,10 @@
           <td class="text-center align-middle">{{alumno.fechaN}}</td>
           <td class="text-center align-middle">
             <button type="button" class="btn btn-primary m-2" onclick="location.href='http://localhost:4200/add_alumno'">Editar</button>
-            <button type="button" class="btn btn-danger m-2">Eliminar</button>
+            <button (click)="deleteAlumno(alumno.id!)" type="button" class="btn btn-danger m-2">Eliminar</button>
           </td>
         </tr>
+      </tbody> 
     </table>
   </div> 
 </div>

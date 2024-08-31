@@ -55,7 +55,8 @@ async function remove(req:Request, res:Response){
     const id = req.params.id
     const alumno = await repository.delete({ id })
  
-    if (!alumno) { 
+    if (!alumno) {
+        res.header('Access-Control-Allow-Origin', '*'); 
         return res.status(404).json({Error:"Alumno no encontrado"}); 
     } 
     return res.status(200).json({Message: "Alumno eliminado"});

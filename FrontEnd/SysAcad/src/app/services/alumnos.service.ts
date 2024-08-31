@@ -20,4 +20,8 @@ export class AlumnosService {
   getAlumnos(): Observable<Alumno[]> {
     return this.http.get<Alumno[]>(this.myAppUrl + this.myApiUrl);
   }
+
+  deleteAlumno(id: number): Observable<void>{
+    return this.http.delete<void>(this.myAppUrl + this.myApiUrl + "/"+ id);
+  }
 }
