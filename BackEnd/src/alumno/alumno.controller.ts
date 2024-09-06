@@ -25,6 +25,7 @@ async function findAll(req: Request, res: Response) {
 }
 
 async function findOne (req:Request, res:Response) {
+    res.header('Access-Control-Allow-Origin', '*');
     const id = req.params.id
     const alumno = await repository.findOne({ id })
     if (!alumno) {
@@ -35,6 +36,7 @@ async function findOne (req:Request, res:Response) {
 
 
 async function add (req:Request, res:Response) { 
+    res.header('Access-Control-Allow-Origin', '*');
     const input = req.body.inputS;
     const nuevoAlumno = new Alumno (input.nombre,input.apellido,input.plan,input.mail,input.direccion,input.fechaN);
     const alumno = await repository.add(nuevoAlumno);
@@ -43,6 +45,7 @@ async function add (req:Request, res:Response) {
 
 
 async function update(req:Request, res:Response) {
+    res.header('Access-Control-Allow-Origin', '*');
     const alumno = await repository.update(req.params.id, req.body.inputS)
 
     if (!alumno) { 
@@ -52,13 +55,15 @@ async function update(req:Request, res:Response) {
 }
 
 async function remove(req:Request, res:Response){
+    res.header('Access-Control-Allow-Origin', '*');
     const id = req.params.id
     const alumno = await repository.delete({ id })
  
     if (!alumno) {
         res.header('Access-Control-Allow-Origin', '*'); 
         return res.status(404).json({Error:"Alumno no encontrado"}); 
-    } 
+    }
+     
     return res.status(200).json({Message: "Alumno eliminado"});
 }
 
