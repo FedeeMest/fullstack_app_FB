@@ -1,35 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Alumno } from '../../../interfaces/alumno';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-add-update-alumno',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [],
   templateUrl: './add-update-alumno.component.html',
   styleUrl: './add-update-alumno.component.css'
 })
-export class AddUpdateAlumnoComponent implements OnInit {
-  form: FormGroup;
+export class AddUpdateAlumnoComponent {
 
-  constructor(private fb: FormBuilder) {
-    this.form= this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      plan: ['', Validators.required],
-      mail: ['', [Validators.required, Validators.email]],
-      direccion: ['', Validators.required],
-      fechaN: ['', Validators.required]
-
-    })
-   }
-
-  ngOnInit(): void {
-  }
-
-  addAlumno(){
-    console.log(this.form);
-    }
 }
-
-

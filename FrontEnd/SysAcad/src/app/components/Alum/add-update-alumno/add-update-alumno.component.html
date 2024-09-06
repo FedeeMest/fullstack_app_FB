@@ -3,15 +3,15 @@
     <div class="card text-white bg-primary mb-3" style="max-width: 50rem;">
       <div class="card-header text-center">Agregar Alumno</div>
       <div class="card-body">
-          <form [formGroup]="form" (ngSubmit)="addAlumno()">
-            <input formControlName="nombre" type="text" class="form-control mt-2" placeholder="Ingrese Nombre">
-            <input formControlName="apellido" type="text" class="form-control mt-2" placeholder="Ingrese Apellido">
-            <input formControlName="mail" type="email" class="form-control mt-2" placeholder="Ingrese Email">
-            <input formControlName="direccion" type="text" class="form-control mt-2" placeholder="Ingrese Direccion">
-            <input formControlName="fechaN" type="date" class="form-control mt-2" placeholder="Ingresar Nacimiento (aaaa-mm-dd)">
+          <form>
+            <input type="text" class="form-control mt-2" placeholder="Ingrese Nombre">
+            <input type="text" class="form-control mt-2" placeholder="Ingrese Apellido">
+            <input type="text" class="form-control mt-2" placeholder="Ingrese Email">
+            <input type="text" class="form-control mt-2" placeholder="Ingrese Direccion">
+            <input type="text" class="form-control mt-2" placeholder="Ingresar Nacimiento (aaaa-mm-dd)">
             <div class="d-flex justify-content-center align-items-center mt-2">
             <label class="form-label  mr-2">Plan:</label>
-            <select formControlName="plan" class="form-select">
+            <select class="form-select">
               <option>98</option>
               <option>01</option>
               <option>05</option>
@@ -24,7 +24,7 @@
                 <button onclick="location.href='http://localhost:4200/alumnos'" type="button" class="btn btn-secondary">Volver</button>
               </div>
               <div class="col-lg-6">
-                <button [disabled]="form.invalid" type="submit" class="btn btn-success">Aceptar</button>
+                <button type="button" class="btn btn-success">Aceptar</button>
               </div>
             </div>
           </form> 
