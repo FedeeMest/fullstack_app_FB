@@ -1,8 +1,9 @@
 import {Request, Response, NextFunction} from 'express';
-import { MateriaRepository } from './materia.repository.js';
 import { Materia } from './materia.entity.js';
+import { orm } from '../shared/db/orm.js';
 
-const repository = new MateriaRepository();
+const em = orm.em
+
 function inputS (req: Request, res: Response, next: NextFunction) {
     req.body.inputS = {
         nombre: req.body.nombre,
@@ -17,43 +18,58 @@ function inputS (req: Request, res: Response, next: NextFunction) {
 }
 
 async function findAll(req: Request, res: Response) {
-    res.status(200).json({Listado: await repository.findAll()});
+    try{
+        const materias = await em.find(Materia, {})
+        res.header('Access-Control-Allow-Origin', '*');
+        res.status(200).json(materias);
+    } catch (error:any){
+    res.status(500).json({ mensaje: error.message });
+    }
 }
 
 async function findOne (req:Request, res:Response) {
-    const id = req.params.id
-    const materia = await repository.findOne({ id })
-    if (!materia) {
-        return res.status(404).json({Error:"Materia no encontrada"});
+    try{
+        const id = Number.parseInt(req.params.id)
+        const materia = await em.findOneOrFail(Materia,{ id })
+        res.header('Access-Control-Allow-Origin', '*');
+        res.status(200).json({ mensaje: 'Materia encontrado', data: materia});
+    } catch (error:any){
+        res.status(500).json({ mensaje: error.message })
     }
-    return res.status(200).json({Materia_Solicitado:materia});
 }
-
 
 async function add (req:Request, res:Response) { 
-    const input = req.body.inputS;
-    const nuevoMateria = new Materia (input.nombre,input.horas_anuales,input.modalidad);
-    const materia = await repository.add(nuevoMateria);
-    return res.status(201).json({Materia_Creada:materia});
+    try{
+        const materia = em.create(Materia, req.body.inputS)
+        await em.flush()
+        res.header('Access-Control-Allow-Origin', '*');
+        res.status(201).json({ mensaje: 'Materia creado', data: materia});
+    } catch (error:any){
+        res.status(500).json({ mensaje: error.message });
+    }
 }
 
-
 async function update(req:Request, res:Response) {
-    const materia = await repository.update(req.params.id, req.body.sanitizedInput)
-    if (!materia) { 
-        return res.status(404).json({Error:"Materia no encontrada"});
+    try{
+        const id = Number.parseInt(req.params.id)
+        const materiaToUpdate = await em.findOneOrFail(Materia, { id })
+        em.assign(materiaToUpdate, req.body.inputS)
+        await em.flush()
+        res.header('Access-Control-Allow-Origin', '*');
+        res.status(200).json({ mensaje: 'Materia actualizado', data: materiaToUpdate});
+    } catch (error:any){
+        res.status(500).json({ mensaje: error.message });
     }
-    return res.status(200).json({Materia_Actualizado:materia}); 
 }
 
 async function remove(req:Request, res:Response){
-    const id = req.params.id
-    const materia = await repository.delete({ id })
- 
-    if (!materia) { 
-        return res.status(404).json({Error:"Materia no encontrada"}); 
-    } 
-    return res.status(200).json({Message: "Materia eliminada"});
+    try{
+        const id = Number.parseInt(req.params.id)
+        const materia = em.getReference(Materia, id)
+        await em.removeAndFlush(materia)
+    } catch (error:any){
+        res.status(500).json({ mensaje: error.message });
+    }
 }
 
 export{inputS,findAll,findOne,add,update,remove}
