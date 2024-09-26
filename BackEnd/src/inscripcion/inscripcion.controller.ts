@@ -1,18 +1,13 @@
 import {Request, Response, NextFunction} from 'express';
-import { InscripcionRepository } from './inscripcion.repository.js';
 import { Inscripcion } from './inscripcion.entity.js';
-import { AlumnoRepository } from '../alumno/alumno.repository.js';
-import { MateriaRepository } from '../materia/materia.repository.js';
+import { orm } from '../shared/db/orm.js';
+import { Alumno } from '../alumno/alumno.entity.js';
+import { Materia } from '../materia/materia.entity.js';
 
+const em = orm.em
 
-const alumnosRepository = new AlumnoRepository();
-const materiasRepository = new MateriaRepository();
-
-const repository = new InscripcionRepository();
 function inputS (req: Request, res: Response, next: NextFunction) {
     req.body.inputS = {
-        alumno: req.body.alumno,
-        materia: req.body.materia,
         fecha: req.body.fecha,
     }
     Object.keys(req.body.inputS).forEach((key) => {
@@ -23,48 +18,65 @@ function inputS (req: Request, res: Response, next: NextFunction) {
 }
 
 async function findAll(req: Request, res: Response) {
-    res.status(200).json({Listado: await repository.findAll()});
+    try{
+        const inscripciones = await em.find(Inscripcion, {})
+        res.header('Access-Control-Allow-Origin', '*');
+        res.status(200).json(inscripciones);
+    }catch (error:any){
+    res.status(500).json({ mensaje: error.message });
+    }
 }
 
 async function findOne (req:Request, res:Response) {
-    const id = req.params.id
-    const inscripcion = await repository.findOne({ id }) 
-    if (!inscripcion) {
-        return res.status(404).json({Error:"Inscripcion no encontrada"});
+    try{
+        const id = Number.parseInt(req.params.id)
+        const inscripcion = await em.findOneOrFail(Inscripcion,{ id })
+        res.header('Access-Control-Allow-Origin', '*');
+        res.status(200).json({ mensaje: 'inscripcion encontrado', data: inscripcion});
+    } catch (error:any){
+        res.status(500).json({ mensaje: error.message })
     }
-    return res.status(200).json({Inscripcion_Solicitado:inscripcion});
 }
-
 
 async function add (req:Request, res:Response) { 
-    const input = req.body.inputS;
-    const alumno =  await alumnosRepository.findOne({id:input.alumno.id})
-    const materia =  await materiasRepository.findOne({id:input.materia.id})
-    if (!alumno || !materia) {
-        return res.status(404).json({Error:"Alumno o Materia no encontrada"})};
-    const nuevoInscripcion = new Inscripcion (alumno,materia,input.fecha);
-    const inscripcion = await repository.add(nuevoInscripcion);
-    return res.status(201).json({Inscripcion_Creada:inscripcion});
+    try {
+        const input = req.body.inputS;
+        const alumno = await em.findOne(Alumno, { id: input.alumno.id });
+        const materia = await em.findOne(Materia, { id: input.materia.id });
+        if (!alumno || !materia) {
+            return res.status(404).json({ Error: "Alumno o Materia no encontrada" });
+        }
+        const nuevaInscripcion = em.create(Inscripcion, {alumno: alumno,materia: materia,fecha: req.body.inputS});
+        await em.flush();
+        delete req.body.inputS.alumno;
+        delete req.body.inputS.materia;
+        return res.status(201).json({ Inscripcion_Creada: nuevaInscripcion });
+    } catch (error: any) {
+        return res.status(500).json({ mensaje: error.message });
+    }
 }
 
-
 async function update(req:Request, res:Response) {
-    const inscripcion = await repository.update(req.params.id, req.body.inputS);
-
-    if (!inscripcion) { 
-        return res.status(404).json({Error:"Inscripcion no encontrada"});
+    try{
+        const id = Number.parseInt(req.params.id)
+        const inscripcionToUpdate = await em.findOneOrFail(Inscripcion, { id })
+        em.assign(inscripcionToUpdate, req.body.inputS)
+        await em.flush()
+        res.header('Access-Control-Allow-Origin', '*');
+        res.status(200).json({ mensaje: 'Inscripcion actualizado', data: inscripcionToUpdate});
+    } catch (error:any){
+        res.status(500).json({ mensaje: error.message });
     }
-    return res.status(200).json({Inscripcion_Actualizado:inscripcion}); 
 }
 
 async function remove(req:Request, res:Response){
-    const id = req.params.id
-    const inscripcion = await repository.delete({ id })
- 
-    if (!inscripcion) { 
-        return res.status(404).json({Error:"Inscripcion no encontrada"}); 
-    } 
-    return res.status(200).json({Message: "Inscripcion eliminada"});
+    try{
+        const id = Number.parseInt(req.params.id)
+        const inscripcion = em.getReference(Inscripcion, id)
+        await em.removeAndFlush(inscripcion)
+    } catch (error:any){
+        res.status(500).json({ mensaje: error.message });
+    }
 }
 
 export{inputS,findAll,findOne,add,update,remove}

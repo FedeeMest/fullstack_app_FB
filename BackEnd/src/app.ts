@@ -3,6 +3,8 @@ import express from 'express';
 import { alumnoRouter } from './alumno/alumno.routes.js';
 import {orm, syncSchema} from './shared/db/orm.js'
 import { RequestContext } from '@mikro-orm/core';
+import { materiaRouter } from './materia/materia.routes.js';
+import { inscripcionRouter } from './inscripcion/inscripcion.routes.js';
 
 
 const app = express();
@@ -13,6 +15,8 @@ app.use ((req, res, next) => {
 })
 
 app.use("/api/alumnos", alumnoRouter)
+app.use("api/materias", materiaRouter)
+app.use("/api/inscripciones", inscripcionRouter)
 
 
 app.use((_, res) => {
