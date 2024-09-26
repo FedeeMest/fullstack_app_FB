@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Alumno } from '../../../interfaces/alumno';
 import { AlumnosService } from '../../../services/alumnos.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-update-alumno',
@@ -12,8 +13,10 @@ import { AlumnosService } from '../../../services/alumnos.service';
 })
 export class AddUpdateAlumnoComponent implements OnInit {
   form: FormGroup
+  id: number;
+  operacion: string = 'Agregar ';
 
-  constructor(private fb: FormBuilder, private alumnosService: AlumnosService) {
+  constructor(private fb: FormBuilder, private alumnosService: AlumnosService, private router: Router, private aRouter: ActivatedRoute) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['',Validators.required],
@@ -22,8 +25,27 @@ export class AddUpdateAlumnoComponent implements OnInit {
       fechaN: ['',Validators.required],
       plan: ['',Validators.required]
     })
+    this.id = Number(aRouter.snapshot.paramMap.get('id'));
    }
+
   ngOnInit(): void {
+    if(this.id !== 0){
+      this.operacion = 'Editar '
+      this.getAlumno(this.id);
+    }
+  }
+
+  getAlumno(id: number){
+    this.alumnosService.getAlumno(id).subscribe((data: Alumno) => {
+      this.form.setValue({
+        nombre: data.nombre,
+        apellido: data.apellido,
+        mail: data.mail,
+        direccion: data.direccion,
+        fechaN: data.fechaN,
+        plan: data.plan
+      })
+    })
   }
 
   addAlumno(){
@@ -38,6 +60,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
 
   this.alumnosService.saveAlumno(alumno).subscribe(data => {
     console.log('Alumno creado');
+    this.router.navigate(['/alumnos']);
   })
 }
 

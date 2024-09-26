@@ -26,7 +26,7 @@
           <td class="text-center align-middle">{{alumno.direccion}}</td>
           <td class="text-center align-middle">{{alumno.fechaN}}</td>
           <td class="text-center align-middle">
-            <button type="button" class="btn btn-primary m-2" onclick="location.href='http://localhost:4200/add_alumno'">Editar</button>
+            <button routerLink="/editar_alumno/{{ alumno.id }}" type="button" class="btn btn-primary m-2">Editar</button>
             <button (click)="deleteAlumno(alumno.id!)" type="button" class="btn btn-danger m-2">Eliminar</button>
           </td>
         </tr>

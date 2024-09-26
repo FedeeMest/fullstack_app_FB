@@ -3,11 +3,12 @@ import { Alumno } from '../../../interfaces/alumno';
 import { AlumnosService } from '../../../services/alumnos.service';
 import { CommonModule, NgFor } from '@angular/common';
 import { ProgressBarComponent } from '../../../shared/progress-bar/progress-bar.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-alumnos',
   standalone: true,
-  imports: [NgFor,ProgressBarComponent,CommonModule],
+  imports: [NgFor,ProgressBarComponent,CommonModule,RouterModule],
   templateUrl: './alumnos.component.html',
   styleUrl: './alumnos.component.css'
 })

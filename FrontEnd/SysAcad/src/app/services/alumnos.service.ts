@@ -28,4 +28,8 @@ export class AlumnosService {
   saveAlumno(alumno: Alumno): Observable<Alumno>{
     return this.http.post<Alumno>(this.myAppUrl + this.myApiUrl, alumno);
   }
+
+  getAlumno(id: number): Observable<Alumno>{
+    return this.http.get<Alumno>(this.myAppUrl + this.myApiUrl + "/" + id);
+  }
 }
