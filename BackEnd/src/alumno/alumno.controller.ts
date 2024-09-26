@@ -30,6 +30,7 @@ async function findOne (req:Request, res:Response) {
     if (!alumno) {
         return res.status(404).json({Error:"Alumno no encontrado"});
     }
+    res.header('Access-Control-Allow-Origin', '*');
     return res.status(200).json({Alumno_Solicitado:alumno});
 }
 
@@ -38,6 +39,7 @@ async function add (req:Request, res:Response) {
     const input = req.body.inputS;
     const nuevoAlumno = new Alumno (input.nombre,input.apellido,input.plan,input.mail,input.direccion,input.fechaN);
     const alumno = await repository.add(nuevoAlumno);
+    res.header('Access-Control-Allow-Origin', '*');
     return res.status(201).json({message: 'Character created', data:alumno});
 }
 
@@ -48,6 +50,7 @@ async function update(req:Request, res:Response) {
     if (!alumno) { 
         return res.status(404).json({Error:"Alumno no encontrado"});
     }
+    res.header('Access-Control-Allow-Origin', '*');
     return res.status(200).json({message: 'Alumno Actualizado con exito', data:alumno}); 
 }
 
@@ -55,10 +58,10 @@ async function remove(req:Request, res:Response){
     const id = req.params.id
     const alumno = await repository.delete({ id })
  
-    if (!alumno) {
-        res.header('Access-Control-Allow-Origin', '*'); 
+    if (!alumno) { 
         return res.status(404).json({Error:"Alumno no encontrado"}); 
     } 
+    res.header('Access-Control-Allow-Origin', '*');
     return res.status(200).json({Message: "Alumno eliminado"});
 }
 
