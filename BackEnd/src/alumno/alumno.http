@@ -2,7 +2,7 @@ GET http://localhost:3000/api/alumnos
 Content-Type: application/json 
 
 ###
-GET http://localhost:3000/api/alumnos/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+GET http://localhost:3000/api/alumnos/1
 Content-Type: application/json
 
 ###
@@ -15,11 +15,11 @@ Content-Type: application/json
     "plan": "1998",
     "mail": "jorgemartin@gmail.com",
     "direccion":"salta 1212",
-    "fechaN":"11/05/1998"
+    "fechaN":"1998-05-11"
 }
 
 ###
-PUT http://localhost:3000/api/alumnos/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+PUT http://localhost:3000/api/alumnos/3
 Content-Type: application/json
 
 {
@@ -28,7 +28,7 @@ Content-Type: application/json
     "plan": "2003",
     "mail": "jorgemartin98@gmail.com",
     "direccion":"salta 1998",
-    "fechaN":"11/06/1998"
+    "fechaN":"1998-06-11"
 }
 
 ###
@@ -40,5 +40,5 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/api/alumnos/a02b9bb1-3769-4221-beb1-d7a3aeba7dad
+DELETE http://localhost:3000/api/alumnos/2
 Content-Type: application/json

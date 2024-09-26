@@ -5,6 +5,7 @@
   </div>
   <div class="search">
     <table class="table table-hover text-center">
+      <thead>
         <tr>
           <th scope="col">Nombre</th>
           <th scope="col">Apellido</th>
@@ -12,8 +13,10 @@
           <th scope="col">Mail</th>
           <th scope="col">Direccion</th>
           <th scope="col">Fecha de Nacimiento</th>
-        <th scope="col">Acciones</th>
+          <th scope="col">Acciones</th>
         </tr>
+      </thead>
+      <tbody>
         <tr *ngFor="let alumno of listaAlumnos" class="table-active">
           <th scope="row" class="text-center align-middle">{{alumno.nombre}}</th>
           <td class="text-center align-middle">{{alumno.apellido}}</td>
@@ -22,10 +25,11 @@
           <td class="text-center align-middle">{{alumno.direccion}}</td>
           <td class="text-center align-middle">{{alumno.fechaN}}</td>
           <td class="text-center align-middle">
-            <button type="button" class="btn btn-primary m-2" onclick="location.href='http://localhost:4200/add_alumno'">Editar</button>
-            <button type="button" class="btn btn-danger m-2">Eliminar</button>
+            <button routerLink="/editar_alumno/{{ alumno.id }}" type="button" class="btn btn-primary m-2">Editar</button>
+            <button (click)="deleteAlumno(alumno.id!)" type="button" class="btn btn-danger m-2">Eliminar</button>
           </td>
         </tr>
+      </tbody> 
     </table>
   </div> 
 </div>

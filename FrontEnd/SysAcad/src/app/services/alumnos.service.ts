@@ -20,4 +20,20 @@ export class AlumnosService {
   getAlumnos(): Observable<Alumno[]> {
     return this.http.get<Alumno[]>(this.myAppUrl + this.myApiUrl);
   }
+
+  deleteAlumno(id: number): Observable<void>{
+    return this.http.delete<void>(this.myAppUrl + this.myApiUrl + "/"+ id);
+  }
+
+  saveAlumno(alumno: Alumno): Observable<Alumno>{
+    return this.http.post<Alumno>(this.myAppUrl + this.myApiUrl, alumno);
+  }
+
+  getAlumno(id: number): Observable<Alumno>{
+    return this.http.get<Alumno>(this.myAppUrl + this.myApiUrl + "/" + id);
+  }
+
+  updateAlumno(id: number, alumno: Alumno): Observable<Alumno>{
+    return this.http.put<Alumno>(this.myAppUrl + this.myApiUrl + "/" + id, alumno);
+  }
 }

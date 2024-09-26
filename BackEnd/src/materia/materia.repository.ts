@@ -6,18 +6,38 @@ import { ResultSetHeader, RowDataPacket } from 'mysql2'
 
 export class MateriaRepository implements Repository <Materia> {
     public async findAll(): Promise<Materia[] | undefined> {
-        throw new Error("Method not implemented.");
+        const [materias] = await pool.query("select * from materias");
+        return materias as Materia[];
     }
     public async findOne(item: { id: string; }): Promise<Materia | undefined> {
-        throw new Error("Method not implemented.");
+        const id = Number.parseInt(item.id);
+        const [materias] = await pool.query<RowDataPacket[]>("select * from materias where id = ?", [id]);
+        if(materias.length === 0) {
+            return undefined;
+        }
+        const alumno = materias[0] as Materia;
+        return alumno
     }
-    public async add(item: Materia): Promise<Materia | undefined> {
-        throw new Error("Method not implemented.");
+    public async add(materiaInput: Materia): Promise<Materia | undefined> {
+        const {id,...materiaRow} = materiaInput;
+        const [result]= await pool.query<ResultSetHeader>('insert into materias set ?', [materiaRow])
+        materiaInput.id = result.insertId
+        return materiaInput;
     }
-    public async update(id: string, item: Materia): Promise<Materia | undefined> {
-        throw new Error("Method not implemented.");
+    public async update(id: string, materiaInput: Materia): Promise<Materia | undefined> {
+        const materiaId = Number.parseInt(id);
+        const {...materiaRow} = materiaInput;
+        await pool.query('update alumnos set ? where id = ?', [materiaRow, materiaId]);
+        return await this.findOne({ id });
     }
     public async delete(item: { id: string; }): Promise<Materia | undefined> {
-        throw new Error("Method not implemented.");
+        try {
+            const materiaToDelete = await this.findOne(item);
+            const materiaId = Number.parseInt(item.id);
+            await pool.query('delete from materias where id = ?', [materiaId]);
+            return materiaToDelete;
+        } catch (error: any) {
+            throw new Error('unable to delete materia');
+        }
     }
 }

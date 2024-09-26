@@ -10,6 +10,7 @@ export const routes: Routes = [
     {path: "", component: InicioComponent},
     {path: "alumnos", component: AlumnosComponent},
     {path: "add_alumno", component: AddUpdateAlumnoComponent},
+    {path: "editar_alumno/:id", component: AddUpdateAlumnoComponent},
     {path: "materias", component: MateriasComponent},
     {path: "add_materia", component: AddUpdateMateriaComponent}
 ];
