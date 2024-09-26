@@ -37,12 +37,14 @@ export class AddUpdateAlumnoComponent implements OnInit {
 
   getAlumno(id: number){
     this.alumnosService.getAlumno(id).subscribe((data: Alumno) => {
+      const fechaFormateada = new Date(data.fechaN).toISOString().split('T')[0];
+      console.log(data);
       this.form.setValue({
         nombre: data.nombre,
         apellido: data.apellido,
         mail: data.mail,
         direccion: data.direccion,
-        fechaN: data.fechaN,
+        fechaN: fechaFormateada,
         plan: data.plan
       })
     })
@@ -58,10 +60,20 @@ export class AddUpdateAlumnoComponent implements OnInit {
       plan: this.form.value.plan
   }
 
-  this.alumnosService.saveAlumno(alumno).subscribe(data => {
-    console.log('Alumno creado');
-    this.router.navigate(['/alumnos']);
-  })
+  if(this.id !== 0){
+    alumno.id = this.id;
+    this.alumnosService.updateAlumno(this.id, alumno).subscribe(() =>{
+      console.log('Alumno actualizado');
+      this.router.navigate(['/alumnos']);
+    })
+  } else {
+    this.alumnosService.saveAlumno(alumno).subscribe(data => {
+      console.log('Alumno creado');
+      this.router.navigate(['/alumnos']);
+  
+    })
+  }
+  
 }
 
 }

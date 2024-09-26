@@ -15,7 +15,7 @@ import { RouterModule } from '@angular/router';
 export class AlumnosComponent implements OnInit {
 
   listaAlumnos: Alumno[] = [];
-  loading: boolean = false;
+  
 
   constructor(private _alumnoService: AlumnosService) { }
 
@@ -24,19 +24,16 @@ export class AlumnosComponent implements OnInit {
   }
 
   getAlumnos() {
-    this.loading = true;
-    setTimeout(() => {
       this._alumnoService.getAlumnos().subscribe({
         next: (response) => {
           this.listaAlumnos = response;
-          this.loading = false;
           console.log(response);
         },
         error: (err) => {
           console.error('Error fetching data', err);
         }
       });
-    }, 1500);
+
   }
 
   deleteAlumno(id: number) {

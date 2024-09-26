@@ -32,4 +32,8 @@ export class AlumnosService {
   getAlumno(id: number): Observable<Alumno>{
     return this.http.get<Alumno>(this.myAppUrl + this.myApiUrl + "/" + id);
   }
+
+  updateAlumno(id: number, alumno: Alumno): Observable<Alumno>{
+    return this.http.put<Alumno>(this.myAppUrl + this.myApiUrl + "/" + id, alumno);
+  }
 }
