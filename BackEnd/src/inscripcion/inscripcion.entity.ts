@@ -5,10 +5,10 @@ import { BaseEntity } from "../shared/db/baseEntity.entity";
 
 @Entity()
 export class Inscripcion extends BaseEntity {
-    @ManyToOne(() => Alumno, (alumno: Alumno) => alumno.inscripciones)
+    @ManyToOne(() => Alumno)
     alumno!: Alumno;
     
-    @ManyToOne(() => Materia, (materia: Materia) => materia.inscripciones)
+    @ManyToOne(() => Materia)
     materia!: Materia
 
     @Property({nullable: true})
@@ -16,5 +16,5 @@ export class Inscripcion extends BaseEntity {
 
     @Property({nullable: true})
     id? : number
-{}
+
 }
