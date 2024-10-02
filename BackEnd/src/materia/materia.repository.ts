@@ -9,6 +9,8 @@ export class MateriaRepository implements Repository <Materia> {
         const [materias] = await pool.query("select * from materias");
         return materias as Materia[];
     }
+
+
     public async findOne(item: { id: string; }): Promise<Materia | undefined> {
         const id = Number.parseInt(item.id);
         const [materias] = await pool.query<RowDataPacket[]>("select * from materias where id = ?", [id]);
@@ -18,18 +20,24 @@ export class MateriaRepository implements Repository <Materia> {
         const alumno = materias[0] as Materia;
         return alumno
     }
+
+
     public async add(materiaInput: Materia): Promise<Materia | undefined> {
         const {id,...materiaRow} = materiaInput;
         const [result]= await pool.query<ResultSetHeader>('insert into materias set ?', [materiaRow])
         materiaInput.id = result.insertId
         return materiaInput;
     }
+
+
     public async update(id: string, materiaInput: Materia): Promise<Materia | undefined> {
         const materiaId = Number.parseInt(id);
         const {...materiaRow} = materiaInput;
         await pool.query('update alumnos set ? where id = ?', [materiaRow, materiaId]);
         return await this.findOne({ id });
     }
+
+    
     public async delete(item: { id: string; }): Promise<Materia | undefined> {
         try {
             const materiaToDelete = await this.findOne(item);

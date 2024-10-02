@@ -20,10 +20,12 @@ function inputS (req: Request, res: Response, next: NextFunction) {
     next();
 }
 
+
 async function findAll(req: Request, res: Response) {
     res.header('Access-Control-Allow-Origin', '*');
     res.status(200).json(await repository.findAll());
 }
+
 
 async function findOne (req:Request, res:Response) {
     const id = req.params.id
@@ -54,6 +56,7 @@ async function update(req:Request, res:Response) {
     res.header('Access-Control-Allow-Origin', '*');
     return res.status(200).json({message: 'Alumno Actualizado con exito', data:alumno}); 
 }
+
 
 async function remove(req:Request, res:Response){
     const id = req.params.id

@@ -16,9 +16,11 @@ function inputS (req: Request, res: Response, next: NextFunction) {
     next();
 }
 
+
 async function findAll(req: Request, res: Response) {
     res.status(200).json({Listado: await repository.findAll()});
 }
+
 
 async function findOne (req:Request, res:Response) {
     const id = req.params.id
@@ -45,6 +47,7 @@ async function update(req:Request, res:Response) {
     }
     return res.status(200).json({Materia_Actualizado:materia}); 
 }
+
 
 async function remove(req:Request, res:Response){
     const id = req.params.id

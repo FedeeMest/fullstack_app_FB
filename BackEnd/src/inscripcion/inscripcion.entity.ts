@@ -7,6 +7,6 @@ export class Inscripcion {
         public alumno: Alumno,
         public materia: Materia,
         public fecha: string,
-        public id = crypto.randomUUID()
+        public id?: number
     ){}
 }

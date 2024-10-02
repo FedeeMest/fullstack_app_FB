@@ -22,9 +22,11 @@ function inputS (req: Request, res: Response, next: NextFunction) {
     next();
 }
 
+
 async function findAll(req: Request, res: Response) {
     res.status(200).json({Listado: await repository.findAll()});
 }
+
 
 async function findOne (req:Request, res:Response) {
     const id = req.params.id
@@ -42,6 +44,7 @@ async function add (req:Request, res:Response) {
     const materia =  await materiasRepository.findOne({id:input.materia.id})
     if (!alumno || !materia) {
         return res.status(404).json({Error:"Alumno o Materia no encontrada"})};
+        
     const nuevoInscripcion = new Inscripcion (alumno,materia,input.fecha);
     const inscripcion = await repository.add(nuevoInscripcion);
     return res.status(201).json({Inscripcion_Creada:inscripcion});
@@ -56,6 +59,7 @@ async function update(req:Request, res:Response) {
     }
     return res.status(200).json({Inscripcion_Actualizado:inscripcion}); 
 }
+
 
 async function remove(req:Request, res:Response){
     const id = req.params.id

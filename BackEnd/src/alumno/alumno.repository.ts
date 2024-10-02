@@ -9,6 +9,8 @@ export class AlumnoRepository implements Repository <Alumno> {
         const [alumnos] = await pool.query("select * from alumnos");
         return alumnos as Alumno[];
     }
+
+
     public async findOne(item: { id: string; }): Promise<Alumno | undefined> {
         const id = Number.parseInt(item.id);
         const [alumnos] = await pool.query<RowDataPacket[]>("select * from alumnos where id = ?", [id]);
@@ -18,6 +20,8 @@ export class AlumnoRepository implements Repository <Alumno> {
         const alumno = alumnos[0] as Alumno;
         return alumno
     }
+
+
     public async add(alumnoInput: Alumno): Promise<Alumno | undefined> {
         console.log(alumnoInput);
         const {id,...alumnoRow} = alumnoInput;
@@ -25,12 +29,15 @@ export class AlumnoRepository implements Repository <Alumno> {
         alumnoInput.id = result.insertId
         return alumnoInput;
     }
+
+
     public async update(id: string, alumnoInput: Alumno): Promise<Alumno | undefined> {
         const alumnoId = Number.parseInt(id);
         const {...alumnoRow} = alumnoInput;
         await pool.query('update alumnos set ? where id = ?', [alumnoRow, alumnoId]);
         return await this.findOne({ id });
     }
+    
     
     public async delete(item: { id: string; }): Promise<Alumno | undefined> {
         try {
