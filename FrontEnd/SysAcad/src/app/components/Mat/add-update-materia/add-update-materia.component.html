@@ -1,4 +1,4 @@
-<!-- <div class="row mt-3">
+<div class="row mt-3">
   <div class="col-12 col-md-8 col-lg-4 offset-lg-4"> 
       <div class="card text-white bg-primary mb-3" style="max-width: 50rem;">
           <div class="card-header text-center">{{ operacion }} Materia</div>
@@ -9,15 +9,15 @@
                   <input formControlName="nombre" type="text" class="form-control mt-2" placeholder="Ingrese Nombre">
 
                   
-                  <input formControlName="horas" type="text" class="form-control mt-2" placeholder="Ingrese la cantidad de horas anuales">
+                  <input formControlName="horas_anuales" type="text" class="form-control mt-2" placeholder="Ingrese la cantidad de horas anuales">
 
                   
                   <input formControlName="modalidad" type="text" class="form-control mt-2" placeholder="Ingresar la modalidad">
 
-                  
+
                   <div class="row mt-2 text-center">
                       <div class="col-6">
-                          <button onclick="location.href='http://localhost:4200/alumnos'" type="button" class="btn btn-secondary">Volver</button>
+                          <button onclick="location.href='http://localhost:4200/materias'" type="button" class="btn btn-secondary">Volver</button>
                       </div>
                       <div class="col-6">
                           <button [disabled]="form.invalid" type="submit" class="btn btn-success">Aceptar</button>
@@ -27,5 +27,4 @@
           </div>
       </div>
   </div>
-</div>/*
-     -->
+</div>

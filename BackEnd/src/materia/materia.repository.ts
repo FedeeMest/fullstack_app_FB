@@ -17,8 +17,8 @@ export class MateriaRepository implements Repository <Materia> {
         if(materias.length === 0) {
             return undefined;
         }
-        const alumno = materias[0] as Materia;
-        return alumno
+        const materia = materias[0] as Materia;
+        return materia
     }
 
 
@@ -31,9 +31,10 @@ export class MateriaRepository implements Repository <Materia> {
 
 
     public async update(id: string, materiaInput: Materia): Promise<Materia | undefined> {
+        console.log(materiaInput);
         const materiaId = Number.parseInt(id);
         const {...materiaRow} = materiaInput;
-        await pool.query('update alumnos set ? where id = ?', [materiaRow, materiaId]);
+        await pool.query('update materias set ? where id = ?', [materiaRow, materiaId]);
         return await this.findOne({ id });
     }
 

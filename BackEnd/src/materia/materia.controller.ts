@@ -18,7 +18,7 @@ function inputS (req: Request, res: Response, next: NextFunction) {
 
 
 async function findAll(req: Request, res: Response) {
-    res.status(200).json({Listado: await repository.findAll()});
+    res.status(200).json(await repository.findAll());
 }
 
 
@@ -28,7 +28,7 @@ async function findOne (req:Request, res:Response) {
     if (!materia) {
         return res.status(404).json({Error:"Materia no encontrada"});
     }
-    return res.status(200).json({Materia_Solicitado:materia});
+    return res.status(200).json(materia);
 }
 
 
@@ -36,16 +36,17 @@ async function add (req:Request, res:Response) {
     const input = req.body.inputS;
     const nuevoMateria = new Materia (input.nombre,input.horas_anuales,input.modalidad);
     const materia = await repository.add(nuevoMateria);
-    return res.status(201).json({Materia_Creada:materia});
+    return res.status(201).json(materia);
 }
 
 
 async function update(req:Request, res:Response) {
-    const materia = await repository.update(req.params.id, req.body.sanitizedInput)
+    const materia = await repository.update(req.params.id, req.body.inputS)
     if (!materia) { 
         return res.status(404).json({Error:"Materia no encontrada"});
     }
-    return res.status(200).json({Materia_Actualizado:materia}); 
+    res.header('Access-Control-Allow-Origin', '*');
+    return res.status(200).json(materia); 
 }
 
 
