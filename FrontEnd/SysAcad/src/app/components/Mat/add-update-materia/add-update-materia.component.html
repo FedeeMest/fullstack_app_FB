@@ -1,28 +1,31 @@
-<div class="container">
-    <form class="m-4 p-3 mb-2 bg-secondary rounded w-50">
-        <fieldset>
-          <h4 class="p-3 rounded bg-primary text-white text-center">Ingresar Datos de la Materia</h4>
-          
-          <div class="row d-flex align-items-center justify-content-center mt-2">
-            <label class="d-flex align-items-center justify-content-center m-1">Nombre:</label>
-            <input class="form-control w-50"aria-describedby="emailHelp" placeholder="Ingresar Nombre">
+<!-- <div class="row mt-3">
+  <div class="col-12 col-md-8 col-lg-4 offset-lg-4"> 
+      <div class="card text-white bg-primary mb-3" style="max-width: 50rem;">
+          <div class="card-header text-center">{{ operacion }} Materia</div>
+          <div class="card-body">
+              <span>Todos los campos son <strong>requeridos</strong></span>
+              <form [formGroup]="form" (ngSubmit)="addMateria()">
+                  
+                  <input formControlName="nombre" type="text" class="form-control mt-2" placeholder="Ingrese Nombre">
+
+                  
+                  <input formControlName="horas" type="text" class="form-control mt-2" placeholder="Ingrese la cantidad de horas anuales">
+
+                  
+                  <input formControlName="modalidad" type="text" class="form-control mt-2" placeholder="Ingresar la modalidad">
+
+                  
+                  <div class="row mt-2 text-center">
+                      <div class="col-6">
+                          <button onclick="location.href='http://localhost:4200/alumnos'" type="button" class="btn btn-secondary">Volver</button>
+                      </div>
+                      <div class="col-6">
+                          <button [disabled]="form.invalid" type="submit" class="btn btn-success">Aceptar</button>
+                      </div>
+                  </div>
+              </form>
           </div>
-    
-          <div class="row d-flex align-items-center justify-content-center mt-2">
-            <label class="d-flex align-items-center justify-content-center m-1">Horas:</label>
-            <input class="form-control w-50" placeholder="Ingresar las Horas Anuales">
-          </div>
-    
-          <div class="row d-flex align-items-center justify-content-center mt-2">
-            <label class="d-flex align-items-center justify-content-center m-1">Modalidad:</label>
-            <input class="form-control w-50" placeholder="Ingresar Modalidad">
-          </div>
-    
-          <div class="row d-flex align-items-center justify-content-end">
-          <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center m-4">Enviar</button>
-          </div>
-          
-        </fieldset>
-      </form> 
-    </div>
-    
+      </div>
+  </div>
+</div>/*
+     -->
