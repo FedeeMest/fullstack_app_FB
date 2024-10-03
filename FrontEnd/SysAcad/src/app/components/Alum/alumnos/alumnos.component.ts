@@ -37,16 +37,17 @@ export class AlumnosComponent implements OnInit {
   }
 
   deleteAlumno(id: number) {
-    this._alumnoService.deleteAlumno(id).subscribe({
-      next: (response) => {
-        console.log('Alumno deleted', response);
-        this.getAlumnos();
-      },
-      error: (err) => {
-        console.error('Error deleting data', err);
-      }
-    });
+    if(confirm('¿Estás seguro de que quieres eliminar este alumno?')){
+      this._alumnoService.deleteAlumno(id).subscribe({
+        next: (response) => {
+          console.log('Alumno deleted', response);
+          this.getAlumnos();
+        },
+        error: (err) => {
+          console.error('Error deleting data', err);
+        }
+      });
+    }
   }
-
 
 }

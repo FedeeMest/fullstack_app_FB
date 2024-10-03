@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Alumno } from '../../../interfaces/alumno';
 import { AlumnosService } from '../../../services/alumnos.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-add-update-alumno',
@@ -16,7 +18,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
   id: number;
   operacion: string = 'Agregar ';
 
-  constructor(private fb: FormBuilder, private alumnosService: AlumnosService, private router: Router, private aRouter: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private alumnosService: AlumnosService, private router: Router, private aRouter: ActivatedRoute, private toastr: ToastrService) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['',Validators.required],
@@ -67,8 +69,9 @@ export class AddUpdateAlumnoComponent implements OnInit {
       this.router.navigate(['/alumnos']);
     })
   } else {
-    this.alumnosService.saveAlumno(alumno).subscribe(data => {
+    this.alumnosService.saveAlumno(alumno).subscribe(() => {
       console.log('Alumno creado');
+      this.toastr.success('El Alumno ${alumno.nombre} + ${alumno.apellido} ha sido creado con exito', 'Alumno Creado');
       this.router.navigate(['/alumnos']);
   
     })

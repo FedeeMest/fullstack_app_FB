@@ -35,15 +35,17 @@ export class MateriasComponent implements OnInit{
   }
 
   deleteMateria(id: number) {
-    this._materiaService.deleteMateria(id).subscribe({
-      next: (response) => {
-        console.log('Materia deleted', response);
-        this.getMaterias();
-      },
-      error: (err) => {
-        console.error('Error deleting data', err);
-      }
-    });
+    if (confirm('¿Estás seguro de que quieres eliminar esta materia?')) {
+      this._materiaService.deleteMateria(id).subscribe({
+        next: (response) => {
+          console.log('Materia eliminada', response);
+          this.getMaterias();
+        },
+        error: (err) => {
+          console.error('Error al eliminar la materia', err);
+        }
+      });
+    }
   }
 
 }
