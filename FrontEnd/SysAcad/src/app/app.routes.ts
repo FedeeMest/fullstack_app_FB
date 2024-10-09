@@ -7,6 +7,8 @@ import { AddUpdateMateriaComponent } from './components/Mat/add-update-materia/a
 import { InicioComponent } from './components/inicio/inicio.component';
 import { InscripcionesComponent } from './components/Insc/inscripciones/inscripciones.component';
 import { AddUpdateInscComponent } from './components/Insc/add-update-insc/add-update-insc.component';
+import { BuscadorComponent } from './components/busqueda/buscador/buscador.component';
+import { ResultadoComponent } from './components/busqueda/resultado/resultado.component';
 
 export const routes: Routes = [
     {path: "", component: InicioComponent},
@@ -16,7 +18,8 @@ export const routes: Routes = [
     {path: "materias", component: MateriasComponent},
     {path: "add_materia", component: AddUpdateMateriaComponent},
     {path: "editar_materia/:id", component: AddUpdateMateriaComponent},
-    {path: "inscripciones", component: InscripcionesComponent},
+    {path: "buscar", component: BuscadorComponent},
+    {path: "resultado", component: ResultadoComponent},
     {path: "add_inscripcion", component: AddUpdateInscComponent},
     {path: "editar_inscripcion/:id", component: AddUpdateInscComponent}
 ];
