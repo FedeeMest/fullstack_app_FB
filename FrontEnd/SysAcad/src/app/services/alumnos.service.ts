@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { Alumno } from '../interfaces/alumno';
 
 @Injectable({
@@ -35,5 +35,9 @@ export class AlumnosService {
 
   updateAlumno(id: number, alumno: Alumno): Observable<Alumno>{
     return this.http.put<Alumno>(this.myAppUrl + this.myApiUrl + "/" + id, alumno);
+  }
+
+  buscarAlumnoPorLegajo(legajo: number): Observable<Alumno> {
+    return this.http.get<Alumno>(this.myAppUrl + this.myApiUrl + "/legajo/" + legajo);
   }
 }

@@ -1,3 +1,5 @@
+import { Inscripcion } from "../inscripcion/inscripcion.entity";
+
 export class Alumno {
     constructor(
         public nombre: string,
@@ -6,6 +8,7 @@ export class Alumno {
         public mail:string,
         public direccion:string,
         public fechaN:string,
+        public legajo:number,
         public id?: number
     ){}
 }

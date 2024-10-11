@@ -22,6 +22,29 @@ export class AlumnoRepository implements Repository <Alumno> {
     }
 
 
+    public async getMaxLegajo(): Promise<number> {
+        const [rows] = await pool.query<RowDataPacket[]>("SELECT MAX(legajo) AS maxLegajo FROM alumnos");
+        const maxLegajo = rows[0]?.maxLegajo ?? 0;
+        return Number(maxLegajo);
+    }
+
+
+    public async findByLegajo(legajo: number): Promise<Alumno | null> {
+        try {
+            const [alumnos] = await pool.query<RowDataPacket[]>("SELECT * FROM alumnos WHERE legajo = ?", [legajo]);
+
+            if (alumnos.length === 0) {
+                return null;
+            }
+
+            return alumnos[0] as Alumno; // Retorna el primer alumno encontrado
+        } catch (error) {
+            console.error('Error al buscar por legajo:', error);
+            throw new Error('Error al realizar la consulta en la base de datos.');
+        }
+    }
+
+
     public async add(alumnoInput: Alumno): Promise<Alumno | undefined> {
         console.log(alumnoInput);
         const {id,...alumnoRow} = alumnoInput;

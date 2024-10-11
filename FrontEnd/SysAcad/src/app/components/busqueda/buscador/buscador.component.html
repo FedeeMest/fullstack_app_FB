@@ -4,19 +4,22 @@
             <div class="card-header text-center">Buscar Alumno</div>
             <div class="card-body">
                 <form>
-                    <!-- Nombre -->
-                    <input formControlName="nombre" type="text" class="form-control mt-2" placeholder="Ingrese Apellido del alumno">
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                        {{ mensajeError }}
+                    </div>
+                    <!-- Legajo -->
+                    <div class="mb-3 text-center">
+                        <label for="legajo" class="form-label">Ingrese el Legajo:</label>
+                        <input formControlName="legajo" type="number" class="form-control mt-2" id="legajo" placeholder="Legajo">
+                    </div>
                     <!-- Botones -->
                     <div class="row mt-2 text-center">
-                        <div class="col-6">
-                            <button onclick="location.href='http://localhost:4200/inicio'" type="button" class="btn btn-secondary">Volver</button>
-                        </div>
-                        <div class="col-6">
-                            <button [disabled]="form.invalid" type="submit" class="btn btn-success">Buscar</button>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">Buscar Alumno</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-  </div>
+</div>
