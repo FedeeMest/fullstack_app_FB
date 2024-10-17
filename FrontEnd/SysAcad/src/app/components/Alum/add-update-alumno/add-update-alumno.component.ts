@@ -18,6 +18,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
   id: number;
   operacion: string = 'Agregar ';
   errorMessage: string = '';
+  origen: string; // Declara la propiedad 'origen'
 
   constructor(private fb: FormBuilder, private alumnosService: AlumnosService, private router: Router, private aRouter: ActivatedRoute) {
     this.form = this.fb.group({
@@ -29,6 +30,14 @@ export class AddUpdateAlumnoComponent implements OnInit {
       plan: ['',Validators.required]
     })
     this.id = Number(aRouter.snapshot.paramMap.get('id'));
+    
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+    this.origen = navigation.extras.state['from'];// Detecta el origen
+    } else {
+      this.origen = ''; // Inicializa 'origen' si no se establece
+    }
+    
    }
 
   ngOnInit(): void {
@@ -69,7 +78,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
       next: () => {
         console.log('Alumno actualizado');
         this.errorMessage = '';
-        this.router.navigate(['/alumnos']);
+        this.volver();
       },
       error: (error) => {
         this.errorMessage = error.error.message || 'Error desconocido';
@@ -81,7 +90,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
       next: () => {
         console.log('Alumno creado');
         this.errorMessage = '';
-        this.router.navigate(['/alumnos']);
+        this.volver();
       },
       error: (error) => {
         this.errorMessage =  error.error.message || 'Error desconocido';
@@ -91,6 +100,14 @@ export class AddUpdateAlumnoComponent implements OnInit {
     })
   }
   
+}
+
+volver() {
+  if (this.origen === 'resultado') {
+    this.router.navigate(['/resultado']);
+  } else {
+    this.router.navigate(['/alumnos']);
+  }
 }
 
 }

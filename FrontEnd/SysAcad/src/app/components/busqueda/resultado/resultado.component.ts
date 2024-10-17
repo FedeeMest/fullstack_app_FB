@@ -17,15 +17,27 @@ export class ResultadoComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.state) {
-      this.alumno = navigation.extras.state['alumno']; // Obtiene el objeto alumno
+      // Intenta obtener el estado desde el localStorage
+  const storedAlumno = localStorage.getItem('alumno');
+  
+  if (storedAlumno) {
+    this.alumno = JSON.parse(storedAlumno);
+    console.log('Alumno cargado de localStorage:', this.alumno);
+  } else {
+    console.log('No se encontró el alumno en localStorage');
+    this.router.navigate(['/buscar']); // Redirige si no hay alumno
+  }
+  }
+
+  editarAlumno(id: number | undefined) {
+    if (id !== undefined) {
+      this.router.navigate(['/editar_alumno', id], { state: { from: 'resultado' } });
     } else {
-      this.router.navigate(['/buscar']); // Redirigir si no hay alumno
+      console.error('No se pudo obtener el ID del alumno');
     }
   }
 
   goBack() {
-    this.router.navigate(['/buscar']); // O la ruta que desees para volver
+    this.router.navigate(['/buscar']);
   }
 }

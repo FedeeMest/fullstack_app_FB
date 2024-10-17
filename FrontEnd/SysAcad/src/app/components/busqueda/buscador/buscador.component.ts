@@ -32,22 +32,32 @@ export class BuscadorComponent implements OnInit  {
 
   buscarAlumno() {
     console.log("Buscando alumno...");
-    const legajo = this.form.value.legajo;
-  
-    this.alumnoService.getAlumnoByLegajo(legajo).subscribe({
-      next: (alumno) => {
-        console.log("Alumno encontrado:", alumno); // Verifica si el alumno se encuentra
-        if (alumno) {
-          this.router.navigate(['/resultado'], { state: { alumno } });
-        } else {
-          this.errorMessage = true;
-          this.mensajeError = 'No se encontró un alumno con el legajo proporcionado.';
-        }
-      },
-      error: (err) => {
-        console.error(err);
+  const legajo = this.form.value.legajo;
+
+  this.alumnoService.getAlumnoByLegajo(legajo).subscribe({
+    next: (alumno) => {
+      console.log("Alumno encontrado:", alumno); // Verifica si el alumno se encuentra
+      if (alumno) {
+        // Almacena el alumno en localStorage antes de redirigir
+        localStorage.setItem('alumno', JSON.stringify(alumno));
+        this.router.navigate(['/resultado']);
+      } else {
         this.errorMessage = true;
-        this.mensajeError = 'Hubo un error al buscar el alumno. Por favor, inténtalo de nuevo más tarde.';
+        this.mensajeError = 'No se encontró un alumno con el legajo proporcionado.';
+      }
+    },
+      error: (err) => {
+        console.error('Error al buscar el alumno:', err);
+  
+        // Si el error es 404, significa que no se encontró el alumno
+        if (err.status === 404) {
+          this.errorMessage = true;
+          this.mensajeError = 'No se encontró ningún alumno con este legajo.';
+        } else {
+          // Para cualquier otro error
+          this.errorMessage = true;
+          this.mensajeError = 'Hubo un error al buscar el alumno. Por favor, inténtalo de nuevo más tarde.';
+        }
       }
     });
   }

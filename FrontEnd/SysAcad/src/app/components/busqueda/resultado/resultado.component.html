@@ -8,10 +8,37 @@
           <label for="nombre" class="form-label text-white">Nombre</label>
           <input type="text" id="nombre" [value]="alumno.nombre" readonly class="form-control mt-2">
         </div>
+
         <div class="col-md-6">
           <label for="apellido" class="form-label text-white">Apellido</label>
           <input type="text" id="apellido" [value]="alumno.apellido" readonly class="form-control mt-2">
         </div>
+
+        <div class="col-md-6">
+          <label for="direccion" class="form-label text-white">Direccion</label>
+          <input type="text" id="direccion" [value]="alumno.direccion" readonly class="form-control mt-2">
+        </div>
+
+        <div class="col-md-6">
+          <label for="fechaN" class="form-label text-white">Fecha de Nacimiento</label>
+          <input type="text" id="fechaN" [value]="alumno.fechaN" readonly class="form-control mt-2">
+        </div>
+
+        <div class="col-md-6">
+          <label for="legajo" class="form-label text-white">Legajo</label>
+          <input type="text" id="legajo" [value]="alumno.legajo" readonly class="form-control mt-2">
+        </div>
+
+        <div class="col-md-6">
+          <label for="mail" class="form-label text-white">Mail</label>
+          <input type="text" id="mail" [value]="alumno.mail" readonly class="form-control mt-2">
+        </div>
+
+        <div class="col-md-6">
+          <label for="plan" class="form-label text-white">Plan</label>
+          <input type="text" id="plan" [value]="alumno.plan" readonly class="form-control mt-2">
+        </div>
+        
       </div>
 
       <!-- Tabla de inscripciones del alumno -->
@@ -49,7 +76,8 @@
 
       <!-- Botones para navegar -->
       <div class="d-flex justify-content-between mt-3">
-        <button class="btn btn-secondary" (click)="goBack()">Volver</button>
+        <button class="btn btn-secondary">Volver</button>
+        <button (click)="editarAlumno(alumno?.id)" class="btn btn-success">Editar</button>
         <button class="btn btn-success">Nueva Inscripción</button>
       </div>
     </div>
