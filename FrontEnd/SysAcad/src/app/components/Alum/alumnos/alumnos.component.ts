@@ -20,6 +20,11 @@ export class AlumnosComponent implements OnInit {
   constructor(private _alumnoService: AlumnosService) { }
 
   ngOnInit(): void {
+    const storedAlumno = localStorage.getItem('alumno');
+    if (storedAlumno) {
+      localStorage.removeItem('alumno');
+      console.log('Alumno eliminado del localStorage');
+    }
     this.getAlumnos();
   }
 

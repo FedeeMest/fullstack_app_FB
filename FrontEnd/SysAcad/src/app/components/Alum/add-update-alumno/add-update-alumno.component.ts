@@ -62,7 +62,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
     })
   }
 
-  addAlumno(){
+  addAlumno() {
     const alumno: Alumno = {
       nombre: this.form.value.nombre,
       apellido: this.form.value.apellido,
@@ -70,44 +70,50 @@ export class AddUpdateAlumnoComponent implements OnInit {
       direccion: this.form.value.direccion,
       fechaN: this.form.value.fechaN,
       plan: this.form.value.plan
-  }
-
-  if(this.id !== 0){
-    alumno.id = this.id;
-    this.alumnosService.updateAlumno(this.id, alumno).subscribe({
-      next: () => {
-        console.log('Alumno actualizado');
-        this.errorMessage = '';
-        this.volver();
-      },
-      error: (error) => {
-        this.errorMessage = error.error.message || 'Error desconocido';
-        console.error('Error al actualizar el alumno:', error);
-      }
-    });
-  } else {
-    this.alumnosService.saveAlumno(alumno).subscribe({
-      next: () => {
-        console.log('Alumno creado');
-        this.errorMessage = '';
-        this.volver();
-      },
-      error: (error) => {
-        this.errorMessage =  error.error.message || 'Error desconocido';
-        console.error('Error al crear el alumno:', error);
-      }
+    };
   
-    })
+    if (this.id !== 0) {
+      // Actualización de un alumno existente
+      alumno.id = this.id;
+      this.alumnosService.updateAlumno(this.id, alumno).subscribe({
+        next: (response: any) => {
+          console.log('Alumno actualizado', response.data);
+          this.errorMessage = '';
+          // Si es una edición, actualiza también en el localStorage
+          localStorage.setItem('alumno', JSON.stringify(response.data));
+          this.volver();
+        },
+        error: (error) => {
+          this.errorMessage = error.error.message || 'Error desconocido';
+          console.error('Error al actualizar el alumno:', error);
+        }
+      });
+    } else {
+      // Creación de un nuevo alumno
+      this.alumnosService.saveAlumno(alumno).subscribe({
+        next: (response: any) => {
+          console.log('Alumno creado', response.data);
+          this.errorMessage = '';
+          // Guarda el nuevo alumno en localStorage
+          localStorage.setItem('alumno', JSON.stringify(response.data));
+          this.volver();
+        },
+        error: (error) => {
+          this.errorMessage = error.error.message || 'Error desconocido';
+          console.error('Error al crear el alumno:', error);
+        }
+      });
+    }
   }
-  
-}
 
 volver() {
   if (this.origen === 'resultado') {
     this.router.navigate(['/resultado']);
   } else {
+    localStorage.removeItem('alumno');
     this.router.navigate(['/alumnos']);
   }
 }
+
 
 }

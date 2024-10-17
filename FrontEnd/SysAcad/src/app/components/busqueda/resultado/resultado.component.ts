@@ -17,16 +17,23 @@ export class ResultadoComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-      // Intenta obtener el estado desde el localStorage
-  const storedAlumno = localStorage.getItem('alumno');
-  
-  if (storedAlumno) {
-    this.alumno = JSON.parse(storedAlumno);
-    console.log('Alumno cargado de localStorage:', this.alumno);
-  } else {
-    console.log('No se encontró el alumno en localStorage');
-    this.router.navigate(['/buscar']); // Redirige si no hay alumno
-  }
+    // Intenta obtener el alumno desde el estado de navegación
+    const navigation = this.router.getCurrentNavigation();
+    
+    if (navigation?.extras?.state) {
+      this.alumno = navigation.extras.state['alumno']; // Usa notación de corchetes
+      console.log('Alumno cargado desde el estado de navegación:', this.alumno);
+    } else {
+      // Si no hay un alumno en el estado de navegación, intenta cargarlo de localStorage
+      const storedAlumno = localStorage.getItem('alumno');
+      if (storedAlumno) {
+        this.alumno = JSON.parse(storedAlumno);
+        console.log('Alumno cargado de localStorage:', this.alumno);
+      } else {
+        console.log('No se encontró el alumno en localStorage');
+        this.router.navigate(['/buscar']); // Redirige si no hay alumno
+      }
+    }
   }
 
   editarAlumno(id: number | undefined) {
@@ -38,6 +45,7 @@ export class ResultadoComponent implements OnInit {
   }
 
   goBack() {
+    localStorage.removeItem('alumno');
     this.router.navigate(['/buscar']);
   }
 }

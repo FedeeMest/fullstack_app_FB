@@ -19,6 +19,11 @@ export class MateriasComponent implements OnInit{
   constructor(private _materiaService: MateriaService) { }
 
   ngOnInit(): void {
+    const storedAlumno = localStorage.getItem('alumno');
+    if (storedAlumno) {
+      localStorage.removeItem('alumno');
+      console.log('Alumno eliminado del localStorage');
+    }
     this.getMaterias();
   }
 
