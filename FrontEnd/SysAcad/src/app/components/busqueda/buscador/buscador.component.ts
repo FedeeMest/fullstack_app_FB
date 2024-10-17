@@ -2,35 +2,53 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlumnosService } from '../../../services/alumnos.service';
 import { Router } from '@angular/router';
-import { Alumno } from '../../../interfaces/alumno';
+import { CommonModule } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-buscador',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './buscador.component.html',
   styleUrl: './buscador.component.css'
 })
-export class BuscadorComponent  {
-  legajo: number |  null = null;;
-  mensajeError: string | undefined;
+export class BuscadorComponent implements OnInit  {
+  form: FormGroup;
+  errorMessage: boolean = false;
+  mensajeError: string = '';
 
-  constructor(private alumnoService: AlumnosService, private router: Router, ) { }
+  constructor(
+    private fb: FormBuilder,
+    private alumnoService: AlumnosService,
+    private router: Router
+  ) {
+    this.form = this.fb.group({
+      legajo: [null, [Validators.required, Validators.min(1)]]
+    });
+  }
 
+  ngOnInit(): void {}
 
-  buscarAlumno(){
-        if (this.legajo !== null) {
-          this.alumnoService.buscarAlumnoPorLegajo(this.legajo).subscribe({
-            next: (data: Alumno) => {
-                // Si encuentra al alumno, redirige a la vista de detalles
-                this.router.navigate(['/resultado', { alumno: JSON.stringify(data) }]);
-                this.mensajeError = ''; // Limpia el mensaje de error
-            },
-            error: (error) => {
-              // Si no encuentra al alumno, muestra un mensaje de error
-              this.mensajeError = 'Alumno no encontrado'; 
-          }
-        })
-    }
+  buscarAlumno() {
+    console.log("Buscando alumno...");
+    const legajo = this.form.value.legajo;
+  
+    this.alumnoService.getAlumnoByLegajo(legajo).subscribe({
+      next: (alumno) => {
+        console.log("Alumno encontrado:", alumno); // Verifica si el alumno se encuentra
+        if (alumno) {
+          this.router.navigate(['/resultado'], { state: { alumno } });
+        } else {
+          this.errorMessage = true;
+          this.mensajeError = 'No se encontró un alumno con el legajo proporcionado.';
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = true;
+        this.mensajeError = 'Hubo un error al buscar el alumno. Por favor, inténtalo de nuevo más tarde.';
+      }
+    });
   }
 }

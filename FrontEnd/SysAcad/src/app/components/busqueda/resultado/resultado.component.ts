@@ -1,25 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { Alumno } from '../../../interfaces/alumno';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { Inscripcion } from '../../../interfaces/inscripcion';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-resultado',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './resultado.component.html',
-  styleUrl: './resultado.component.css'
+  styleUrls: ['./resultado.component.css'] // Cambié de 'styleUrl' a 'styleUrls'
 })
-
 export class ResultadoComponent implements OnInit {
-  alumno!: Alumno | null; // Almacena los detalles del alumno
+  alumno: Alumno & { inscripciones: Inscripcion[] } | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-      // Obtiene el alumno pasado como parámetro
-      const alumnoData = this.route.snapshot.paramMap.get('alumno');
-      if (alumnoData) {
-          this.alumno = JSON.parse(alumnoData); // Convierte la cadena JSON a objeto Alumno
-      }
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.alumno = navigation.extras.state['alumno']; // Obtiene el objeto alumno
+    } else {
+      this.router.navigate(['/buscar']); // Redirigir si no hay alumno
+    }
+  }
+
+  goBack() {
+    this.router.navigate(['/buscar']); // O la ruta que desees para volver
   }
 }

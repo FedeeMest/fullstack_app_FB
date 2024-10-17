@@ -37,7 +37,8 @@ export class AlumnosService {
     return this.http.put<Alumno>(this.myAppUrl + this.myApiUrl + "/" + id, alumno);
   }
 
-  buscarAlumnoPorLegajo(legajo: number): Observable<Alumno> {
-    return this.http.get<Alumno>(this.myAppUrl + this.myApiUrl + "/legajo/" + legajo);
-  }
+  getAlumnoByLegajo(legajo: number): Observable<Alumno | null> {
+    console.log('Llamando a la API para buscar alumno con legajo:', legajo);
+    return this.http.get<Alumno>(this.myAppUrl + this.myApiUrl + "/" + "legajo" + "/" + legajo);
+}
 }

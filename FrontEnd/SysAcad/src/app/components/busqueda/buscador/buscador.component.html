@@ -3,7 +3,7 @@
         <div class="card text-white bg-primary mb-3" style="max-width: 50rem;">
             <div class="card-header text-center">Buscar Alumno</div>
             <div class="card-body">
-                <form>
+                <form [formGroup]="form" (ngSubmit)="buscarAlumno()">
                     <div *ngIf="errorMessage" class="alert alert-danger mt-3">
                         {{ mensajeError }}
                     </div>

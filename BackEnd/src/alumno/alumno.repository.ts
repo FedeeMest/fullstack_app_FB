@@ -1,5 +1,6 @@
 import { Repository} from "../shared/repository.js";
 import { Alumno } from "./alumno.entity.js";
+import { Inscripcion } from "../inscripcion/inscripcion.entity.js";
 import { pool } from "../shared/db/conn.mysql.js";
 import { ResultSetHeader, RowDataPacket } from 'mysql2'
 
@@ -29,15 +30,29 @@ export class AlumnoRepository implements Repository <Alumno> {
     }
 
 
-    public async findByLegajo(legajo: number): Promise<Alumno | null> {
+    // Buscar alumno por legajo
+    public async findByLegajo(legajo: number): Promise<Alumno & { inscripciones: Inscripcion[] } | null> {
         try {
-            const [alumnos] = await pool.query<RowDataPacket[]>("SELECT * FROM alumnos WHERE legajo = ?", [legajo]);
-
-            if (alumnos.length === 0) {
-                return null;
+            const [rows] = await pool.query<RowDataPacket[]>(`
+                SELECT a.*, i.fecha, i.id AS inscripcion_id, i.materia_id
+                FROM alumnos AS a
+                LEFT JOIN inscripciones AS i ON a.id = i.alumno_id
+                WHERE a.legajo = ?`, [legajo]);
+    
+            if (rows.length === 0) {
+                return null; // No se encontró el alumno
             }
-
-            return alumnos[0] as Alumno; // Retorna el primer alumno encontrado
+    
+            // Agrupar las inscripciones
+            const alumno = { ...rows[0] }; // Crear una copia del primer alumno encontrado
+            alumno.inscripciones = rows.map(row => ({
+                fecha: row.fecha,
+                alumno_id: row.alumno_id,
+                materia_id: row.materia_id,
+                id: row.inscripcion_id,
+            })).filter(ins => ins.fecha); // Filtrar inscripciones válidas
+    
+            return alumno as Alumno & { inscripciones: Inscripcion[] };
         } catch (error) {
             console.error('Error al buscar por legajo:', error);
             throw new Error('Error al realizar la consulta en la base de datos.');
