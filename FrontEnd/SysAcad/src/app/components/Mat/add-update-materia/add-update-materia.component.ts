@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MateriaService } from '../../../services/materia.service.js';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Materia } from '../../../interfaces/materia.js';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-update-materia',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './add-update-materia.component.html',
   styleUrl: './add-update-materia.component.css'
 })
@@ -43,26 +44,45 @@ export class AddUpdateMateriaComponent implements OnInit {
     })
    }
 
-    addMateria(){
-      console.log(this.form.value);
-      const materia: Materia = {
-        nombre: this.form.value.nombre,
-        horas_anuales: this.form.value.horas_anuales,
-        modalidad: this.form.value.modalidad,
-      }
+   addMateria() {
+    console.log(this.form.value);
+    const materia: Materia = {
+      nombre: this.form.value.nombre,
+      horas_anuales: this.form.value.horas_anuales,
+      modalidad: this.form.value.modalidad,
+    }
   
-      if(this.id !== 0){
-        materia.id = this.id;
-        this.materiasService.updateMateria(this.id,materia).subscribe(() => {
+    if (this.id !== 0) {
+      materia.id = this.id;
+      this.materiasService.updateMateria(this.id, materia).subscribe({
+        next: () => {
           console.log('Materia actualizada');
           this.router.navigate(['/materias']);
-        })
-      }else{
-        this.materiasService.saveMateria(materia).subscribe(() => {
+        },
+        error: (error: Error) => {
+          console.error('Error al actualizar la materia:', error.message);
+          // Aquí puedes manejar el error y mostrar un mensaje al usuario
+          this.showErrorMessage(error.message);
+        }
+      });
+    } else {
+      this.materiasService.saveMateria(materia).subscribe({
+        next: () => {
           console.log('Materia creada');
           this.router.navigate(['/materias']);
-        })
-      }
+        },
+        error: (error: Error) => {
+          console.error('Error al crear la materia:', error.message);
+          // Aquí puedes manejar el error y mostrar un mensaje al usuario
+          this.showErrorMessage(error.message);
+        }
+      });
     }
+  }
+  
+  // Método para mostrar el mensaje de error
+  showErrorMessage(message: string) {
+    this.form.setErrors({ serverError: message });
+  }
 
 }

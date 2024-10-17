@@ -32,11 +32,29 @@ async function findOne (req:Request, res:Response) {
 }
 
 
-async function add (req:Request, res:Response) { 
+async function add(req: Request, res: Response): Promise<Response> {
     const input = req.body.inputS;
-    const nuevoMateria = new Materia (input.nombre,input.horas_anuales,input.modalidad);
-    const materia = await repository.add(nuevoMateria);
-    return res.status(201).json(materia);
+
+    try {
+        // Crear una nueva instancia de Materia usando los datos recibidos
+        const nuevoMateria = new Materia(input.nombre, input.horas_anuales, input.modalidad);
+        
+        // Llamar al repositorio para agregar la nueva materia
+        const materia = await repository.add(nuevoMateria);
+        
+        // Si todo sale bien, devolver el objeto creado con un código 201 (Created)
+        return res.status(201).json(materia);
+
+    } catch (error: any) {
+        // Manejo de errores, incluyendo el error de duplicado de entrada
+        if (error.message.includes('Ya existe una materia con el nombre')) {
+            // Código de estado 409 (Conflict) para entradas duplicadas
+            return res.status(409).json({ message: error.message });
+        } 
+        
+        // Cualquier otro error es tratado como un error interno del servidor (500)
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
 }
 
 

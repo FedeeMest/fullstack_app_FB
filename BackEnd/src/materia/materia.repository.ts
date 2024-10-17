@@ -23,10 +23,20 @@ export class MateriaRepository implements Repository <Materia> {
 
 
     public async add(materiaInput: Materia): Promise<Materia | undefined> {
-        const {id,...materiaRow} = materiaInput;
-        const [result]= await pool.query<ResultSetHeader>('insert into materias set ?', [materiaRow])
-        materiaInput.id = result.insertId
-        return materiaInput;
+        const { id, ...materiaRow } = materiaInput;
+
+        try {
+            const [result] = await pool.query<ResultSetHeader>('INSERT INTO materias SET ?', [materiaRow]);
+            materiaInput.id = result.insertId;
+            return materiaInput;
+        } catch (error: any) {
+            // Manejo del error de entrada duplicada
+            if (error.code === 'ER_DUP_ENTRY') {
+                throw new Error(`Ya existe una materia con el nombre '${materiaInput.nombre}'`);
+            }
+            // Otros errores de base de datos
+            throw new Error('Error al insertar la materia: ' + error.message);
+        }
     }
 
 
