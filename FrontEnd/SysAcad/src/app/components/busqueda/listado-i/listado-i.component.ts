@@ -7,6 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: './listado-i.component.html',
   styleUrl: './listado-i.component.css'
 })
-export class ListadoIComponent {
+export class ListadoIComponent implements OnInit {
+
+  ngOnInit():void{
+    //aca se realiza el query para obtener las incsripciones del alumn
+  }
 
 }

@@ -17,7 +17,6 @@ export class ResultadoComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-      // Si no hay un alumno en el estado de navegación, intenta cargarlo de localStorage
     const storedAlumno = localStorage.getItem('alumno');
     if (storedAlumno) {
       this.alumno = JSON.parse(storedAlumno);
@@ -35,6 +34,9 @@ export class ResultadoComponent implements OnInit {
       console.error('No se pudo obtener el ID del alumno');
     }
   }
+
+  //VerInscripciones ()...
+  //navigate([/listado_i],id) --> con esto navegamos al componente listado_insc y tambien llevamos el id del alumno por lo que podemos hacer un query al iniciar el componente para obtener todas las insc con ese id y hay hacer la tabla
 
   goBack() {
     localStorage.removeItem('alumno');
