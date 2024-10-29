@@ -47,7 +47,7 @@
         <button class="btn btn-secondary" (click)="goBack()">Volver</button>
         <div>
           <button (click)="editarAlumno(alumno?.id)" class="btn btn-success">Editar</button>
-          <button class="btn btn-success ml-2">Ver inscripciones</button>
+          <button (click)="verInscripciones(alumno?.id)" class="btn btn-success ml-2">Ver inscripciones</button>
         </div>
         
       </div>

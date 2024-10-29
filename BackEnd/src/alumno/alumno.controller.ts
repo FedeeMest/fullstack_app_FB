@@ -3,6 +3,10 @@ import { AlumnoRepository } from './alumno.repository.js';
 import { Alumno } from './alumno.entity.js';
 
 const repository = new AlumnoRepository();
+
+
+
+
 function inputS (req: Request, res: Response, next: NextFunction) {
     const fechaSinHora = req.body.fechaN ? new Date(req.body.fechaN).toISOString().split('T')[0] : '';
     req.body.inputS = {
@@ -21,10 +25,14 @@ function inputS (req: Request, res: Response, next: NextFunction) {
 }
 
 
+
+
 async function findAll(req: Request, res: Response) {
     res.header('Access-Control-Allow-Origin', '*');
     res.status(200).json(await repository.findAll());
 }
+
+
 
 
 async function findOne (req:Request, res:Response) {
@@ -38,7 +46,9 @@ async function findOne (req:Request, res:Response) {
 }
 
 
-export const findLegajo = async (req: Request, res: Response) => {
+
+
+async function findLegajo (req: Request, res: Response) {
     const legajo = parseInt(req.params.legajo, 10); // Convierte el legajo a número
 
     // Valida que legajo sea un número
@@ -64,6 +74,34 @@ export const findLegajo = async (req: Request, res: Response) => {
 };
 
 
+
+
+async function findInscripcionesByAlumnoId (req: Request, res: Response) {
+    console.log("ID recibido en la solicitud:", req.params.id); // Agrega este log
+    const alumnoId = parseInt(req.params.id, 10);
+
+    if (isNaN(alumnoId)) {
+        return res.status(400).json({ Error: "ID de alumno inválido" });
+    }
+
+    try {
+        const inscripciones = await repository.findInscripcionesByAlumnoId(alumnoId);
+
+        if (!inscripciones) {
+            return res.status(404).json({ Error: "No se encontraron inscripciones para este alumno" });
+        }
+
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json(inscripciones);
+    } catch (error) {
+        console.error('Error al obtener inscripciones:', error);
+        return res.status(500).json({ Error: "Error al obtener las inscripciones" });
+    }
+}
+
+
+
+
 async function add (req:Request, res:Response) { 
     const input = req.body.inputS;
     const maxLegajo = await repository.getMaxLegajo();
@@ -73,6 +111,8 @@ async function add (req:Request, res:Response) {
     res.header('Access-Control-Allow-Origin', '*');
     return res.status(201).json({message: 'Character created', data:alumno});
 }
+
+
 
 
 async function update(req:Request, res:Response) {
@@ -86,6 +126,8 @@ async function update(req:Request, res:Response) {
 }
 
 
+
+
 async function remove(req:Request, res:Response){
     const id = req.params.id
     const alumno = await repository.delete({ id })
@@ -97,4 +139,4 @@ async function remove(req:Request, res:Response){
     return res.status(200).json({Message: "Alumno eliminado"});
 }
 
-export{inputS,findAll,findOne,add,update,remove}
+export{inputS,findAll,findOne,add,update,remove,findInscripcionesByAlumnoId,findLegajo}

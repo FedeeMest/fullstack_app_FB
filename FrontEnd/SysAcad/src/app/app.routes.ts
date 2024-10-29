@@ -1,13 +1,12 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { AlumnosComponent } from './components/Alum/alumnos/alumnos.component';
 import { AddUpdateAlumnoComponent } from './components/Alum/add-update-alumno/add-update-alumno.component';
 import { MateriasComponent } from './components/Mat/materias/materias.component';
 import { AddUpdateMateriaComponent } from './components/Mat/add-update-materia/add-update-materia.component';
 import { InicioComponent } from './components/inicio/inicio.component';
-import { InscripcionesComponent } from './components/Insc/inscripciones/inscripciones.component';
 import { BuscadorComponent } from './components/busqueda/buscador/buscador.component';
 import { ResultadoComponent } from './components/busqueda/resultado/resultado.component';
+import { ListadoIComponent } from './components/busqueda/listado-i/listado-i.component';
 
 export const routes: Routes = [
     {path: "", component: InicioComponent},
@@ -18,5 +17,6 @@ export const routes: Routes = [
     {path: "add_materia", component: AddUpdateMateriaComponent},
     {path: "editar_materia/:id", component: AddUpdateMateriaComponent},
     {path: "buscar", component: BuscadorComponent},
-    {path: "resultado", component: ResultadoComponent}
+    {path: "resultado", component: ResultadoComponent},
+    {path: "lista_insc/:id", component: ListadoIComponent}
 ];

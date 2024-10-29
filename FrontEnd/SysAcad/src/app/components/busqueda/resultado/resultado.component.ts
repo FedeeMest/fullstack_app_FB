@@ -38,6 +38,14 @@ export class ResultadoComponent implements OnInit {
   //VerInscripciones ()...
   //navigate([/listado_i],id) --> con esto navegamos al componente listado_insc y tambien llevamos el id del alumno por lo que podemos hacer un query al iniciar el componente para obtener todas las insc con ese id y hay hacer la tabla
 
+  verInscripciones(id: number | undefined) {
+    if (id !== undefined) {
+      this.router.navigate(['/lista_insc', id])
+    } else {
+      console.error('No se pudo obtener el ID del alumno');
+    }
+  }
+
   goBack() {
     localStorage.removeItem('alumno');
     this.router.navigate(['/buscar']);

@@ -6,10 +6,16 @@ import { ResultSetHeader, RowDataPacket } from 'mysql2'
 
 
 export class AlumnoRepository implements Repository <Alumno> {
+
+    
+
+
     public async findAll(): Promise<Alumno[] | undefined> {
         const [alumnos] = await pool.query("select * from alumnos");
         return alumnos as Alumno[];
     }
+
+
 
 
     public async findOne(item: { id: string; }): Promise<Alumno | undefined> {
@@ -23,6 +29,8 @@ export class AlumnoRepository implements Repository <Alumno> {
     }
 
 
+
+
     public async getMaxLegajo(): Promise<number> {
         const [rows] = await pool.query<RowDataPacket[]>("SELECT MAX(legajo) AS maxLegajo FROM alumnos");
         const maxLegajo = rows[0]?.maxLegajo ?? 0;
@@ -30,34 +38,47 @@ export class AlumnoRepository implements Repository <Alumno> {
     }
 
 
+
+
     // Buscar alumno por legajo
-    public async findByLegajo(legajo: number): Promise<Alumno & { inscripciones: Inscripcion[] } | null> {
+    public async findByLegajo(legajo: number): Promise<Alumno | null> {
         try {
             const [rows] = await pool.query<RowDataPacket[]>(`
-                SELECT a.*, i.fecha, i.id AS inscripcion_id, i.materia_id
+                SELECT a.*
                 FROM alumnos AS a
-                LEFT JOIN inscripciones AS i ON a.id = i.alumno_id
                 WHERE a.legajo = ?`, [legajo]);
-    
             if (rows.length === 0) {
-                return null; // No se encontró el alumno
+                return null;
             }
-    
-            // Agrupar las inscripciones
-            const alumno = { ...rows[0] }; // Crear una copia del primer alumno encontrado
-            alumno.inscripciones = rows.map(row => ({
-                fecha: row.fecha,
-                alumno_id: row.alumno_id,
-                materia_id: row.materia_id,
-                id: row.inscripcion_id,
-            })).filter(ins => ins.fecha); // Filtrar inscripciones válidas
-    
-            return alumno as Alumno & { inscripciones: Inscripcion[] };
+            const alumno = { ...rows[0] };
+            return alumno as Alumno ;
         } catch (error) {
             console.error('Error al buscar por legajo:', error);
             throw new Error('Error al realizar la consulta en la base de datos.');
         }
     }
+
+
+
+
+
+    public async findInscripcionesByAlumnoId(alumnoId: number): Promise<Inscripcion[] | undefined> {
+        try {
+            const [inscripciones] = await pool.query<RowDataPacket[]>(
+                `SELECT * FROM inscripciones WHERE alumno_id = ?`, [alumnoId]
+            );
+
+            if (inscripciones.length === 0) {
+                return undefined;
+            }
+            return inscripciones as Inscripcion[];
+        } catch (error) {
+            console.error('Error al obtener inscripciones:', error);
+            throw new Error('Error al realizar la consulta en la base de datos.');
+        }
+    }
+
+
 
 
     public async add(alumnoInput: Alumno): Promise<Alumno | undefined> {
@@ -69,6 +90,8 @@ export class AlumnoRepository implements Repository <Alumno> {
     }
 
 
+
+
     public async update(id: string, alumnoInput: Alumno): Promise<Alumno | undefined> {
         const alumnoId = Number.parseInt(id);
         const {...alumnoRow} = alumnoInput;
@@ -77,6 +100,8 @@ export class AlumnoRepository implements Repository <Alumno> {
     }
     
     
+
+
     public async delete(item: { id: string; }): Promise<Alumno | undefined> {
         try {
             const alumnoToDelete = await this.findOne(item);

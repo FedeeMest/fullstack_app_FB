@@ -1,1 +1,26 @@
-<p>listado-i works!</p>
+<div class="container">
+    <h2>Inscripciones</h2>
+  
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Fecha</th>
+          <th>Alumno ID</th>
+          <th>Materia ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inscripcion of inscripciones">
+          <td>{{ inscripcion.id }}</td>
+          <td>{{ inscripcion.fecha }}</td>
+          <td>{{ inscripcion.alumno_id }}</td>
+          <td>{{ inscripcion.materia_id }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ mensajeError }}
+    </div>
+  </div>
