@@ -11,27 +11,31 @@
     </div>
 
     <!-- Filtro por plan usando formControlName -->
-    <form [formGroup]="filtroForm" class="d-flex justify-content-center align-items-center mt-2 mb-2">
-      <label for="plan" class="form-label mr-2">Plan:</label>
-      <select formControlName="plan" id="plan" class="form-select w-auto">
-        <option value="">Todos</option>
-        <option *ngFor="let plan of planesDisponibles" [value]="plan">
-          {{ plan }}
-        </option>
-      </select>
-    </form>
+     <div>
+      <form [formGroup]="filtroForm" class="d-flex justify-content-center mt-2 mb-2">
+        <div class="d-flex align-items-center">
+          <label for="plan" class="form-label mb-1 mt-0 mr-2">Selecciona un Plan:</label>
+          <select formControlName="plan" id="plan" class="form-select text-center" style="width: 200px;">
+            <option value="">Todos</option>
+            <option *ngFor="let plan of planesDisponibles" [value]="plan">
+              {{ plan }}
+            </option>
+          </select>
+        </div>
+      </form>
+     </div>
+    
+    
+    
 
-    <div class="table-responsive">
-      <table class="table table-secondary text-center mt-3 mb-3">
-        <thead>
+     <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+      <table class="table table-secondary text-center mt-3 mb-3" style="position: relative;">
+        <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
           <tr>
             <th scope="col">Legajo</th>
             <th scope="col">Nombre</th>
             <th scope="col">Apellido</th>
             <th scope="col">Plan</th>
-            <th scope="col">Mail</th>
-            <th scope="col">Direccion</th>
-            <th scope="col">Fecha de Nacimiento</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
@@ -41,9 +45,6 @@
             <td class="text-center align-middle">{{ alumno.nombre }}</td>
             <td class="text-center align-middle">{{ alumno.apellido }}</td>
             <td class="text-center align-middle">{{ alumno.plan }}</td>
-            <td class="text-center align-middle">{{ alumno.mail }}</td>
-            <td class="text-center align-middle">{{ alumno.direccion }}</td>
-            <td class="text-center align-middle">{{ alumno.fechaN | date: 'yyyy-MM-dd' }}</td>
             <td class="text-center align-middle">
               <button
                 routerLink="/editar_alumno/{{ alumno.id }}"
@@ -62,5 +63,6 @@
         </tbody>
       </table>
     </div>
+    
   </div>
 </div>

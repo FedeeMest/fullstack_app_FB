@@ -5,14 +5,25 @@
       <button type="button" class="btn btn-light btn-sm m-2" onclick="location.href='http://localhost:4200/add_materia'">Agregar Materia</button>
     </div>
 
-    <!-- Mensaje de error -->
-    <div *ngIf="errorMessage" class="alert alert-danger m-3" role="alert">
-      {{ errorMessage }}
+    <!-- Filtro de modalidad -->
+    <div>
+      <form [formGroup]="filtroForm" class="d-flex justify-content-center mt-2 mb-2">
+        <div class="d-flex align-items-center">
+          <label for="modalidad" class="form-label mb-1 mt-0 mr-2">Selecciona una Modalidad:</label>
+          <select formControlName="modalidad" id="modalidad" class="form-select text-center" style="width: 200px;">
+            <option value="">Todos</option>
+            <option *ngFor="let modalidad of modalidadesDisponibles" [value]="modalidad">
+              {{ modalidad }}
+            </option>
+          </select>
+        </div>
+      </form>
     </div>
 
-    <div class="table-responsive">
-      <table class="table table-secondary text-center mt-3 mb-3">
-        <thead>
+    <!-- Contenedor de tabla con scroll y encabezado fijo -->
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+      <table class="table table-secondary text-center mt-3 mb-3" style="position: relative;">
+        <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
           <tr>
             <th scope="col">Nombre</th>
             <th scope="col">Horas Anuales</th>
@@ -21,7 +32,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let materia of listaMaterias" class="table-active">
+          <!-- Cambiar listaMaterias a materiasFiltradas para aplicar el filtro -->
+          <tr *ngFor="let materia of materiasFiltradas" class="table-active">
             <th scope="row" class="text-center align-middle">{{ materia.nombre }}</th>
             <td class="text-center align-middle">{{ materia.horas_anuales }}</td>
             <td class="text-center align-middle">{{ materia.modalidad }}</td>

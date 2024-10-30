@@ -1,21 +1,33 @@
-import { CommonModule, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { Materia } from '../../../interfaces/materia';
 import { MateriaService } from '../../../services/materia.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule, NgFor } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-materias',
   standalone: true,
-  imports: [NgFor, CommonModule, RouterModule],
+  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './materias.component.html',
-  styleUrls: ['./materias.component.css'] // Corregido a styleUrls
+  styleUrls: ['./materias.component.css']
 })
 export class MateriasComponent implements OnInit {
   listaMaterias: Materia[] = [];
-  errorMessage: string | null = null; // Inicializar la variable para el mensaje de error
+  materiasFiltradas: Materia[] = [];
+  modalidadesDisponibles: string[] = [];
+  filtroForm: FormGroup;
+  errorMessage: string | null = null;
 
-  constructor(private _materiaService: MateriaService) { }
+  constructor(
+    private _materiaService: MateriaService,
+    private fb: FormBuilder
+  ) {
+    // Inicializar el formulario de filtro
+    this.filtroForm = this.fb.group({
+      modalidad: ['']
+    });
+  }
 
   ngOnInit(): void {
     const storedAlumno = localStorage.getItem('alumno');
@@ -24,35 +36,56 @@ export class MateriasComponent implements OnInit {
       console.log('Alumno eliminado del localStorage');
     }
     this.getMaterias();
+
+    // Escuchar cambios en el filtro
+    this.filtroForm.get('modalidad')?.valueChanges.subscribe((modalidadSeleccionada) => {
+      this.filtrarMaterias(modalidadSeleccionada);
+    });
   }
 
-  getMaterias() {
+  getMaterias(): void {
     this._materiaService.getMaterias().subscribe({
       next: (response) => {
         this.listaMaterias = response;
-        this.errorMessage = null; // Resetear el mensaje de error al obtener datos correctamente
-        console.log(response);
+        this.materiasFiltradas = [...this.listaMaterias];
+        this.extraerModalidadesDisponibles();
+        this.errorMessage = null;
       },
       error: (err) => {
-        this.errorMessage = `Error al cargar las materias: ${err.message}`; // Mensaje claro al usuario
+        this.errorMessage = `Error al cargar las materias: ${err.message}`;
         console.error('Error fetching data', err);
       }
     });
   }
 
-  deleteMateria(id: number) {
+  extraerModalidadesDisponibles(): void {
+    // Obtener modalidades únicas de la lista de materias
+    const modalidades = this.listaMaterias.map((materia) => materia.modalidad);
+    this.modalidadesDisponibles = Array.from(new Set(modalidades.filter(Boolean)));
+  }
+
+  filtrarMaterias(modalidadSeleccionada: string): void {
+    if (modalidadSeleccionada) {
+      this.materiasFiltradas = this.listaMaterias.filter(
+        (materia) => materia.modalidad === modalidadSeleccionada
+      );
+    } else {
+      this.materiasFiltradas = [...this.listaMaterias];
+    }
+  }
+
+  deleteMateria(id: number): void {
     if (confirm('¿Estás seguro de que quieres eliminar esta materia?')) {
       this._materiaService.deleteMateria(id).subscribe({
-        next: (response) => {
-          console.log('Materia eliminada', response);
+        next: () => {
+          console.log('Materia eliminada');
           this.getMaterias();
         },
         error: (err) => {
-          this.errorMessage = `Error al eliminar la materia: ${err.message}`; // Mensaje claro al usuario
+          this.errorMessage = `Error al eliminar la materia: ${err.message}`;
           console.error('Error al eliminar la materia', err);
         }
       });
     }
   }
-  
 }
