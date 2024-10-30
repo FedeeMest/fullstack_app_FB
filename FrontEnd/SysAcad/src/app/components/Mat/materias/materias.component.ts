@@ -4,17 +4,16 @@ import { RouterModule } from '@angular/router';
 import { Materia } from '../../../interfaces/materia';
 import { MateriaService } from '../../../services/materia.service';
 
-
-
 @Component({
   selector: 'app-materias',
   standalone: true,
-  imports: [NgFor,CommonModule,RouterModule],
+  imports: [NgFor, CommonModule, RouterModule],
   templateUrl: './materias.component.html',
-  styleUrl: './materias.component.css'
+  styleUrls: ['./materias.component.css'] // Corregido a styleUrls
 })
-export class MateriasComponent implements OnInit{
+export class MateriasComponent implements OnInit {
   listaMaterias: Materia[] = [];
+  errorMessage: string | null = null; // Inicializar la variable para el mensaje de error
 
   constructor(private _materiaService: MateriaService) { }
 
@@ -28,15 +27,17 @@ export class MateriasComponent implements OnInit{
   }
 
   getMaterias() {
-      this._materiaService.getMaterias().subscribe({
-        next: (response) => {
-          this.listaMaterias = response;
-          console.log(response);
-        },
-        error: (err) => {
-          console.error('Error fetching data', err);
-        }
-      });
+    this._materiaService.getMaterias().subscribe({
+      next: (response) => {
+        this.listaMaterias = response;
+        this.errorMessage = null; // Resetear el mensaje de error al obtener datos correctamente
+        console.log(response);
+      },
+      error: (err) => {
+        this.errorMessage = `Error al cargar las materias: ${err.message}`; // Mensaje claro al usuario
+        console.error('Error fetching data', err);
+      }
+    });
   }
 
   deleteMateria(id: number) {
@@ -47,10 +48,11 @@ export class MateriasComponent implements OnInit{
           this.getMaterias();
         },
         error: (err) => {
+          this.errorMessage = `Error al eliminar la materia: ${err.message}`; // Mensaje claro al usuario
           console.error('Error al eliminar la materia', err);
         }
       });
     }
   }
-
+  
 }

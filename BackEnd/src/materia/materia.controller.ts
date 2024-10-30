@@ -1,81 +1,92 @@
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { MateriaRepository } from './materia.repository.js';
 import { Materia } from './materia.entity.js';
 
 const repository = new MateriaRepository();
-function inputS (req: Request, res: Response, next: NextFunction) {
+
+function inputS(req: Request, res: Response, next: NextFunction) {
     req.body.inputS = {
         nombre: req.body.nombre,
         horas_anuales: req.body.horas_anuales,
         modalidad: req.body.modalidad,
-    }
+    };
+    
+    // Eliminar propiedades indefinidas
     Object.keys(req.body.inputS).forEach((key) => {
         if (req.body.inputS[key] === undefined) delete req.body.inputS[key];
-    })
+    });
 
     next();
 }
 
-
-async function findAll(req: Request, res: Response) {
-    res.status(200).json(await repository.findAll());
-}
-
-
-async function findOne (req:Request, res:Response) {
-    const id = req.params.id
-    const materia = await repository.findOne({ id })
-    if (!materia) {
-        return res.status(404).json({Error:"Materia no encontrada"});
+async function findAll(req: Request, res: Response, next: NextFunction) {
+    try {
+        const materias = await repository.findAll();
+        res.status(200).json(materias);
+    } catch (error) {
+        next(error); // Pasar el error al middleware
     }
-    return res.status(200).json(materia);
 }
 
+async function findOne(req: Request, res: Response, next: NextFunction) {
+    const id = req.params.id;
+    try {
+        const materia = await repository.findOne({ id });
+        if (!materia) {
+            return res.status(404).json({ error: "Materia no encontrada" });
+        }
+        return res.status(200).json(materia);
+    } catch (error) {
+        next(error); // Pasar el error al middleware
+    }
+}
 
-async function add(req: Request, res: Response): Promise<Response> {
+async function add(req: Request, res: Response, next: NextFunction): Promise<Response> {
     const input = req.body.inputS;
 
     try {
-        // Crear una nueva instancia de Materia usando los datos recibidos
         const nuevoMateria = new Materia(input.nombre, input.horas_anuales, input.modalidad);
-        
-        // Llamar al repositorio para agregar la nueva materia
         const materia = await repository.add(nuevoMateria);
-        
-        // Si todo sale bien, devolver el objeto creado con un código 201 (Created)
         return res.status(201).json(materia);
-
     } catch (error: any) {
-        // Manejo de errores, incluyendo el error de duplicado de entrada
         if (error.message.includes('Ya existe una materia con el nombre')) {
-            // Código de estado 409 (Conflict) para entradas duplicadas
             return res.status(409).json({ message: error.message });
+        }
+        next(error); // Pasar cualquier otro error al middleware
+    }
+    return res.status(500).json({ message: "Unexpected error" }); // Ensure a return statement
+}
+
+async function update(req: Request, res: Response, next: NextFunction) {
+    const id = req.params.id;
+    try {
+        const materia = await repository.update(id, req.body.inputS);
+        if (!materia) { 
+            return res.status(404).json({ error: "Materia no encontrada" });
+        }
+        return res.status(200).json(materia); 
+    } catch (error) {
+        next(error); // Pasar el error al middleware
+    }
+}
+
+async function remove(req: Request, res: Response, next: NextFunction) {
+    const id = req.params.id;
+    try {
+        const materia = await repository.delete({ id });
+        if (!materia) { 
+            return res.status(404).json({ error: "Materia no encontrada" }); 
         } 
-        
-        // Cualquier otro error es tratado como un error interno del servidor (500)
-        return res.status(500).json({ message: 'Error interno del servidor' });
+        return res.status(200).json({ message: "Materia eliminada" });
+    } catch (error: any) {
+        // Capturar el error específico para la eliminación
+        if (error.message.includes('No se puede eliminar la materia porque tiene inscripciones asociadas')) {
+            return res.status(400).json({ error: error.message });
+        }
+        // Pasar cualquier otro error al middleware
+        next(error);
     }
 }
 
 
-async function update(req:Request, res:Response) {
-    const materia = await repository.update(req.params.id, req.body.inputS)
-    if (!materia) { 
-        return res.status(404).json({Error:"Materia no encontrada"});
-    }
-    res.header('Access-Control-Allow-Origin', '*');
-    return res.status(200).json(materia); 
-}
-
-
-async function remove(req:Request, res:Response){
-    const id = req.params.id
-    const materia = await repository.delete({ id })
- 
-    if (!materia) { 
-        return res.status(404).json({Error:"Materia no encontrada"}); 
-    } 
-    return res.status(200).json({Message: "Materia eliminada"});
-}
-
-export{inputS,findAll,findOne,add,update,remove}
+export { inputS, findAll, findOne, add, update, remove };

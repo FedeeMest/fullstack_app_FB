@@ -52,11 +52,30 @@ export class MateriaRepository implements Repository <Materia> {
     public async delete(item: { id: string; }): Promise<Materia | undefined> {
         try {
             const materiaToDelete = await this.findOne(item);
+    
+            if (!materiaToDelete) {
+                throw new Error(`Materia con ID ${item.id} no encontrada`);
+            }
+    
             const materiaId = Number.parseInt(item.id);
-            await pool.query('delete from materias where id = ?', [materiaId]);
+            const [result] = await pool.query<ResultSetHeader>('DELETE FROM materias WHERE id = ?', [materiaId]);
+    
+            if (result.affectedRows === 0) {
+                throw new Error(`No se pudo eliminar la materia con ID ${item.id} debido a restricciones.`);
+            }
+    
             return materiaToDelete;
         } catch (error: any) {
-            throw new Error('unable to delete materia');
+            // Manejo del error específico para clave foránea
+            if (error.code === 'ER_ROW_IS_REFERENCED_2') { 
+                throw new Error(`Error al eliminar materia: No se puede eliminar la materia porque tiene inscripciones asociadas.`);
+            }
+            
+            // Para otros errores, enviar un mensaje claro
+            throw new Error(`Error al eliminar materia: ${error.message || 'Error inesperado.'}`);
         }
     }
+    
+    
+    
 }

@@ -1,33 +1,37 @@
 <div class="container">
-    <div class="card text-white bg-primary mb-3 mt-3">
-      <div class="d-flex justify-content-between align-items-center card-header">
-        <h4 class="m-3">Listado de Materias</h4>
-        <button type="button" class="btn btn-light btn-sm m-2" onclick="location.href='http://localhost:4200/add_materia'">Agregar Materia</button>
-      </div>
-  
-      <div class="table-responsive">
-        <table class="table table-secondary text-center mt-3 mb-3">
-          <thead>
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Horas Anuales</th>
-              <th scope="col">Modalidad</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let materia of listaMaterias" class="table-active">
-              <th scope="row" class="text-center align-middle">{{materia.nombre}}</th>
-              <td class="text-center align-middle">{{materia.horas_anuales}}</td>
-              <td class="text-center align-middle">{{materia.modalidad}}</td>
-              <td class="text-center align-middle">
-                <button routerLink="/editar_materia/{{ materia.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
-                <button (click)="deleteMateria(materia.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="card text-white bg-primary mb-3 mt-3">
+    <div class="d-flex justify-content-between align-items-center card-header">
+      <h4 class="m-3">Listado de Materias</h4>
+      <button type="button" class="btn btn-light btn-sm m-2" onclick="location.href='http://localhost:4200/add_materia'">Agregar Materia</button>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger m-3" role="alert">
+      {{ errorMessage }}
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-secondary text-center mt-3 mb-3">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Horas Anuales</th>
+            <th scope="col">Modalidad</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let materia of listaMaterias" class="table-active">
+            <th scope="row" class="text-center align-middle">{{ materia.nombre }}</th>
+            <td class="text-center align-middle">{{ materia.horas_anuales }}</td>
+            <td class="text-center align-middle">{{ materia.modalidad }}</td>
+            <td class="text-center align-middle">
+              <button routerLink="/editar_materia/{{ materia.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
+              <button (click)="deleteMateria(materia.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  
+</div>
