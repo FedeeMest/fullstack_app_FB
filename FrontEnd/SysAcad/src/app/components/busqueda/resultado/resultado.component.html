@@ -1,6 +1,6 @@
-<div class="overlay d-flex justify-content-center align-items-center mt-3">
-  <div class="modal-content" style="background-color: #375a7f; border-radius: 0.25rem; border: none;">
-    <div class="card-header text-center rounded text-white">Alumno Encontrado</div>
+<div class="container d-flex justify-content-center align-items-center mt-3">
+  <div class="card text-white bg-primary mb-3" style="max-width: 600px;">
+    <div class="card-header text-center">Alumno Encontrado</div>
     <div class="card-body">
       <!-- Campos del alumno -->
       <div class="row mb-3" *ngIf="alumno"> <!-- Asegúrate de que alumno no sea null -->
@@ -15,7 +15,7 @@
         </div>
 
         <div class="col-md-6">
-          <label for="direccion" class="form-label text-white mb-0">Direccion</label>
+          <label for="direccion" class="form-label text-white mb-0">Dirección</label>
           <input type="text" id="direccion" [value]="alumno.direccion" readonly class="form-control mt-0 mb-3">
         </div>
 
@@ -34,22 +34,19 @@
           <input type="text" id="mail" [value]="alumno.mail" readonly class="form-control mt-0 mb-3">
         </div>
 
-        <div class="col-md-6 ">
+        <div class="col-md-6">
           <label for="plan" class="form-label text-white mb-0">Plan</label>
           <input type="text" id="plan" [value]="alumno.plan" readonly class="form-control mt-0 mb-3">
         </div>
-        
       </div>
-
 
       <!-- Botones para navegar -->
       <div class="d-flex justify-content-between mt-3">
         <button class="btn btn-secondary" (click)="goBack()">Volver</button>
         <div>
-          <button (click)="editarAlumno(alumno?.id)" class="btn btn-success">Editar</button>
-          <button (click)="verInscripciones(alumno?.id)" class="btn btn-success ml-2">Ver inscripciones</button>
+          <button (click)="editarAlumno(alumno?.id)" class="btn btn-light">Editar</button>
+          <button (click)="verInscripciones(alumno?.id)" class="btn btn-light ml-2">Ver inscripciones</button>
         </div>
-        
       </div>
     </div>
   </div>

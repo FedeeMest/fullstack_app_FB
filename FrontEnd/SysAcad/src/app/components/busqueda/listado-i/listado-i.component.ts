@@ -4,6 +4,10 @@ import { AlumnosService } from '../../../services/alumnos.service';
 import { Inscripcion } from '../../../interfaces/inscripcion';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
+import { MateriaService } from '../../../services/materia.service';
+import { forkJoin, Observable } from 'rxjs';
+import { Materia } from '../../../interfaces/materia';
 
 @Component({
   selector: 'app-listado-i',
@@ -14,11 +18,11 @@ import { CommonModule, NgIf } from '@angular/common';
 })
 export class ListadoIComponent implements OnInit {
   alumnoId: number | null = null; // o el tipo correspondiente
-  inscripciones: Inscripcion[] = []; // Cambia el tipo a Inscripcion[]
+  inscripciones: (Inscripcion & { nombreMateria?: string })[] = []; // Cambia el tipo a Inscripcion[]
   errorMessage: boolean = false; // Inicializa en false
   mensajeError: string = ''; // Inicializa como una cadena vacía
 
-  constructor(private route: ActivatedRoute,private alumnoService: AlumnosService) {}
+  constructor(private route: ActivatedRoute,private alumnoService: AlumnosService,private router: Router,private materiaService: MateriaService) {}
   ngOnInit():void{
     this.route.params.subscribe(params => {
       this.alumnoId = +params['id']; // Convertimos el id a número
@@ -33,7 +37,7 @@ export class ListadoIComponent implements OnInit {
       this.alumnoService.getInscripcionesByAlumnoId(this.alumnoId).subscribe({
         next: (inscripciones: Inscripcion[]) => {
           console.log('Inscripciones encontradas:', inscripciones); // Verifica si las inscripciones se encuentran
-          this.inscripciones = inscripciones; // Almacena las inscripciones
+          this.loadMateriaNames(inscripciones); // Almacena las inscripciones
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error al obtener inscripciones:', err);
@@ -50,6 +54,33 @@ export class ListadoIComponent implements OnInit {
         }
       });
     }
+  }
+
+
+  loadMateriaNames(inscripciones: Inscripcion[]): void {
+    const observables: Observable<Materia>[] = inscripciones.map(inscripcion =>
+      this.materiaService.getMateria(inscripcion.materia_id)
+    );
+
+    forkJoin(observables).subscribe({
+      next: (materias: Materia[]) => {
+        this.inscripciones = inscripciones.map((inscripcion, index) => ({
+          ...inscripcion,
+          nombreMateria: materias[index].nombre,
+        }));
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al obtener nombres de materias:', err);
+        this.errorMessage = true;
+        this.mensajeError = 'Error al cargar los nombres de las materias.';
+      },
+    });
+  }
+
+
+
+  goBack() {
+    this.router.navigate(['/resultado']);
   }
 
 }

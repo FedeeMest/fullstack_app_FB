@@ -1,37 +1,42 @@
 <div class="container">
-  <div class="d-flex justify-content-between mt-2 mb-2">
-     <h4 class="m-3">Listado de Alumnos</h4>
-    <button type="button" class="btn btn-primary btn-lg m-2" onclick="location.href='http://localhost:4200/add_alumno'">Agregar Alumno</button>
+
+  <div class="card text-white bg-primary mb-3 mt-3">
+    <div class="d-flex justify-content-between align-items-center card-header">
+      <h4 class="m-3">Listado de Alumnos</h4>
+      <button type="button" class="btn btn-light btn-sm m-2" onclick="location.href='http://localhost:4200/add_alumno'">Agregar Alumno</button>
+    </div>
+    
+    <div class="table-responsive">
+      <table class="table table-secondary text-center mt-3 mb-3">
+        <thead>
+          <tr>
+            <th scope="col">Legajo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Plan</th>
+            <th scope="col">Mail</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Fecha de Nacimiento</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let alumno of listaAlumnos" class="table-active">
+            <th scope="row" class="text-center align-middle">{{alumno.legajo}}</th>
+            <td class="text-center align-middle">{{alumno.nombre}}</td>
+            <td class="text-center align-middle">{{alumno.apellido}}</td>
+            <td class="text-center align-middle">{{alumno.plan}}</td>
+            <td class="text-center align-middle">{{alumno.mail}}</td>
+            <td class="text-center align-middle">{{alumno.direccion}}</td>
+            <td class="text-center align-middle">{{alumno.fechaN}}</td>
+            <td class="text-center align-middle">
+              <button routerLink="/editar_alumno/{{ alumno.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
+              <button (click)="deleteAlumno(alumno.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
+            </td>
+          </tr>
+        </tbody> 
+      </table>
+    </div> 
   </div>
-  <div class="search">
-    <table class="table table-hover text-center">
-      <thead>
-        <tr>
-          <th scope="col">Legajo</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Apellido</th>
-          <th scope="col">Plan</th>
-          <th scope="col">Mail</th>
-          <th scope="col">Direccion</th>
-          <th scope="col">Fecha de Nacimiento</th>
-          <th scope="col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let alumno of listaAlumnos" class="table-active">
-          <th scope="row" class="text-center align-middle">{{alumno.legajo}}</th>
-          <td class="text-center align-middle">{{alumno.nombre}}</td>
-          <td class="text-center align-middle">{{alumno.apellido}}</td>
-          <td class="text-center align-middle">{{alumno.plan}}</td>
-          <td class="text-center align-middle">{{alumno.mail}}</td>
-          <td class="text-center align-middle">{{alumno.direccion}}</td>
-          <td class="text-center align-middle">{{alumno.fechaN}}</td>
-          <td class="text-center align-middle">
-            <button routerLink="/editar_alumno/{{ alumno.id }}" type="button" class="btn btn-primary m-2">Editar</button>
-            <button (click)="deleteAlumno(alumno.id!)" type="button" class="btn btn-danger m-2">Eliminar</button>
-          </td>
-        </tr>
-      </tbody> 
-    </table>
-  </div> 
+
 </div>
