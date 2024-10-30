@@ -7,6 +7,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { BuscadorComponent } from './components/busqueda/buscador/buscador.component';
 import { ResultadoComponent } from './components/busqueda/resultado/resultado.component';
 import { ListadoIComponent } from './components/busqueda/listado-i/listado-i.component';
+import { AddInscripcionComponent } from './components/busqueda/add-update-inscripcion/add-update-inscripcion.component';
+
 
 export const routes: Routes = [
     {path: "", component: InicioComponent},
@@ -18,5 +20,6 @@ export const routes: Routes = [
     {path: "editar_materia/:id", component: AddUpdateMateriaComponent},
     {path: "buscar", component: BuscadorComponent},
     {path: "resultado", component: ResultadoComponent},
-    {path: "lista_insc/:id", component: ListadoIComponent}
+    {path: "lista_insc/:id", component: ListadoIComponent},
+    {path: 'add_inscripcion/:alumnoId', component: AddInscripcionComponent},
 ];

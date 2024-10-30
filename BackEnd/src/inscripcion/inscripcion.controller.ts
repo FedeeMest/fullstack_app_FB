@@ -24,6 +24,7 @@ function inputS (req: Request, res: Response, next: NextFunction) {
 
 
 async function findAll(req: Request, res: Response) {
+    res.header('Access-Control-Allow-Origin', '*');
     res.status(200).json({Listado: await repository.findAll()});
 }
 
@@ -34,6 +35,7 @@ async function findOne (req:Request, res:Response) {
     if (!inscripcion) {
         return res.status(404).json({Error:"Inscripcion no encontrada"});
     }
+    res.header('Access-Control-Allow-Origin', '*');
     return res.status(200).json({Inscripcion_Solicitado:inscripcion});
 }
 
@@ -47,6 +49,7 @@ async function add (req:Request, res:Response) {
         
     const nuevoInscripcion = new Inscripcion (alumno,materia,input.fecha);
     const inscripcion = await repository.add(nuevoInscripcion);
+    res.header('Access-Control-Allow-Origin', '*');
     return res.status(201).json({Inscripcion_Creada:inscripcion});
 }
 
@@ -57,6 +60,7 @@ async function update(req:Request, res:Response) {
     if (!inscripcion) { 
         return res.status(404).json({Error:"Inscripcion no encontrada"});
     }
+    res.header('Access-Control-Allow-Origin', '*');
     return res.status(200).json({Inscripcion_Actualizado:inscripcion}); 
 }
 
@@ -68,6 +72,7 @@ async function remove(req:Request, res:Response){
     if (!inscripcion) { 
         return res.status(404).json({Error:"Inscripcion no encontrada"}); 
     } 
+    res.header('Access-Control-Allow-Origin', '*');
     return res.status(200).json({Message: "Inscripcion eliminada"});
 }
 
