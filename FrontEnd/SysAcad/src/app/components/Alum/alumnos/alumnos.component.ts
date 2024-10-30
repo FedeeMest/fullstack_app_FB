@@ -4,6 +4,7 @@ import { AlumnosService } from '../../../services/alumnos.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alumnos',
@@ -20,7 +21,8 @@ export class AlumnosComponent implements OnInit {
 
   constructor(
     private _alumnoService: AlumnosService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.filtroForm = this.fb.group({
       plan: [''], // Inicializa el select sin valor
@@ -52,6 +54,11 @@ export class AlumnosComponent implements OnInit {
         console.error('Error fetching data', err);
       },
     });
+  }
+
+  verAlumno(alumno: Alumno): void {
+    localStorage.setItem('alumno', JSON.stringify(alumno));
+    this.router.navigate(['/resultado']);
   }
 
   extraerPlanesDisponibles(): void {
