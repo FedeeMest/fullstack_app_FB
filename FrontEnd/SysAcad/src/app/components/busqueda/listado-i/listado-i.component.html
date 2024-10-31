@@ -11,12 +11,16 @@
           <tr>
             <th scope="col">Fecha</th>
             <th scope="col">Materia</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let inscripcion of inscripciones" class="table-active">
             <td class="text-center align-middle">{{ inscripcion.fecha }}</td>
             <td class="text-center align-middle">{{ inscripcion.nombreMateria || 'Cargando...' }}</td>
+            <td class="text-center align-middle">
+              <button type="button" class="btn btn-danger btn-sm m-1"> Eliminar </button>
+            </td>
           </tr>
         </tbody>
       </table>
