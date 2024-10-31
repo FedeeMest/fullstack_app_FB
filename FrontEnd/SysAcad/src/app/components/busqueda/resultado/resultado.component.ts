@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Alumno } from '../../../interfaces/alumno';
 import { Router } from '@angular/router';
-import { Inscripcion } from '../../../interfaces/inscripcion';
 import { CommonModule } from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-resultado',
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 export class ResultadoComponent implements OnInit {
   alumno: Alumno| null = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private location: Location) {}
 
   ngOnInit(): void {
     const storedAlumno = localStorage.getItem('alumno');
@@ -47,7 +47,6 @@ export class ResultadoComponent implements OnInit {
   }
 
   goBack() {
-    localStorage.removeItem('alumno');
-    this.router.navigate(['/buscar']);
+    this.location.back();
   }
 }

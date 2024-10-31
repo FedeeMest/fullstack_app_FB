@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MateriaService } from '../../../services/materia.service';
 import { forkJoin, Observable } from 'rxjs';
 import { Materia } from '../../../interfaces/materia';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-listado-i',
@@ -22,7 +23,7 @@ export class ListadoIComponent implements OnInit {
   errorMessage: boolean = false; // Inicializa en false
   mensajeError: string = ''; // Inicializa como una cadena vacía
 
-  constructor(private route: ActivatedRoute,private alumnoService: AlumnosService,private router: Router,private materiaService: MateriaService) {}
+  constructor(private route: ActivatedRoute,private alumnoService: AlumnosService,private router: Router,private materiaService: MateriaService,private location: Location) {}
   ngOnInit():void{
     this.route.params.subscribe(params => {
       this.alumnoId = +params['id']; // Convertimos el id a número
@@ -82,7 +83,7 @@ export class ListadoIComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/resultado']);
+    this.location.back();
   }
 
 }

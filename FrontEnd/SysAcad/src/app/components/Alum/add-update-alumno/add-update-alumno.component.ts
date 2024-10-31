@@ -4,6 +4,7 @@ import { Alumno } from '../../../interfaces/alumno';
 import { AlumnosService } from '../../../services/alumnos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
   errorMessage: string = '';
   origen: string; // Declara la propiedad 'origen'
 
-  constructor(private fb: FormBuilder, private alumnosService: AlumnosService, private router: Router, private aRouter: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private alumnosService: AlumnosService, private router: Router, private aRouter: ActivatedRoute,private location: Location) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['',Validators.required],
@@ -45,6 +46,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
       this.operacion = 'Editar '
       this.getAlumno(this.id);
     }
+    this.origen = localStorage.getItem('origen') || 'default';
   }
 
   getAlumno(id: number){
@@ -106,14 +108,10 @@ export class AddUpdateAlumnoComponent implements OnInit {
     }
   }
 
-volver() {
-  if (this.origen === 'resultado') {
-    this.router.navigate(['/resultado']);
-  } else {
-    localStorage.removeItem('alumno');
-    this.router.navigate(['/alumnos']);
+  volver() {
+    this.location.back();  // Navega hacia atrás en el historial
   }
-}
+  
 
 
 }
