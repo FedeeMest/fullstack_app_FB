@@ -18,33 +18,35 @@ export class MateriaService {
   }
 
   // Manejo de errores centralizado
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Error desconocido';
-  
-    if (error.error instanceof ErrorEvent) {
-      // Errores del lado del cliente
-      errorMessage = `Error: ${error.error.message}`;
+
+    if (error.status === 0) {
+      // Error de cliente (por ejemplo, problemas de red)
+      errorMessage = `Error de red: ${error.message}`;
     } else {
-      // Errores del lado del servidor
-      if (error.status === 400) {
-        if (error.error.error.includes('No se puede eliminar la materia porque tiene inscripciones asociadas')) {
-          errorMessage = 'No se puede eliminar la materia porque tiene inscripciones asociadas.';
-        } else {
-          errorMessage = 'Solicitud inválida. Por favor, verifica los datos ingresados.';
-        }
-      } else if (error.status === 404) {
-        errorMessage = 'La materia no fue encontrada.';
-      } else if (error.status === 409) {
-        errorMessage = 'Conflicto al procesar la solicitud. Intenta de nuevo.';
-      } else {
-        errorMessage = `Ocurrió un error inesperado: ${error.message}`;
+      // Error del lado del servidor
+      switch (error.status) {
+        case 400:
+          errorMessage = error.error?.error.includes('No se puede eliminar la materia porque tiene inscripciones asociadas')
+            ? 'No se puede eliminar la materia porque tiene inscripciones asociadas.'
+            : 'Solicitud inválida. Por favor, verifica los datos ingresados.';
+          break;
+        case 404:
+          errorMessage = 'La materia no fue encontrada.';
+          break;
+        case 409:
+          errorMessage = 'Conflicto al procesar la solicitud. Intenta de nuevo.';
+          break;
+        default:
+          errorMessage = `Ocurrió un error inesperado: ${error.message}`;
+          break;
       }
     }
-  
+
+    // Envía el mensaje de error
     return throwError(() => new Error(errorMessage));
   }
-  
-  
 
   getMaterias(): Observable<Materia[]> {
     return this.http.get<Materia[]>(`${this.myAppUrl}${this.myApiUrl}`).pipe(

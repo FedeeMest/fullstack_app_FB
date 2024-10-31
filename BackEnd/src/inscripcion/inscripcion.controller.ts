@@ -40,18 +40,30 @@ async function findOne (req:Request, res:Response) {
 }
 
 
-async function add (req:Request, res:Response) { 
-    const input = req.body.inputS;
-    const alumno =  await alumnosRepository.findOne({id:input.alumno.id})
-    const materia =  await materiasRepository.findOne({id:input.materia.id})
+async function add(req: Request, res: Response) { 
+    const { alumno_id, materia_id, fecha } = req.body; // Asegúrate de que estás usando los nombres correctos
+
+    // Verifica que el alumno y la materia existan solo por sus IDs
+    const alumno = await alumnosRepository.findOne({ id: alumno_id });
+    const materia = await materiasRepository.findOne({ id: materia_id });
+
     if (!alumno || !materia) {
-        return res.status(404).json({Error:"Alumno o Materia no encontrada"})};
-        
-    const nuevoInscripcion = new Inscripcion (alumno,materia,input.fecha);
-    const inscripcion = await repository.add(nuevoInscripcion);
-    res.header('Access-Control-Allow-Origin', '*');
-    return res.status(201).json({Inscripcion_Creada:inscripcion});
+        return res.status(404).json({ error: "Alumno o Materia no encontrada" });
+    }
+
+    // Crear una nueva inscripción utilizando solo los IDs
+    const nuevaInscripcion = new Inscripcion(alumno_id, materia_id, fecha); // Usa los IDs aquí
+
+    try {
+        const inscripcion = await repository.add(nuevaInscripcion);
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(201).json({ Inscripcion_Creada: inscripcion });
+    } catch (error) {
+        console.error('Error al crear la inscripción:', error);
+        return res.status(500).json({ error: 'Error al crear la inscripción' });
+    }
 }
+
 
 
 async function update(req:Request, res:Response) {

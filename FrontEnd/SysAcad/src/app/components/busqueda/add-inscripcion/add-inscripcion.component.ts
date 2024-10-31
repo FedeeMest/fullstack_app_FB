@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { Location } from '@angular/common';
 import { MateriaService } from '../../../services/materia.service';
 import { Materia } from '../../../interfaces/materia';
+import { Inscripcion } from '../../../interfaces/inscripcion';
+import { InscripcionService } from '../../../services/inscripcion.service';
 
 @Component({
   selector: 'app-add-inscripcion',
@@ -20,9 +22,11 @@ export class AddInscripcionComponent implements OnInit {
   filtroForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private location: Location,private _materiaService: MateriaService,private fb: FormBuilder) {
+  constructor(private location: Location,private _materiaService: MateriaService,private fb: FormBuilder, private inscripcionService: InscripcionService) {
     this.filtroForm = this.fb.group({
-      modalidad: ['']
+      modalidad: [''],
+      fechaN: [''],
+      materiaSeleccionada: [null]
     });
   }
   
@@ -64,6 +68,53 @@ export class AddInscripcionComponent implements OnInit {
       this.materiasFiltradas = [...this.listaMaterias];
     }
   }
+
+  crearInscripcion(): void {
+    const alumnoRaw = localStorage.getItem('alumno');
+  
+    // Verifica que 'alumno' exista en localStorage
+    if (!alumnoRaw) {
+      this.errorMessage = "No se encontró el alumno en el almacenamiento local.";
+      return;
+    }
+  
+    let alumno;
+    try {
+      alumno = JSON.parse(alumnoRaw); // Intenta parsear el JSON de 'alumno'
+    } catch (error) {
+      this.errorMessage = "Error al interpretar el objeto 'alumno' del almacenamiento local.";
+      console.error("Error de parseo:", error);
+      return;
+    }
+  
+    // Verifica que 'alumno' tenga la propiedad 'id'
+    if (!alumno.id) {
+      this.errorMessage = "El objeto 'alumno' no contiene un 'id' válido.";
+      return;
+    }
+  
+    const alumnoId = alumno.id;
+    const fecha = this.filtroForm.get('fechaN')?.value;
+    const materiaSeleccionada = this.filtroForm.get('materiaSeleccionada')?.value;
+  
+    // Prepara el objeto de inscripción con los datos obtenidos
+    const inscripcion: Inscripcion = {
+      fecha,
+      alumno_id: alumnoId,
+      materia_id: materiaSeleccionada
+    };
+  
+    this.inscripcionService.addInscripcion(inscripcion).subscribe({
+      next: (response) => {
+        console.log('Inscripción creada:', response);
+        this.goBack();
+      },
+      error: (err) => {
+        this.errorMessage = `Error al crear la inscripción: ${err.message}`;
+      }
+    });
+  }
+  
 
   goBack() {
     this.location.back();

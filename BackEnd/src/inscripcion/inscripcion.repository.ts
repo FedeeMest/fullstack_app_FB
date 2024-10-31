@@ -23,11 +23,12 @@ export class InscripcionRepository implements Repository <Inscripcion> {
 
     public async add(item: Inscripcion): Promise<Inscripcion | undefined> {
         console.log(item);
-        const {id, ...inscripcionRow} = item;
+        const { id, ...inscripcionRow } = item; // inscripcionRow ahora debe contener alumno_id y materia_id
         const [result] = await pool.query<ResultSetHeader>('insert into inscripciones set ?', [inscripcionRow]);
         item.id = result.insertId;
         return item;
     }
+    
 
 
     public async update(id: string, item: Inscripcion): Promise<Inscripcion | undefined> {
