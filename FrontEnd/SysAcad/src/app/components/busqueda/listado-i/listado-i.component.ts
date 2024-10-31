@@ -79,7 +79,7 @@ export class ListadoIComponent implements OnInit {
   }
 
   goadd(){
-    this.router.navigate(['/add_inscripcion', this.alumnoId]);
+    this.router.navigate(['/add_inscripcion']);
   }
 
   goBack() {

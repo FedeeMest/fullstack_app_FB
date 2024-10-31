@@ -1,40 +1,34 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Materia } from '../../../interfaces/materia';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Location } from '@angular/common';
 import { MateriaService } from '../../../services/materia.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule, NgFor } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Materia } from '../../../interfaces/materia';
 
 @Component({
-  selector: 'app-materias',
+  selector: 'app-add-inscripcion',
   standalone: true,
-  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule],
-  templateUrl: './materias.component.html',
-  styleUrls: ['./materias.component.css']
+  imports: [CommonModule,ReactiveFormsModule,FormsModule],
+  templateUrl: './add-inscripcion.component.html',
+  styleUrl: './add-inscripcion.component.css'
 })
-export class MateriasComponent implements OnInit {
+export class AddInscripcionComponent implements OnInit {
   listaMaterias: Materia[] = [];
   materiasFiltradas: Materia[] = [];
   modalidadesDisponibles: string[] = [];
+  materiaSeleccionada: number | null = null;
   filtroForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private _materiaService: MateriaService,private fb: FormBuilder) {
-    // Inicializar el formulario de filtro
+  constructor(private location: Location,private _materiaService: MateriaService,private fb: FormBuilder) {
     this.filtroForm = this.fb.group({
       modalidad: ['']
     });
   }
-
-  ngOnInit(): void {
-    const storedAlumno = localStorage.getItem('alumno');
-    if (storedAlumno) {
-      localStorage.removeItem('alumno');
-      console.log('Alumno eliminado del localStorage');
-    }
+  
+  
+  ngOnInit():void{
     this.getMaterias();
-
-    // Escuchar cambios en el filtro
     this.filtroForm.get('modalidad')?.valueChanges.subscribe((modalidadSeleccionada) => {
       this.filtrarMaterias(modalidadSeleccionada);
     });
@@ -71,18 +65,7 @@ export class MateriasComponent implements OnInit {
     }
   }
 
-  deleteMateria(id: number): void {
-    if (confirm('¿Estás seguro de que quieres eliminar esta materia?')) {
-      this._materiaService.deleteMateria(id).subscribe({
-        next: () => {
-          console.log('Materia eliminada');
-          this.getMaterias();
-        },
-        error: (err) => {
-          this.errorMessage = `Error al eliminar la materia: ${err.message}`;
-          console.error('Error al eliminar la materia', err);
-        }
-      });
-    }
+  goBack() {
+    this.location.back();
   }
 }
