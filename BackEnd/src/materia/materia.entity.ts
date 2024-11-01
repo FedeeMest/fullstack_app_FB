@@ -4,7 +4,7 @@ import { BaseEntity } from "../shared/db/baseEntity.entity";
 
 export class Materia extends BaseEntity{
 
-    @Property({nullable:true})
+    @Property({nullable:true, unique:true})
     nombre!: string
 
     @Property({nullable:true})

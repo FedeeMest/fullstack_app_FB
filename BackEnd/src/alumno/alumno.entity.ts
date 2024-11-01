@@ -24,6 +24,10 @@ export class Alumno extends BaseEntity {
     fechaN!: Date
 
     @Property({nullable:true})
+    legajo!: number
+
+
+    @Property({nullable:true})
     id?: number
 
 }
