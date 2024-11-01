@@ -19,6 +19,7 @@ export class MateriasComponent implements OnInit {
   filtroForm: FormGroup;
   errorMessage: string | null = null;
 
+
   constructor(private _materiaService: MateriaService,private fb: FormBuilder) {
     // Inicializar el formulario de filtro
     this.filtroForm = this.fb.group({
