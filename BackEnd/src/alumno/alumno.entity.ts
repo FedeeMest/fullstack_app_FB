@@ -26,7 +26,6 @@ export class Alumno extends BaseEntity {
     @Property({nullable:true})
     legajo!: number
 
-
     @Property({nullable:true})
     id?: number
 
