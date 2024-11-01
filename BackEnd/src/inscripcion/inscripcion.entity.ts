@@ -1,20 +1,20 @@
-import { Entity , Property , ManyToOne} from "@mikro-orm/core";
+import { Entity , Property , ManyToOne, PrimaryKey} from "@mikro-orm/core";
 import { Alumno } from "../alumno/alumno.entity";
 import { Materia } from "../materia/materia.entity";
 import { BaseEntity } from "../shared/db/baseEntity.entity";
 
 @Entity()
 export class Inscripcion extends BaseEntity {
+    @PrimaryKey()
+    id!: number;
+
     @ManyToOne(() => Alumno)
-    alumno_id!: number;
+    alumno!: Alumno;
     
     @ManyToOne(() => Materia)
-    materia_id!: number
+    materia!: Materia;
 
-    @Property({nullable: true})
-    fecha!: string
-
-    @Property({nullable: true})
-    id? : number
+    @Property({ nullable: true })
+    fecha!: string;
 
 }

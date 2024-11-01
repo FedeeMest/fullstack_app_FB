@@ -1,7 +1,8 @@
-import { Cascade, Collection, OneToMany, Property } from "@mikro-orm/core";
+import { Entity , Property} from "@mikro-orm/core";
 import { Inscripcion } from "../inscripcion/inscripcion.entity";
 import { BaseEntity } from "../shared/db/baseEntity.entity";
 
+@Entity()
 export class Materia extends BaseEntity{
 
     @Property({nullable:true, unique:true})
