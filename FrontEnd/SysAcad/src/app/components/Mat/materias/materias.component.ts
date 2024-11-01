@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Materia } from '../../../interfaces/materia';
 import { MateriaService } from '../../../services/materia.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-materias',
   standalone: true,
-  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule, NgIf],
   templateUrl: './materias.component.html',
   styleUrls: ['./materias.component.css']
 })
