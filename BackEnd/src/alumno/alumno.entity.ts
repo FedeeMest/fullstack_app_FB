@@ -1,4 +1,3 @@
-import { Inscripcion } from "../inscripcion/inscripcion.entity"
 import { BaseEntity } from "../shared/db/baseEntity.entity"
 import {Entity,Property,PrimaryKey} from '@mikro-orm/core'
 
