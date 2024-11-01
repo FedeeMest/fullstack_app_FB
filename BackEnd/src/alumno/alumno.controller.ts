@@ -5,7 +5,7 @@ import { orm } from '../shared/db/orm.js';
 
 const em = orm.em;
 
-function sanitizeAlumnoInput(req: Request, res: Response, next: NextFunction) {
+function inputS(req: Request, res: Response, next: NextFunction) {
     const fechaSinHora = req.body.fechaN ? new Date(req.body.fechaN).toISOString().split('T')[0] : '';
     req.body.sanitizedInput = {
         nombre: req.body.nombre,
@@ -80,7 +80,7 @@ async function findInscripcionesByAlumnoId(req: Request, res: Response) {
 }
 
 async function add(req: Request, res: Response) {
-    const input = req.body.sanitizedInput;
+    const input = req.body.inputS;
     try {
         const maxLegajo = await em.count(Alumno) + 1; // Simulando el siguiente legajo
         const nuevoAlumno = em.create(Alumno, { ...input, legajo: maxLegajo });
@@ -96,7 +96,7 @@ async function update(req: Request, res: Response) {
     const id = Number.parseInt(req.params.id);
     try {
         const alumno = await em.findOneOrFail(Alumno, { id });
-        em.assign(alumno, req.body.sanitizedInput);
+        em.assign(alumno, req.body.inputS);
         await em.flush();
         res.status(200).json({ message: 'Alumno actualizado con éxito', data: alumno });
     } catch (error) {
@@ -117,7 +117,7 @@ async function remove(req: Request, res: Response) {
     }
 }
 
-export { sanitizeAlumnoInput, findAll, findOne, add, update, remove, findInscripcionesByAlumnoId, findLegajo };
+export { inputS, findAll, findOne, add, update, remove, findInscripcionesByAlumnoId, findLegajo };
 
 
 
