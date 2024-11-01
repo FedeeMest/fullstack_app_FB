@@ -1,32 +1,31 @@
-import { BaseEntity } from "../shared/db/baseEntity.entity"
 import {Entity,Property,PrimaryKey} from '@mikro-orm/core'
 
 
 @Entity()
-export class Alumno extends BaseEntity {
+export class Alumno {
 
-    @PrimaryKey({nullable:true})
-    id?: number
+    @PrimaryKey({nullable: false})
+    id!: number
 
-    @Property({nullable:true})
+    @Property({nullable: false})
     nombre!: string
 
-    @Property({nullable:true})
+    @Property({nullable: false})
     apellido!: string
 
-    @Property({nullable:true})
+    @Property({nullable: false})
     plan!:string
 
-    @Property({nullable:true})
+    @Property({nullable: false})
     mail!:string
 
-    @Property({nullable:true})
+    @Property({nullable: false})
     direccion!:string
 
-    @Property({nullable:true})
-    fechaN!: Date
+    @Property({nullable: false})
+    fechaN!: string
 
-    @Property({nullable:true})
+    @Property({nullable: false})
     legajo!: number
 
 

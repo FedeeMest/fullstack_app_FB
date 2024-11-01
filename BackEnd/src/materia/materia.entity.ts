@@ -1,12 +1,11 @@
 import { Entity , Property,PrimaryKey} from "@mikro-orm/core";
-import { Inscripcion } from "../inscripcion/inscripcion.entity";
-import { BaseEntity } from "../shared/db/baseEntity.entity";
+
 
 @Entity()
-export class Materia extends BaseEntity{
+export class Materia{
 
-    @PrimaryKey({nullable:true})
-    id?: number
+    @PrimaryKey({nullable: false})
+    id!: number
 
     @Property({nullable:true, unique:true})
     nombre!: string

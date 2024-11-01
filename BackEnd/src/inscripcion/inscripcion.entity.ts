@@ -1,10 +1,10 @@
 import { Entity , Property , ManyToOne, PrimaryKey} from "@mikro-orm/core";
-import { Alumno } from "../alumno/alumno.entity";
-import { Materia } from "../materia/materia.entity";
-import { BaseEntity } from "../shared/db/baseEntity.entity";
+import { Alumno } from "../alumno/alumno.entity.js";
+import { Materia } from "../materia/materia.entity.js";
+
 
 @Entity()
-export class Inscripcion extends BaseEntity {
+export class Inscripcion{
     @PrimaryKey()
     id!: number;
 

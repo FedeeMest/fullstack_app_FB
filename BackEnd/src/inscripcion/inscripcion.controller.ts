@@ -24,6 +24,7 @@ async function findAll(req: Request, res: Response) {
         res.header('Access-Control-Allow-Origin', '*');
         res.status(200).json(inscripciones);
     }catch (error:any){
+        res.header('Access-Control-Allow-Origin', '*');
     res.status(500).json({ mensaje: error.message });
     }
 }
@@ -52,6 +53,7 @@ async function add (req:Request, res:Response) {
         await em.flush();
         delete req.body.inputS.alumno;
         delete req.body.inputS.materia;
+        res.header('Access-Control-Allow-Origin', '*');
         return res.status(201).json({ Inscripcion_Creada: nuevaInscripcion });
     } catch (error: any) {
         return res.status(500).json({ mensaje: error.message });
@@ -77,6 +79,7 @@ async function remove(req:Request, res:Response){
         const id = Number.parseInt(req.params.id)
         const inscripcion = em.getReference(Inscripcion, id)
         await em.removeAndFlush(inscripcion)
+        res.header('Access-Control-Allow-Origin', '*');
     } catch (error:any){
         res.status(500).json({ mensaje: error.message });
     }

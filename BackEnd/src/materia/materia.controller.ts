@@ -74,23 +74,5 @@ async function remove(req:Request, res:Response){
     }
 }
 
-async function remove(req: Request, res: Response, next: NextFunction) {
-    const id = req.params.id;
-    try {
-        const materia = await repository.delete({ id });
-        if (!materia) { 
-            return res.status(404).json({ error: "Materia no encontrada" }); 
-        } 
-        return res.status(200).json({ message: "Materia eliminada" });
-    } catch (error: any) {
-        // Capturar el error específico para la eliminación
-        if (error.message.includes('No se puede eliminar la materia porque tiene inscripciones asociadas')) {
-            return res.status(400).json({ error: error.message });
-        }
-        // Pasar cualquier otro error al middleware
-        next(error);
-    }
-}
-
 
 export { inputS, findAll, findOne, add, update, remove };

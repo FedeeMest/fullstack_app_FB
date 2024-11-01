@@ -24,6 +24,7 @@ async function findAll(req: Request, res: Response) {
     const em = orm.em.fork();
     try {
         const alumnos = await em.find(Alumno, {});
+        res.header('Access-Control-Allow-Origin', '*');
         res.status(200).json(alumnos);
     } catch (error) {
         console.error('Error al obtener alumnos:', error);
@@ -39,6 +40,7 @@ async function findOne(req: Request, res: Response) {
         if (!alumno) {
             return res.status(404).json({ Error: 'Alumno no encontrado.' });
         }
+        res.header('Access-Control-Allow-Origin', '*');
         res.status(200).json(alumno);
     } catch (error) {
         console.error('Error al buscar el alumno:', error);
@@ -58,6 +60,7 @@ async function findLegajo(req: Request, res: Response) {
         if (!alumno) {
             return res.status(404).json({ Error: 'Alumno no encontrado.' });
         }
+        res.header('Access-Control-Allow-Origin', '*');
         res.status(200).json(alumno);
     } catch (error) {
         console.error('Error al buscar alumno por legajo:', error);
@@ -74,6 +77,7 @@ async function findInscripcionesByAlumnoId(req: Request, res: Response) {
 
     try {
         const inscripciones = await em.find(Inscripcion, { alumno: { id: alumnoId } });
+        res.header('Access-Control-Allow-Origin', '*');
         res.status(200).json(inscripciones);
     } catch (error) {
         console.error('Error al obtener inscripciones:', error);
@@ -88,6 +92,7 @@ async function add(req: Request, res: Response) {
         const maxLegajo = await em.count(Alumno) + 1;
         const nuevoAlumno = em.create(Alumno, { ...input, legajo: maxLegajo });
         await em.persistAndFlush(nuevoAlumno);
+        res.header('Access-Control-Allow-Origin', '*');
         res.status(201).json({ Message: 'Alumno creado con éxito', data: nuevoAlumno });
     } catch (error) {
         console.error('Error al agregar alumno:', error);
@@ -108,6 +113,7 @@ async function update(req: Request, res: Response) {
 
         em.assign(alumno, input);
         await em.flush();
+        res.header('Access-Control-Allow-Origin', '*');
         res.status(200).json({ Message: 'Alumno actualizado con éxito', data: alumno });
     } catch (error) {
         console.error('Error al actualizar alumno:', error);
@@ -125,6 +131,7 @@ async function remove(req: Request, res: Response) {
         }
 
         await em.removeAndFlush(alumno);
+        res.header('Access-Control-Allow-Origin', '*');
         res.status(200).json({ Message: 'Alumno eliminado con éxito.' });
     } catch (error) {
         console.error('Error al eliminar alumno:', error);
