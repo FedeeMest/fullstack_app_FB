@@ -1,10 +1,14 @@
 import { Inscripcion } from "../inscripcion/inscripcion.entity"
 import { BaseEntity } from "../shared/db/baseEntity.entity"
-import {Entity,Property,ManyToMany,Cascade,ManyToOne,Rel,OneToMany, Collection} from '@mikro-orm/core'
+import {Entity,Property,PrimaryKey} from '@mikro-orm/core'
 
 
 @Entity()
 export class Alumno extends BaseEntity {
+
+    @PrimaryKey({nullable:true})
+    id?: number
+
     @Property({nullable:true})
     nombre!: string
 
@@ -26,7 +30,5 @@ export class Alumno extends BaseEntity {
     @Property({nullable:true})
     legajo!: number
 
-    @Property({nullable:true})
-    id?: number
 
 }

@@ -1,9 +1,12 @@
-import { Entity , Property} from "@mikro-orm/core";
+import { Entity , Property,PrimaryKey} from "@mikro-orm/core";
 import { Inscripcion } from "../inscripcion/inscripcion.entity";
 import { BaseEntity } from "../shared/db/baseEntity.entity";
 
 @Entity()
 export class Materia extends BaseEntity{
+
+    @PrimaryKey({nullable:true})
+    id?: number
 
     @Property({nullable:true, unique:true})
     nombre!: string
@@ -14,6 +17,4 @@ export class Materia extends BaseEntity{
     @Property({nullable:true})
     modalidad!: string
 
-    @Property({nullable:true})
-    id?: number
 }
