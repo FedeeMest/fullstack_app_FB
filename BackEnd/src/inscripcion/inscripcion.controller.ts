@@ -17,6 +17,7 @@ function inputS (req: Request, res: Response, next: NextFunction) {
     next();
 }
 
+
 async function findAll(req: Request, res: Response) {
     try{
         const inscripciones = await em.find(Inscripcion, {})
@@ -26,6 +27,7 @@ async function findAll(req: Request, res: Response) {
     res.status(500).json({ mensaje: error.message });
     }
 }
+
 
 async function findOne (req:Request, res:Response) {
     try{
@@ -68,6 +70,7 @@ async function update(req:Request, res:Response) {
         res.status(500).json({ mensaje: error.message });
     }
 }
+
 
 async function remove(req:Request, res:Response){
     try{

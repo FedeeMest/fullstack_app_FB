@@ -15,7 +15,7 @@ app.use ((req, res, next) => {
 })
 
 app.use("/api/alumnos", alumnoRouter)
-app.use("api/materias", materiaRouter)
+app.use("/api/materias", materiaRouter)
 app.use("/api/inscripciones", inscripcionRouter)
 
 
@@ -24,6 +24,13 @@ app.use((_, res) => {
 })
 
 await syncSchema()
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 app.listen(3000, () => {
   console.log('Server abierto en http://localhost:3000');
