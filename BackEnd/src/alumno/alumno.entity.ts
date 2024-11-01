@@ -23,11 +23,6 @@ export class Alumno extends BaseEntity {
     @Property({nullable:true})
     fechaN!: Date
 
-    @OneToMany(() => Inscripcion, (inscripcion) => inscripcion.alumno, {
-        cascade: [Cascade.ALL],
-    })
-    inscripciones = new Collection<Inscripcion>(this)
-
     @Property({nullable:true})
     id?: number
 
