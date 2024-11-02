@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Inscripcion } from '../interfaces/inscripcion';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,10 @@ export class InscripcionService {
 
   addInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
     return this.http.post<Inscripcion>(this.myAppUrl + this.myApiUrl, inscripcion);
+  }
+
+  deleteInscripcion(id: number): Observable<void> {
+    return this.http.delete<void>(this.myAppUrl + this.myApiUrl + "/" + id);
   }
 
 }

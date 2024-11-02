@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlumnosService } from '../../../services/alumnos.service';
 import { Inscripcion } from '../../../interfaces/inscripcion';
-import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { MateriaService } from '../../../services/materia.service';
 import { forkJoin, Observable } from 'rxjs';
 import { Materia } from '../../../interfaces/materia';
 import { Location } from '@angular/common';
+import { InscripcionService } from '../../../services/inscripcion.service';
 
 @Component({
   selector: 'app-listado-i',
@@ -23,7 +23,7 @@ export class ListadoIComponent implements OnInit {
   errorMessage: boolean = false; // Inicializa en false
   mensajeError: string = ''; // Inicializa como una cadena vacía
 
-  constructor(private route: ActivatedRoute,private alumnoService: AlumnosService,private router: Router,private materiaService: MateriaService,private location: Location) {}
+  constructor(private route: ActivatedRoute,private alumnoService: AlumnosService,private router: Router,private materiaService: MateriaService,private location: Location,private inscripcionService: InscripcionService) {}
   ngOnInit():void{
     this.route.params.subscribe(params => {
       this.alumnoId = +params['id']; // Convertimos el id a número
@@ -40,7 +40,7 @@ export class ListadoIComponent implements OnInit {
           console.log('Inscripciones encontradas:', inscripciones); // Verifica si las inscripciones se encuentran
           this.loadMateriaNames(inscripciones); // Almacena las inscripciones
         },
-        error: (err: HttpErrorResponse) => {
+        error: (err) => {
           console.error('Error al obtener inscripciones:', err);
   
           // Manejo de errores específico
@@ -70,12 +70,26 @@ export class ListadoIComponent implements OnInit {
           nombreMateria: materias[index].nombre,
         }));
       },
-      error: (err: HttpErrorResponse) => {
+      error: (err) => {
         console.error('Error al obtener nombres de materias:', err);
         this.errorMessage = true;
         this.mensajeError = 'Error al cargar los nombres de las materias.';
       },
     });
+  }
+
+  deleteInscripcion(id: number): void {
+    if (confirm('¿Estás seguro de que quieres eliminar esta inscripción?')) {
+      this.inscripcionService.deleteInscripcion(id).subscribe({
+        next: () => {
+          console.log('Inscripción eliminada con éxito');
+          this.getInscripciones();
+        },
+        error: (err) => {
+          console.error('Error al eliminar inscripción:', err);
+        },
+      });
+    }
   }
 
   goadd(){

@@ -87,7 +87,7 @@ async function remove(req:Request, res:Response){
     const em = orm.em.fork();
     const id = Number.parseInt(req.params.id)
     try{ 
-        const inscripciones = await em.count(Inscripcion, { mat_id: id });
+        const inscripciones = await em.count(Inscripcion, { materia: id });
         if (inscripciones > 0) {
             return res.status(400).json({ mensaje: 'No se puede eliminar la materia porque tiene inscripciones asociadas' });
         }

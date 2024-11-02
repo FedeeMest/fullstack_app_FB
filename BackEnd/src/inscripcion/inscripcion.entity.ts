@@ -1,12 +1,11 @@
-import { Entity , Property , ManyToOne, PrimaryKey} from "@mikro-orm/core";
+import { Entity, Property, ManyToOne, PrimaryKey } from "@mikro-orm/core";
 import { Alumno } from "../alumno/alumno.entity.js";
 import { Materia } from "../materia/materia.entity.js";
-
 
 @Entity()
 export class Inscripcion {
     @PrimaryKey()
-    id!: number;
+    id!: number;  // La única clave primaria y columna AUTO_INCREMENT
 
     @Property({ columnType: 'int', nullable: false })
     alum_id!: number;  // Atributo para almacenar el ID del alumno

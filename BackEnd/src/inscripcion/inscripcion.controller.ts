@@ -68,8 +68,8 @@ async function add(req: Request, res: Response) {
         const nuevaInscripcion = em.create(Inscripcion, {
             alum_id: input.alum_id,
             mat_id: input.mat_id,
-            alumno: alumno,  // Asignamos la instancia de Alumno
-            materia: materia,  // Asignamos la instancia de Materia
+            alumno,
+            materia, // Asignamos la instancia de Materia
             fecha: input.fecha,
         });
 
@@ -115,9 +115,9 @@ async function remove(req:Request, res:Response){
         await em.removeAndFlush(inscripcion)
         res.header('Access-Control-Allow-Origin', '*');
         return res.status(200).json({ Message: 'inscripcion eliminada con éxito.' });
-    } catch (error:any){
+    } catch (error){
         console.error('Error al eliminar inscripcion:', error);
-        return res.status(500).json({ mensaje: error.message });
+        return res.status(500).json({ mensaje: 'Error al eliminar la inscripcion.' });
     }
 }
 
