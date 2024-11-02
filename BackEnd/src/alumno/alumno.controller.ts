@@ -96,6 +96,7 @@ async function add(req: Request, res: Response) {
         res.status(201).json({ Message: 'Alumno creado con éxito', data: nuevoAlumno });
     } catch (error) {
         console.error('Error al agregar alumno:', error);
+        res.header('Access-Control-Allow-Origin', '*');
         res.status(500).json({ Error: 'Error al agregar el alumno.' });
     }
 }
