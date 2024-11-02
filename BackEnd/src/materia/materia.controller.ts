@@ -34,7 +34,7 @@ async function findOne (req:Request, res:Response) {
         const id = Number.parseInt(req.params.id)
         const materia = await em.findOneOrFail(Materia,{ id })
         res.header('Access-Control-Allow-Origin', '*');
-        res.status(200).json({ mensaje: 'Materia encontrado', data: materia});
+        res.status(200).json(materia);
     } catch (error:any){
         res.status(500).json({ mensaje: error.message })
     }

@@ -55,7 +55,7 @@ export class MateriaService {
   }
 
   deleteMateria(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.myAppUrl}${this.myApiUrl}/${id}`).pipe(
+    return this.http.delete<void>(this.myAppUrl + this.myApiUrl + "/" + id).pipe(
       catchError(this.handleError)
     );
   }
@@ -67,7 +67,7 @@ export class MateriaService {
   }
 
   getMateria(id: number): Observable<Materia> {
-    return this.http.get<Materia>(`${this.myAppUrl}${this.myApiUrl}/${id}`).pipe(
+    return this.http.get<Materia>(this.myAppUrl + this.myApiUrl + "/" + id).pipe(
       catchError(this.handleError)
     );
   }

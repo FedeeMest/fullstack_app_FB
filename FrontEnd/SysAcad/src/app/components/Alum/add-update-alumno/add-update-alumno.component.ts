@@ -19,7 +19,6 @@ export class AddUpdateAlumnoComponent implements OnInit {
   id: number;
   operacion: string = 'Agregar ';
   errorMessage: string = '';
-  origen: string; // Declara la propiedad 'origen'
 
   constructor(private fb: FormBuilder, private alumnosService: AlumnosService, private router: Router, private aRouter: ActivatedRoute,private location: Location) {
     this.form = this.fb.group({
@@ -32,13 +31,6 @@ export class AddUpdateAlumnoComponent implements OnInit {
     })
     this.id = Number(aRouter.snapshot.paramMap.get('id'));
     
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.state) {
-    this.origen = navigation.extras.state['from'];// Detecta el origen
-    } else {
-      this.origen = ''; // Inicializa 'origen' si no se establece
-    }
-    
    }
 
   ngOnInit(): void {
@@ -46,7 +38,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
       this.operacion = 'Editar '
       this.getAlumno(this.id);
     }
-    this.origen = localStorage.getItem('origen') || 'default';
+
   }
 
   getAlumno(id: number){
