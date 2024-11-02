@@ -60,7 +60,7 @@ export class ListadoIComponent implements OnInit {
 
   loadMateriaNames(inscripciones: Inscripcion[]): void {
     const observables: Observable<Materia>[] = inscripciones.map(inscripcion =>
-      this.materiaService.getMateria(inscripcion.materia_id)
+      this.materiaService.getMateria(inscripcion.mat_id)
     );
 
     forkJoin(observables).subscribe({

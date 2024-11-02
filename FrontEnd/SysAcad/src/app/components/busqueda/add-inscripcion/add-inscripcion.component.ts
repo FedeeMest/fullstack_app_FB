@@ -100,8 +100,8 @@ export class AddInscripcionComponent implements OnInit {
     // Prepara el objeto de inscripción con los datos obtenidos
     const inscripcion: Inscripcion = {
       fecha,
-      alumno_id: alumnoId,
-      materia_id: materiaSeleccionada
+      alum_id: alumnoId,
+      mat_id: materiaSeleccionada
     };
   
     this.inscripcionService.addInscripcion(inscripcion).subscribe({

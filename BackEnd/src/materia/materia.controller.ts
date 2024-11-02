@@ -1,6 +1,7 @@
 import {Request, Response, NextFunction} from 'express';
 import { Materia } from './materia.entity.js';
 import { orm } from '../shared/db/orm.js';
+import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
 
 const em = orm.em
 
@@ -86,6 +87,10 @@ async function remove(req:Request, res:Response){
     const em = orm.em.fork();
     const id = Number.parseInt(req.params.id)
     try{ 
+        const inscripciones = await em.count(Inscripcion, { mat_id: id });
+        if (inscripciones > 0) {
+            return res.status(400).json({ mensaje: 'No se puede eliminar la materia porque tiene inscripciones asociadas' });
+        }
         const materia = await em.findOne(Materia, { id })
         if(!materia){
             return res.status(404).json({ mensaje: 'Materia no encontrado' })
