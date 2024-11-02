@@ -24,10 +24,10 @@ async function findAll(req: Request, res: Response) {
     try{
         const materias = await em.find(Materia, {})
         res.header('Access-Control-Allow-Origin', '*');
-        res.status(200).json(materias);
+        return res.status(200).json(materias);
     } catch (error:any){
         console.error('Error al obtener materia:', error);
-        res.status(500).json({ mensaje: error.message });
+        return res.status(500).json({ mensaje: error.message });
     }
 }
 
@@ -40,10 +40,10 @@ async function findOne (req:Request, res:Response) {
             return res.status(404).json({ mensaje: 'Materia no encontrado' })
         }
         res.header('Access-Control-Allow-Origin', '*');
-        res.status(200).json(materia);
+        return res.status(200).json(materia);
     } catch (error:any){
         console.error('Error al buscar el materia:', error);
-        res.status(500).json({ mensaje: error.message })
+        return res.status(500).json({ mensaje: error.message })
     }
 }
 
@@ -55,10 +55,10 @@ async function add (req:Request, res:Response) {
         const nuevaMateria = em.create(Materia, input)
         await em.persistAndFlush(nuevaMateria)
         res.header('Access-Control-Allow-Origin', '*');
-        res.status(201).json({ mensaje: 'Materia creado', data: nuevaMateria});
+        return res.status(201).json({ mensaje: 'Materia creado', data: nuevaMateria});
     } catch (error:any){
         console.error('Error al agregar materia:', error);
-        res.status(500).json({ mensaje: error.message });
+        return res.status(500).json({ mensaje: error.message });
     }
 }
 
@@ -75,10 +75,10 @@ async function update(req:Request, res:Response) {
         em.assign(materia, input);
         await em.flush()
         res.header('Access-Control-Allow-Origin', '*');
-        res.status(200).json({ mensaje: 'Materia actualizado', data: materia});
+        return res.status(200).json({ mensaje: 'Materia actualizado', data: materia});
     } catch (error:any){
         console.error('Error al actualizar materia:', error);
-        res.status(500).json({ mensaje: error.message });
+        return res.status(500).json({ mensaje: error.message });
     }
 }
 
@@ -93,10 +93,10 @@ async function remove(req:Request, res:Response){
 
         await em.removeAndFlush(materia)
         res.header('Access-Control-Allow-Origin', '*');
-        res.status(200).json({ mensaje: 'Materia eliminado'});
+        return res.status(200).json({ mensaje: 'Materia eliminado'});
     } catch (error:any){
         console.error('Error al eliminar materia:', error);
-        res.status(500).json({ mensaje: error.message });
+        return res.status(500).json({ mensaje: error.message });
     }
 }
 

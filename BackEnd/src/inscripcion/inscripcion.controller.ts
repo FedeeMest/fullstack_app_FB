@@ -4,10 +4,11 @@ import { orm } from '../shared/db/orm.js';
 import { Alumno } from '../alumno/alumno.entity.js';
 import { Materia } from '../materia/materia.entity.js';
 
-const em = orm.em
 
 function inputS (req: Request, res: Response, next: NextFunction) {
     req.body.inputS = {
+        alum_id: req.body.alum_id,
+        mat_id: req.body.mat_id,
         fecha: req.body.fecha,
     }
     Object.keys(req.body.inputS).forEach((key) => {
@@ -19,32 +20,36 @@ function inputS (req: Request, res: Response, next: NextFunction) {
 
 
 async function findAll(req: Request, res: Response) {
+    const em = orm.em.fork();
     try{
         const inscripciones = await em.find(Inscripcion, {})
         res.header('Access-Control-Allow-Origin', '*');
-        res.status(200).json(inscripciones);
+        return res.status(200).json(inscripciones);
     }catch (error:any){
-        res.header('Access-Control-Allow-Origin', '*');
-    res.status(500).json({ mensaje: error.message });
+        console.error('Error al obtener inscripciones:', error);
+        return res.status(500).json({ mensaje: error.message });
     }
 }
 
 
 async function findOne (req:Request, res:Response) {
+    const em = orm.em.fork();
+    const id = parseInt(req.params.id)
     try{
-        const id = Number.parseInt(req.params.id)
+        
         const inscripcion = await em.findOneOrFail(Inscripcion,{ id })
         res.header('Access-Control-Allow-Origin', '*');
-        res.status(200).json({ mensaje: 'inscripcion encontrado', data: inscripcion});
+        return res.status(200).json(inscripcion);
     } catch (error:any){
-        res.status(500).json({ mensaje: error.message })
+        console.error('Error al buscar la inscripcion:', error);
+        return res.status(500).json({ mensaje: error.message })
     }
 }
 
 async function add(req: Request, res: Response) { 
+    const em = orm.em.fork();
+    const input = req.body.inputS;
     try {
-        const input = req.body.inputS;
-
         // Validamos que se pasen los IDs
         if (!input.alum_id || !input.mat_id) {
             return res.status(400).json({ error: "Se requieren alum_id y mat_id" });
@@ -68,37 +73,51 @@ async function add(req: Request, res: Response) {
             fecha: input.fecha,
         });
 
-        await em.flush();
+        await em.persistAndFlush(nuevaInscripcion);
         res.header('Access-Control-Allow-Origin', '*');
         return res.status(201).json({ Inscripcion_Creada: nuevaInscripcion });
     } catch (error: any) {
+        console.error('Error al agregar inscripcion:', error);
         return res.status(500).json({ mensaje: error.message });
     }
 }
 
 
 async function update(req:Request, res:Response) {
+    const em = orm.em.fork();
+    const id = parseInt(req.params.id)
+    const input = req.body.inputS
     try{
-        const id = Number.parseInt(req.params.id)
         const inscripcionToUpdate = await em.findOneOrFail(Inscripcion, { id })
-        em.assign(inscripcionToUpdate, req.body.inputS)
+        if (!inscripcionToUpdate){
+            return res.status(404).json({ mensaje: 'Inscripcion no encontrada' });
+        }
+        em.assign(inscripcionToUpdate, input)
         await em.flush()
         res.header('Access-Control-Allow-Origin', '*');
-        res.status(200).json({ mensaje: 'Inscripcion actualizado', data: inscripcionToUpdate});
+        return res.status(200).json({ mensaje: 'Inscripcion actualizado', data: inscripcionToUpdate});
     } catch (error:any){
-        res.status(500).json({ mensaje: error.message });
+        console.error('Error al actualizar inscripcion:', error);
+        return res.status(500).json({ mensaje: error.message });
     }
 }
 
 
 async function remove(req:Request, res:Response){
+    const em = orm.em.fork();
+    const id = parseInt(req.params.id)
     try{
-        const id = Number.parseInt(req.params.id)
-        const inscripcion = em.getReference(Inscripcion, id)
+        const inscripcion = await em.findOne(Inscripcion, { id })
+        if (!inscripcion){
+            return res.status(404).json({ mensaje: 'Inscripcion no encontrada' });
+        }
+
         await em.removeAndFlush(inscripcion)
         res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json({ Message: 'inscripcion eliminada con éxito.' });
     } catch (error:any){
-        res.status(500).json({ mensaje: error.message });
+        console.error('Error al eliminar inscripcion:', error);
+        return res.status(500).json({ mensaje: error.message });
     }
 }
 
