@@ -5,14 +5,14 @@ import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
 
 // Middleware para estructurar los datos del input
 function inputS(req: Request, res: Response, next: NextFunction) {
-    const fechaSinHora = req.body.fechaN ? new Date(req.body.fechaN).toISOString().split('T')[0] : '';
+    const fechaSinHora = req.body.fecha_n ? new Date(req.body.fecha_n).toISOString().split('T')[0] : '';
     req.body.inputS = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         plan: req.body.plan,
         mail: req.body.mail,
         direccion: req.body.direccion,
-        fechaN: fechaSinHora,
+        fecha_n: fechaSinHora,
     };
     Object.keys(req.body.inputS).forEach((key) => {
         if (req.body.inputS[key] === undefined) delete req.body.inputS[key];

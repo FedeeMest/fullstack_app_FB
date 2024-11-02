@@ -27,7 +27,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
       apellido: ['',Validators.required],
       mail: ['',Validators.required],
       direccion: ['',Validators.required],
-      fechaN: ['',Validators.required],
+      fecha_n: ['',Validators.required],
       plan: ['',Validators.required]
     })
     this.id = Number(aRouter.snapshot.paramMap.get('id'));
@@ -51,14 +51,14 @@ export class AddUpdateAlumnoComponent implements OnInit {
 
   getAlumno(id: number){
     this.alumnosService.getAlumno(id).subscribe((data: Alumno) => {
-      const fechaFormateada = new Date(data.fechaN).toISOString().split('T')[0];
+      const fechaFormateada = new Date(data.fecha_n).toISOString().split('T')[0];
       console.log(data);
       this.form.setValue({
         nombre: data.nombre,
         apellido: data.apellido,
         mail: data.mail,
         direccion: data.direccion,
-        fechaN: fechaFormateada,
+        fecha_n: fechaFormateada,
         plan: data.plan
       })
     })
@@ -70,7 +70,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
       apellido: this.form.value.apellido,
       mail: this.form.value.mail,
       direccion: this.form.value.direccion,
-      fechaN: this.form.value.fechaN,
+      fecha_n: this.form.value.fecha_n,
       plan: this.form.value.plan
     };
   

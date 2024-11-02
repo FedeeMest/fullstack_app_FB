@@ -41,24 +41,41 @@ async function findOne (req:Request, res:Response) {
     }
 }
 
-async function add (req:Request, res:Response) { 
+async function add(req: Request, res: Response) { 
     try {
         const input = req.body.inputS;
-        const alumno = await em.findOne(Alumno, { id: input.alumno.id });
-        const materia = await em.findOne(Materia, { id: input.materia.id });
-        if (!alumno || !materia) {
-            return res.status(404).json({ Error: "Alumno o Materia no encontrada" });
+
+        // Validamos que se pasen los IDs
+        if (!input.alum_id || !input.mat_id) {
+            return res.status(400).json({ error: "Se requieren alum_id y mat_id" });
         }
-        const nuevaInscripcion = em.create(Inscripcion, {alumno: alumno,materia: materia,fecha: req.body.inputS});
+
+        // Buscamos las entidades correspondientes
+        const alumno = await em.findOne(Alumno, { id: input.alum_id });
+        const materia = await em.findOne(Materia, { id: input.mat_id });
+
+        // Verificamos que las entidades existan
+        if (!alumno || !materia) {
+            return res.status(404).json({ error: "Alumno o Materia no encontrada" });
+        }
+
+        // Creamos la nueva inscripción solo con los IDs
+        const nuevaInscripcion = em.create(Inscripcion, {
+            alum_id: input.alum_id,
+            mat_id: input.mat_id,
+            alumno: alumno,  // Asignamos la instancia de Alumno
+            materia: materia,  // Asignamos la instancia de Materia
+            fecha: input.fecha,
+        });
+
         await em.flush();
-        delete req.body.inputS.alumno;
-        delete req.body.inputS.materia;
         res.header('Access-Control-Allow-Origin', '*');
         return res.status(201).json({ Inscripcion_Creada: nuevaInscripcion });
     } catch (error: any) {
         return res.status(500).json({ mensaje: error.message });
     }
 }
+
 
 async function update(req:Request, res:Response) {
     try{
