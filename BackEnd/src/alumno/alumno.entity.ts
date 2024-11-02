@@ -23,7 +23,7 @@ export class Alumno {
     direccion!:string
 
     @Property({nullable: false})
-    fechaN!: string
+    fecha_n!: Date
 
     @Property({nullable: false})
     legajo!: number
