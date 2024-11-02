@@ -51,7 +51,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
 
   getAlumno(id: number){
     this.alumnosService.getAlumno(id).subscribe((data: Alumno) => {
-      const fechaFormateada = new Date(data.fecha_n).toISOString().split('T')[0];
+      const fechaFormateada = new Date(data.fechaN).toISOString().split('T')[0];
       console.log(data);
       this.form.setValue({
         nombre: data.nombre,
@@ -70,7 +70,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
       apellido: this.form.value.apellido,
       mail: this.form.value.mail,
       direccion: this.form.value.direccion,
-      fecha_n: this.form.value.fecha_n,
+      fechaN: this.form.value.fechaN,
       plan: this.form.value.plan
     };
   

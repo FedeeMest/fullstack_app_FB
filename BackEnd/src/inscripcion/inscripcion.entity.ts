@@ -4,22 +4,17 @@ import { Materia } from "../materia/materia.entity.js";
 
 
 @Entity()
-export class Inscripcion {
+export class Inscripcion{
     @PrimaryKey()
     id!: number;
 
-    @Property({ columnType: 'int', nullable: false })
-    alum_id!: number;  // Atributo para almacenar el ID del alumno
-
-    @Property({ columnType: 'int', nullable: false })
-    mat_id!: number;  // Atributo para almacenar el ID de la materia
-
     @ManyToOne(() => Alumno)
-    alumno!: Alumno;  // Relación para acceder al alumno
-
+    alumno!: Alumno;
+    
     @ManyToOne(() => Materia)
-    materia!: Materia;  // Relación para acceder a la materia
+    materia!: Materia;
 
     @Property({ nullable: true })
-    fecha!: string;  // Atributo para almacenar la fecha
+    fecha!: string;
+
 }

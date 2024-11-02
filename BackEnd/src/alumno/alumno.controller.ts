@@ -12,7 +12,7 @@ function inputS(req: Request, res: Response, next: NextFunction) {
         plan: req.body.plan,
         mail: req.body.mail,
         direccion: req.body.direccion,
-        fecha_n: fechaSinHora,
+        fechaN: fechaSinHora,
     };
     Object.keys(req.body.inputS).forEach((key) => {
         if (req.body.inputS[key] === undefined) delete req.body.inputS[key];
