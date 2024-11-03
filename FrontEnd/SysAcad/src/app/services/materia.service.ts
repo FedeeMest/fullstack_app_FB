@@ -22,15 +22,11 @@ export class MateriaService {
     let errorMessage = 'Error desconocido';
 
     if (error.status === 0) {
-      // Error de cliente (por ejemplo, problemas de red)
       errorMessage = `Error de red: ${error.message}`;
     } else {
-      // Error del lado del servidor
       switch (error.status) {
         case 400:
-          errorMessage = error.error?.error.includes('No se puede eliminar la materia porque tiene inscripciones asociadas')
-            ? 'No se puede eliminar la materia porque tiene inscripciones asociadas.'
-            : 'Solicitud inválida. Por favor, verifica los datos ingresados.';
+          errorMessage = error.error?.mensaje || 'Solicitud inválida. Por favor, verifica los datos ingresados.';
           break;
         case 404:
           errorMessage = 'La materia no fue encontrada.';
@@ -43,8 +39,7 @@ export class MateriaService {
           break;
       }
     }
-
-    // Envía el mensaje de error
+    // Lanzar un error para que pueda ser manejado en el componente
     return throwError(() => new Error(errorMessage));
   }
 

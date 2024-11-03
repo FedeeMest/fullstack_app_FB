@@ -4,6 +4,7 @@ import { MateriaService } from '../../../services/materia.service.js';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Materia } from '../../../interfaces/materia.js';
 import { CommonModule } from '@angular/common';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-add-update-materia',
@@ -27,62 +28,66 @@ export class AddUpdateMateriaComponent implements OnInit {
    }
 
    ngOnInit(): void {
-    if(this.id !== 0){
-      this.operacion = 'Editar '
+    if (this.id !== 0) {
+      this.operacion = 'Editar';
       this.getMateria(this.id);
     }
-   }
+  }
 
-   getMateria(id: number){
-    this.materiasService.getMateria(id).subscribe((data: Materia) => {
-      console.log(data);
-      this.form.setValue({
-        nombre: data.nombre,
-        horas_anuales: data.horas_anuales,
-        modalidad: data.modalidad,
-      })
-    })
-   }
+  getMateria(id: number) {
+    this.materiasService.getMateria(id).subscribe(
+      (data: Materia) => {
+        console.log(data);
+        this.form.setValue({
+          nombre: data.nombre,
+          horas_anuales: data.horas_anuales,
+          modalidad: data.modalidad,
+        });
+      },
+      (error) => {
+        console.error('Error al obtener la materia:', error);
+        this.showErrorMessage('No se pudo obtener la materia. Intente nuevamente.');
+      }
+    );
+  }
 
-   addMateria() {
+  addMateria() {
     console.log(this.form.value);
     const materia: Materia = {
       nombre: this.form.value.nombre,
       horas_anuales: this.form.value.horas_anuales,
       modalidad: this.form.value.modalidad,
-    }
-  
-    if (this.id !== 0) {
-      materia.id = this.id;
-      this.materiasService.updateMateria(this.id, materia).subscribe({
-        next: () => {
-          console.log('Materia actualizada');
-          this.router.navigate(['/materias']);
-        },
-        error: (error: Error) => {
-          console.error('Error al actualizar la materia:', error.message);
-          // Aquí puedes manejar el error y mostrar un mensaje al usuario
-          this.showErrorMessage(error.message);
-        }
-      });
-    } else {
-      this.materiasService.saveMateria(materia).subscribe({
-        next: () => {
-          console.log('Materia creada');
-          this.router.navigate(['/materias']);
-        },
-        error: (error: Error) => {
-          console.error('Error al crear la materia:', error.message);
-          // Aquí puedes manejar el error y mostrar un mensaje al usuario
-          this.showErrorMessage(error.message);
-        }
-      });
-    }
-  }
-  
-  // Método para mostrar el mensaje de error
-  showErrorMessage(message: string) {
-    this.form.setErrors({ serverError: message });
+    };
+
+    const materiaRequest = this.id !== 0 
+      ? this.materiasService.updateMateria(this.id, materia) 
+      : this.materiasService.saveMateria(materia);
+
+    materiaRequest.pipe(
+      catchError((error) => {
+        this.handleError(error);
+        return throwError(() => error); // Re-lanzar el error si es necesario
+      })
+    ).subscribe({
+      next: () => {
+        console.log(this.id !== 0 ? 'Materia actualizada' : 'Materia creada');
+        this.router.navigate(['/materias']);
+      },
+    });
   }
 
+  private handleError(error: any) {
+    console.error('Detalles del error:', error);
+    let errorMessage = 'Ocurrió un error al procesar la solicitud.';
+
+    if (error instanceof Error) {
+      errorMessage = error.message; // Usar el mensaje del error lanzado
+    }
+
+    this.showErrorMessage(errorMessage); // Muestra el mensaje de error al usuario
+  }
+
+  private showErrorMessage(message: string) {
+    this.form.setErrors({ serverError: message }); // Asignar el mensaje de error al formulario
+  }
 }
