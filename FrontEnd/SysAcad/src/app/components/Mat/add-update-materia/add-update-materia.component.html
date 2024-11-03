@@ -4,8 +4,9 @@
             <div class="card-header text-center">{{ operacion }} Materia</div>
             <div class="card-body pt-2">
                 <div *ngIf="form.errors?.['serverError']" class="alert alert-danger" role="alert">
-                    {{ form.errors?.['serverError'] }}
+                    {{ form.errors['serverError'] }}
                   </div>
+                  
                 <form [formGroup]="form" (ngSubmit)="addMateria()">
                     <!-- Nombre -->
                      <div class="mb-2">

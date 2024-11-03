@@ -28,10 +28,12 @@ export class MateriasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const storedAlumno = localStorage.getItem('alumno');
-    if (storedAlumno) {
-      localStorage.removeItem('alumno');
-      console.log('Alumno eliminado del localStorage');
+    if (this.isLocalStorageAvailable()) {
+      const storedAlumno = localStorage.getItem('alumno');
+      if (storedAlumno) {
+        localStorage.removeItem('alumno');
+        console.log('Alumno eliminado del localStorage');
+      }
     }
     this.getMaterias();
 
@@ -39,6 +41,10 @@ export class MateriasComponent implements OnInit {
     this.filtroForm.get('modalidad')?.valueChanges.subscribe((modalidadSeleccionada) => {
       this.filtrarMaterias(modalidadSeleccionada);
     });
+  }
+
+  private isLocalStorageAvailable(): boolean {
+    return typeof localStorage !== 'undefined';
   }
 
   getMaterias(): void {
