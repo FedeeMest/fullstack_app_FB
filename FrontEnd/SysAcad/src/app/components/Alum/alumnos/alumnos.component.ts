@@ -30,12 +30,10 @@ export class AlumnosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.isLocalStorageAvailable()) {
-      const storedAlumno = localStorage.getItem('alumno');
-      if (storedAlumno) {
-        localStorage.removeItem('alumno');
-        console.log('Alumno eliminado del localStorage');
-      }
+    const storedAlumno = localStorage.getItem('alumno');
+    if (storedAlumno) {
+      localStorage.removeItem('alumno');
+      console.log('Alumno eliminado del localStorage');
     }
     this.getAlumnos();
 
@@ -43,10 +41,6 @@ export class AlumnosComponent implements OnInit {
     this.filtroForm.get('plan')?.valueChanges.subscribe((planSeleccionado) => {
       this.filtrarAlumnos(planSeleccionado);
     });
-  }
-
-  private isLocalStorageAvailable(): boolean {
-    return typeof localStorage !== 'undefined';
   }
 
   getAlumnos(): void {

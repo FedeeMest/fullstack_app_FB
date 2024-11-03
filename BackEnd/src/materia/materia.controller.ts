@@ -48,32 +48,20 @@ async function findOne (req:Request, res:Response) {
     }
 }
 
-async function add(req: Request, res: Response) { 
+async function add (req:Request, res:Response) { 
     const em = orm.em.fork();
-    const input = req.body.inputS;
+    const input = req.body.inputS
 
-    try {
-        // Verificar si ya existe una materia con el mismo nombre
-        const materiaExistente = await em.findOne(Materia, { nombre: input.nombre });
-        if (materiaExistente) {
-            return res.status(400).json({ mensaje: 'Ya existe una materia con ese nombre' });
-        }
-
-        // Si no existe, crear la nueva materia
-        const nuevaMateria = em.create(Materia, input);
-        await em.persistAndFlush(nuevaMateria);
+    try{
+        const nuevaMateria = em.create(Materia, input)
+        await em.persistAndFlush(nuevaMateria)
         res.header('Access-Control-Allow-Origin', '*');
-        return res.status(201).json({ mensaje: 'Materia creada', data: nuevaMateria });
-    } catch (error: any) {
+        return res.status(201).json({ mensaje: 'Materia creado', data: nuevaMateria});
+    } catch (error:any){
         console.error('Error al agregar materia:', error);
-        // Manejar el error de entrada duplicada
-        if (error.code === 'ER_DUP_ENTRY') {
-            return res.status(400).json({ mensaje: 'Ya existe una materia con ese nombre' });
-        }
         return res.status(500).json({ mensaje: error.message });
     }
 }
-
 
 async function update(req:Request, res:Response) {
     const em = orm.em.fork();
