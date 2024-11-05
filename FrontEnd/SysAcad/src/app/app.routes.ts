@@ -23,5 +23,6 @@ export const routes: Routes = [
     {path: "resultado", component: ResultadoComponent},
     {path: "lista_insc/:id", component: ListadoIComponent},
     {path: "add_inscripcion", component: AddInscripcionComponent},
+    { path: "**", redirectTo: "" }
 
 ];
