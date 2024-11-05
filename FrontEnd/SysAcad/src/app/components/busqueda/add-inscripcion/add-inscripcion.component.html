@@ -44,7 +44,7 @@
           <button type="button" class="btn btn-secondary btn-sm m-2" (click)="goBack()"> Volver</button>
         </div>
         <div class="col-6">
-          <button type="submit" class="btn btn-light btn-sm m-2" (click)="crearInscripcion()"> Inscribirse </button>
+          <button type="submit" class="btn btn-light btn-sm m-2" (click)="crearInscripcion()" [disabled]="!filtroForm.valid">Inscribirse </button>
         </div>
       </div>
     </div>

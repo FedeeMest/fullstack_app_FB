@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MateriaService } from '../../../services/materia.service';
 import { Materia } from '../../../interfaces/materia';
@@ -25,8 +25,8 @@ export class AddInscripcionComponent implements OnInit {
   constructor(private location: Location,private _materiaService: MateriaService,private fb: FormBuilder, private inscripcionService: InscripcionService) {
     this.filtroForm = this.fb.group({
       modalidad: [''],
-      fechaN: [''],
-      materiaSeleccionada: [null]
+      fechaN: ['', Validators.required],
+      materiaSeleccionada: [null, Validators.required]
     });
   }
   
