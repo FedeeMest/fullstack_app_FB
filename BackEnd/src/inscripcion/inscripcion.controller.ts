@@ -7,8 +7,8 @@ import { Materia } from '../materia/materia.entity.js';
 
 function inputS (req: Request, res: Response, next: NextFunction) {
     req.body.inputS = {
-        alum_id: req.body.alum_id,
-        mat_id: req.body.mat_id,
+        alumno: req.body.alumno,
+        materia: req.body.materia,
         fecha: req.body.fecha,
     }
     Object.keys(req.body.inputS).forEach((key) => {
@@ -51,13 +51,13 @@ async function add(req: Request, res: Response) {
     const input = req.body.inputS;
     try {
         // Validamos que se pasen los IDs
-        if (!input.alum_id || !input.mat_id) {
+        if (!input.alumno || !input.materia) {
             return res.status(400).json({ error: "Se requieren alum_id y mat_id" });
         }
 
         // Buscamos las entidades correspondientes
-        const alumno = await em.findOne(Alumno, { id: input.alum_id });
-        const materia = await em.findOne(Materia, { id: input.mat_id });
+        const alumno = await em.findOne(Alumno, { id: input.alumno });
+        const materia = await em.findOne(Materia, { id: input.materia });
 
         // Verificamos que las entidades existan
         if (!alumno || !materia) {
@@ -66,8 +66,6 @@ async function add(req: Request, res: Response) {
 
         // Creamos la nueva inscripción solo con los IDs
         const nuevaInscripcion = em.create(Inscripcion, {
-            alum_id: input.alum_id,
-            mat_id: input.mat_id,
             alumno,
             materia, // Asignamos la instancia de Materia
             fecha: input.fecha,

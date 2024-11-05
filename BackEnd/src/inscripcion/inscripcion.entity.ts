@@ -7,12 +7,6 @@ export class Inscripcion {
     @PrimaryKey()
     id!: number;  // La única clave primaria y columna AUTO_INCREMENT
 
-    @Property({ columnType: 'int', nullable: false })
-    alum_id!: number;  // Atributo para almacenar el ID del alumno
-
-    @Property({ columnType: 'int', nullable: false })
-    mat_id!: number;  // Atributo para almacenar el ID de la materia
-
     @ManyToOne(() => Alumno)
     alumno!: Alumno;  // Relación para acceder al alumno
 

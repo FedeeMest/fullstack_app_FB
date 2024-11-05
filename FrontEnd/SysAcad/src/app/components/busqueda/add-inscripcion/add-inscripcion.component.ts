@@ -64,7 +64,7 @@ export class AddInscripcionComponent implements OnInit {
         // Ahora obtenemos las inscripciones del alumno
         this.alumnoService.getInscripcionesByAlumnoId(alumnoId).subscribe({
           next: (inscripciones) => {
-            const materiaIdsInscritas = new Set(inscripciones.map(inscripcion => inscripcion.mat_id));
+            const materiaIdsInscritas = new Set(inscripciones.map(inscripcion => inscripcion.materia));
             
             // Filtramos las materias para excluir las que ya tienen inscripción
             this.materiasFiltradas = this.listaMaterias.filter(materia => materia.id !== undefined && !materiaIdsInscritas.has(materia.id));
@@ -129,8 +129,8 @@ export class AddInscripcionComponent implements OnInit {
     // Prepara el objeto de inscripción con los datos obtenidos
     const inscripcion: Inscripcion = {
       fecha,
-      alum_id: alumnoId,
-      mat_id: materiaSeleccionada
+      alumno: alumnoId,
+      materia: materiaSeleccionada
     };
   
     this.inscripcionService.addInscripcion(inscripcion).subscribe({

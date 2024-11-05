@@ -1,6 +1,6 @@
 export interface Inscripcion {
     fecha: string;
-    alum_id: number;
-    mat_id: number;
+    alumno: number;
+    materia: number;
     id?: number;
 }

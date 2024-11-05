@@ -17,7 +17,7 @@
         <tbody>
           <tr *ngFor="let inscripcion of inscripciones" class="table-active">
             <td class="text-center align-middle">{{ inscripcion.fecha }}</td>
-            <td class="text-center align-middle">{{ inscripcion.nombreMateria || 'Cargando...' }}</td>
+            <td class="text-center align-middle">{{ materiasNombres[inscripcion.materia] || 'Cargando...' }}</td>
             <td class="text-center align-middle">
               <button type="button" (click)="deleteInscripcion(inscripcion.id!)" class="btn btn-danger btn-sm m-1"> Eliminar </button>
             </td>
