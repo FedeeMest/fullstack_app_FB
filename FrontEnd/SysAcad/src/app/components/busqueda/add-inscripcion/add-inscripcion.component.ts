@@ -6,6 +6,7 @@ import { MateriaService } from '../../../services/materia.service';
 import { Materia } from '../../../interfaces/materia';
 import { Inscripcion } from '../../../interfaces/inscripcion';
 import { InscripcionService } from '../../../services/inscripcion.service';
+import { AlumnosService } from '../../../services/alumnos.service';
 
 @Component({
   selector: 'app-add-inscripcion',
@@ -22,7 +23,7 @@ export class AddInscripcionComponent implements OnInit {
   filtroForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private location: Location,private _materiaService: MateriaService,private fb: FormBuilder, private inscripcionService: InscripcionService) {
+  constructor(private location: Location,private _materiaService: MateriaService,private fb: FormBuilder, private alumnoService: AlumnosService,private inscripcionService: InscripcionService) {
     this.filtroForm = this.fb.group({
       modalidad: [''],
       fechaN: ['', Validators.required],
@@ -31,24 +32,52 @@ export class AddInscripcionComponent implements OnInit {
   }
   
   
-  ngOnInit():void{
+  ngOnInit(): void {
     this.getMaterias();
     this.filtroForm.get('modalidad')?.valueChanges.subscribe((modalidadSeleccionada) => {
       this.filtrarMaterias(modalidadSeleccionada);
     });
   }
-
+  
   getMaterias(): void {
+    const alumnoRaw = localStorage.getItem('alumno');
+    if (!alumnoRaw) {
+      this.errorMessage = "No se encontró el alumno en el almacenamiento local.";
+      return;
+    }
+  
+    let alumno;
+    try {
+      alumno = JSON.parse(alumnoRaw);
+    } catch (error) {
+      this.errorMessage = "Error al interpretar el objeto 'alumno' del almacenamiento local.";
+      return;
+    }
+  
+    const alumnoId = alumno.id;
+  
+    // Primero obtenemos todas las materias
     this._materiaService.getMaterias().subscribe({
-      next: (response) => {
-        this.listaMaterias = response;
-        this.materiasFiltradas = [...this.listaMaterias];
-        this.extraerModalidadesDisponibles();
-        this.errorMessage = null;
+      next: (materias) => {
+        this.listaMaterias = materias;
+        
+        // Ahora obtenemos las inscripciones del alumno
+        this.alumnoService.getInscripcionesByAlumnoId(alumnoId).subscribe({
+          next: (inscripciones) => {
+            const materiaIdsInscritas = new Set(inscripciones.map(inscripcion => inscripcion.mat_id));
+            
+            // Filtramos las materias para excluir las que ya tienen inscripción
+            this.materiasFiltradas = this.listaMaterias.filter(materia => materia.id !== undefined && !materiaIdsInscritas.has(materia.id));
+
+            this.extraerModalidadesDisponibles();
+          },
+          error: (err) => {
+            this.errorMessage = `Error al cargar las inscripciones: ${err.message}`;
+          }
+        });
       },
       error: (err) => {
         this.errorMessage = `Error al cargar las materias: ${err.message}`;
-        console.error('Error fetching data', err);
       }
     });
   }
