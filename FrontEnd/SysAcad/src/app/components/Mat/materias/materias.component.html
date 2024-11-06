@@ -1,15 +1,15 @@
 <div class="container">
-  <div class="card text-white bg-primary mb-3 mt-3">
-    <div class="d-flex justify-content-between align-items-center card-header">
-      <h4 class="m-3">Listado de Materias</h4>
+  <div class="card text-white bg-primary mb-3 mt-3 w-75 mx-auto"> <!-- Ajustar el ancho de la tarjeta -->
+    <div class="d-flex justify-content-between align-items-center card-header p-2"> <!-- Flexbox para alinear el contenido -->
+      <h4 class="m-0" style="font-size: 1.2rem;">Listado de Materias</h4> <!-- Reducir tamaño de fuente -->
       <button type="button" class="btn btn-light btn-sm m-2" onclick="location.href='http://localhost:4200/add_materia'">Agregar Materia</button>
     </div>
+
     <div class="d-flex justify-content-center">
       <div *ngIf="errorMessage" class="alert alert-danger mb-2 mt-2" role="alert">
         {{ errorMessage }}
       </div>
     </div>
-    
 
     <!-- Filtro de modalidad -->
     <div>
@@ -38,7 +38,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Cambiar listaMaterias a materiasFiltradas para aplicar el filtro -->
           <tr *ngFor="let materia of materiasFiltradas" class="table-active">
             <th scope="row" class="text-center align-middle">{{ materia.nombre }}</th>
             <td class="text-center align-middle">{{ materia.horas_anuales }}</td>
