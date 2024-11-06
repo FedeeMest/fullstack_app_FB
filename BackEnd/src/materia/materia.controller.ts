@@ -1,59 +1,120 @@
 import {Request, Response, NextFunction} from 'express';
-import { MateriaRepository } from './materia.repository.js';
 import { Materia } from './materia.entity.js';
+import { orm } from '../shared/db/orm.js';
+import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
 
-const repository = new MateriaRepository();
+const em = orm.em
+
 function inputS (req: Request, res: Response, next: NextFunction) {
     req.body.inputS = {
         nombre: req.body.nombre,
         horas_anuales: req.body.horas_anuales,
         modalidad: req.body.modalidad,
-    }
+    };
+    
+    // Eliminar propiedades indefinidas
     Object.keys(req.body.inputS).forEach((key) => {
         if (req.body.inputS[key] === undefined) delete req.body.inputS[key];
-    })
+    });
 
     next();
 }
 
 async function findAll(req: Request, res: Response) {
-    res.status(200).json({Listado: await repository.findAll()});
+    const em = orm.em.fork();
+    try{
+        const materias = await em.find(Materia, {})
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json(materias);
+    } catch (error:any){
+        console.error('Error al obtener materia:', error);
+        return res.status(500).json({ mensaje: error.message });
+    }
 }
 
 async function findOne (req:Request, res:Response) {
-    const id = req.params.id
-    const materia = await repository.findOne({ id })
-    if (!materia) {
-        return res.status(404).json({Error:"Materia no encontrada"});
+    const em = orm.em.fork();
+    const id = Number.parseInt(req.params.id)
+    try{
+        const materia = await em.findOne(Materia, { id })
+        if(!materia){
+            return res.status(404).json({ mensaje: 'Materia no encontrado' })
+        }
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json(materia);
+    } catch (error:any){
+        console.error('Error al buscar el materia:', error);
+        return res.status(500).json({ mensaje: error.message })
     }
-    return res.status(200).json({Materia_Solicitado:materia});
 }
 
-
-async function add (req:Request, res:Response) { 
+async function add(req: Request, res: Response) { 
+    const em = orm.em.fork();
     const input = req.body.inputS;
-    const nuevoMateria = new Materia (input.nombre,input.horas_anuales,input.modalidad);
-    const materia = await repository.add(nuevoMateria);
-    return res.status(201).json({Materia_Creada:materia});
-}
 
+    try {
+        // Verificar si ya existe una materia con el mismo nombre
+        const materiaExistente = await em.findOne(Materia, { nombre: input.nombre });
+        if (materiaExistente) {
+            return res.status(400).json({ mensaje: 'Ya existe una materia con ese nombre' });
+        }
+
+        // Si no existe, crear la nueva materia
+        const nuevaMateria = em.create(Materia, input);
+        await em.persistAndFlush(nuevaMateria);
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(201).json({ mensaje: 'Materia creada', data: nuevaMateria });
+    } catch (error: any) {
+        console.error('Error al agregar materia:', error);
+        // Manejar el error de entrada duplicada
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ mensaje: 'Ya existe una materia con ese nombre' });
+        }
+        return res.status(500).json({ mensaje: error.message });
+    }
+}
 
 async function update(req:Request, res:Response) {
-    const materia = await repository.update(req.params.id, req.body.sanitizedInput)
-    if (!materia) { 
-        return res.status(404).json({Error:"Materia no encontrada"});
+    const em = orm.em.fork();
+    const id = parseInt(req.params.id)
+    const input = req.body.inputS
+
+    try{
+        const materia = await em.findOne(Materia, { id })
+        if(!materia){
+            return res.status(404).json({ mensaje: 'Materia no encontrado' })
+        }
+        em.assign(materia, input);
+        await em.flush()
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json({ mensaje: 'Materia actualizado', data: materia});
+    } catch (error:any){
+        console.error('Error al actualizar materia:', error);
+        return res.status(500).json({ mensaje: error.message });
     }
-    return res.status(200).json({Materia_Actualizado:materia}); 
 }
 
 async function remove(req:Request, res:Response){
-    const id = req.params.id
-    const materia = await repository.delete({ id })
- 
-    if (!materia) { 
-        return res.status(404).json({Error:"Materia no encontrada"}); 
-    } 
-    return res.status(200).json({Message: "Materia eliminada"});
+    const em = orm.em.fork();
+    const id = Number.parseInt(req.params.id)
+    try{ 
+        const inscripciones = await em.count(Inscripcion, { materia: id });
+        if (inscripciones > 0) {
+            return res.status(400).json({ mensaje: 'No se puede eliminar la materia porque tiene inscripciones asociadas' });
+        }
+        const materia = await em.findOne(Materia, { id })
+        if(!materia){
+            return res.status(404).json({ mensaje: 'Materia no encontrado' })
+        }
+
+        await em.removeAndFlush(materia)
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json({ mensaje: 'Materia eliminado'});
+    } catch (error:any){
+        console.error('Error al eliminar materia:', error);
+        return res.status(500).json({ mensaje: error.message });
+    }
 }
 
-export{inputS,findAll,findOne,add,update,remove}
+
+export { inputS, findAll, findOne, add, update, remove };

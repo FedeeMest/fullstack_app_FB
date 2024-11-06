@@ -4,6 +4,7 @@ export interface Alumno {
     plan: string,
     mail: string,
     direccion: string,
-    fechaN: string,
+    fecha_n: string,
+    legajo?: number,
     id?: number
 }

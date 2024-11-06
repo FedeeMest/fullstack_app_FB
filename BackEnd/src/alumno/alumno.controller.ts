@@ -1,64 +1,142 @@
-import {Request, Response, NextFunction} from 'express';
-import { AlumnoRepository } from './alumno.repository.js';
+import { Request, Response, NextFunction } from 'express';
+import { orm } from '../shared/db/orm.js';
 import { Alumno } from './alumno.entity.js';
+import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
 
-const repository = new AlumnoRepository();
-function inputS (req: Request, res: Response, next: NextFunction) {
+// Middleware para estructurar los datos del input
+function inputS(req: Request, res: Response, next: NextFunction) {
+    const fechaSinHora = req.body.fecha_n ? new Date(req.body.fecha_n).toISOString().split('T')[0] : '';
     req.body.inputS = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         plan: req.body.plan,
-        mail: req.body.email,
+        mail: req.body.mail,
         direccion: req.body.direccion,
-        fechaN: req.body.fechaN,
-    }
+        fecha_n: fechaSinHora,
+    };
     Object.keys(req.body.inputS).forEach((key) => {
         if (req.body.inputS[key] === undefined) delete req.body.inputS[key];
-    })
-
+    });
     next();
 }
 
 async function findAll(req: Request, res: Response) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.status(200).json(await repository.findAll());
-}
-
-async function findOne (req:Request, res:Response) {
-    const id = req.params.id
-    const alumno = await repository.findOne({ id })
-    if (!alumno) {
-        return res.status(404).json({Error:"Alumno no encontrado"});
+    const em = orm.em.fork();
+    try {
+        const alumnos = await em.find(Alumno, {});
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json(alumnos);
+    } catch (error) {
+        console.error('Error al obtener alumnos:', error);
+        return res.status(500).json({ Error: 'Error al obtener la lista de alumnos.' });
     }
-    return res.status(200).json({Alumno_Solicitado:alumno});
 }
 
+async function findOne(req: Request, res: Response) {
+    const em = orm.em.fork();
+    const id = parseInt(req.params.id, 10);
+    try {
+        const alumno = await em.findOneOrFail(Alumno, { id });
+        if (!alumno) {
+            return res.status(404).json({ Error: 'Alumno no encontrado.' });
+        }
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json(alumno);
+    } catch (error) {
+        console.error('Error al buscar el alumno:', error);
+        return res.status(500).json({ Error: 'Error al buscar el alumno.' });
+    }
+}
 
-async function add (req:Request, res:Response) { 
+async function findLegajo(req: Request, res: Response) {
+    const em = orm.em.fork();
+    const legajo = parseInt(req.params.legajo, 10);
+    if (isNaN(legajo)) {
+        return res.status(400).json({ Error: 'Legajo inválido.' });
+    }
+
+    try {
+        const alumno = await em.findOne(Alumno, { legajo });
+        if (!alumno) {
+            return res.status(404).json({ Error: 'Alumno no encontrado.' });
+        }
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json(alumno);
+    } catch (error) {
+        console.error('Error al buscar alumno por legajo:', error);
+        return res.status(500).json({ Error: 'Error al buscar el alumno por legajo.' });
+    }
+}
+
+async function findInscripcionesByAlumnoId(req: Request, res: Response) {
+    const em = orm.em.fork();
+    const alumnoId = parseInt(req.params.id, 10);
+    if (isNaN(alumnoId)) {
+        return res.status(400).json({ Error: 'ID de alumno inválido.' });
+    }
+
+    try {
+        const inscripciones = await em.find(Inscripcion, { alumno: { id: alumnoId } });
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json(inscripciones);
+    } catch (error) {
+        console.error('Error al obtener inscripciones:', error);
+        return res.status(500).json({ Error: 'Error al obtener las inscripciones.' });
+    }
+}
+
+async function add(req: Request, res: Response) {
+    const em = orm.em.fork();
     const input = req.body.inputS;
-    const nuevoAlumno = new Alumno (input.nombre,input.apellido,input.plan,input.mail,input.direccion,input.fechaN);
-    const alumno = await repository.add(nuevoAlumno);
-    return res.status(201).json({message: 'Character created', data:alumno});
-}
-
-
-async function update(req:Request, res:Response) {
-    const alumno = await repository.update(req.params.id, req.body.inputS)
-
-    if (!alumno) { 
-        return res.status(404).json({Error:"Alumno no encontrado"});
+    try {
+        const maxLegajo = await em.count(Alumno) + 1;
+        const nuevoAlumno = em.create(Alumno, { ...input, legajo: maxLegajo });
+        await em.persistAndFlush(nuevoAlumno);
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(201).json({ Message: 'Alumno creado con éxito', data: nuevoAlumno });
+    } catch (error) {
+        console.error('Error al agregar alumno:', error);
+        return res.status(500).json({ Error: 'Error al agregar el alumno.' });
     }
-    return res.status(200).json({message: 'Alumno creado con exito', data:alumno}); 
 }
 
-async function remove(req:Request, res:Response){
-    const id = req.params.id
-    const alumno = await repository.delete({ id })
- 
-    if (!alumno) { 
-        return res.status(404).json({Error:"Alumno no encontrado"}); 
-    } 
-    return res.status(200).json({Message: "Alumno eliminado"});
+async function update(req: Request, res: Response) {
+    const em = orm.em.fork();
+    const id = parseInt(req.params.id, 10);
+    const input = req.body.inputS;
+
+    try {
+        const alumno = await em.findOneOrFail(Alumno, { id });
+        if (!alumno) {
+            return res.status(404).json({ Error: 'Alumno no encontrado.' });
+        }
+
+        em.assign(alumno, input);
+        await em.flush();
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json({ Message: 'Alumno actualizado con éxito', data: alumno });
+    } catch (error) {
+        console.error('Error al actualizar alumno:', error);
+        return res.status(500).json({ Error: 'Error al actualizar el alumno.' });
+    }
 }
 
-export{inputS,findAll,findOne,add,update,remove}
+async function remove(req: Request, res: Response) {
+    const em = orm.em.fork();
+    const id = parseInt(req.params.id, 10);
+    try {
+        const alumno = await em.findOne(Alumno, { id });
+        if (!alumno) {
+            return res.status(404).json({ Error: 'Alumno no encontrado.' });
+        }
+
+        await em.removeAndFlush(alumno);
+        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).json({ Message: 'Alumno eliminado con éxito.' });
+    } catch (error) {
+        console.error('Error al eliminar alumno:', error);
+        return res.status(500).json({ Error: 'Error al eliminar el alumno.' });
+    }
+}
+
+export { add, findAll, findLegajo, findInscripcionesByAlumnoId, findOne, remove, update, inputS };

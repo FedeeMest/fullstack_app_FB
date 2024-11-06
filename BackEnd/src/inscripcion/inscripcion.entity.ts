@@ -1,12 +1,18 @@
-import { Alumno } from "../alumno/alumno.entity";
-import { Materia } from "../materia/materia.entity";
-import crypto from "node:crypto"
+import { Entity, Property, ManyToOne, PrimaryKey } from "@mikro-orm/core";
+import { Alumno } from "../alumno/alumno.entity.js";
+import { Materia } from "../materia/materia.entity.js";
 
+@Entity()
 export class Inscripcion {
-    constructor(
-        public alumno: Alumno,
-        public materia: Materia,
-        public fecha: string,
-        public id = crypto.randomUUID()
-    ){}
+    @PrimaryKey()
+    id!: number;  // La única clave primaria y columna AUTO_INCREMENT
+
+    @ManyToOne(() => Alumno)
+    alumno!: Alumno;  // Relación para acceder al alumno
+
+    @ManyToOne(() => Materia)
+    materia!: Materia;  // Relación para acceder a la materia
+
+    @Property({ nullable: true })
+    fecha!: string;  // Atributo para almacenar la fecha
 }
