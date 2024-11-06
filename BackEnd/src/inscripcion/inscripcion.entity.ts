@@ -5,14 +5,14 @@ import { Materia } from "../materia/materia.entity.js";
 @Entity()
 export class Inscripcion {
     @PrimaryKey()
-    id!: number;  // La única clave primaria y columna AUTO_INCREMENT
+    id!: number;
 
     @ManyToOne(() => Alumno)
-    alumno!: Alumno;  // Relación para acceder al alumno
+    alumno!: Alumno;
 
     @ManyToOne(() => Materia)
-    materia!: Materia;  // Relación para acceder a la materia
+    materia!: Materia;
 
     @Property({ nullable: true })
-    fecha!: string;  // Atributo para almacenar la fecha
+    fecha!: string;
 }

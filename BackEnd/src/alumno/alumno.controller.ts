@@ -3,7 +3,6 @@ import { orm } from '../shared/db/orm.js';
 import { Alumno } from './alumno.entity.js';
 import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
 
-// Middleware para estructurar los datos del input
 function inputS(req: Request, res: Response, next: NextFunction) {
     const fechaSinHora = req.body.fecha_n ? new Date(req.body.fecha_n).toISOString().split('T')[0] : '';
     req.body.inputS = {
@@ -54,7 +53,6 @@ async function findLegajo(req: Request, res: Response) {
     if (isNaN(legajo)) {
         return res.status(400).json({ Error: 'Legajo inválido.' });
     }
-
     try {
         const alumno = await em.findOne(Alumno, { legajo });
         if (!alumno) {
@@ -74,7 +72,6 @@ async function findInscripcionesByAlumnoId(req: Request, res: Response) {
     if (isNaN(alumnoId)) {
         return res.status(400).json({ Error: 'ID de alumno inválido.' });
     }
-
     try {
         const inscripciones = await em.find(Inscripcion, { alumno: { id: alumnoId } });
         res.header('Access-Control-Allow-Origin', '*');
@@ -104,13 +101,11 @@ async function update(req: Request, res: Response) {
     const em = orm.em.fork();
     const id = parseInt(req.params.id, 10);
     const input = req.body.inputS;
-
     try {
         const alumno = await em.findOneOrFail(Alumno, { id });
         if (!alumno) {
             return res.status(404).json({ Error: 'Alumno no encontrado.' });
         }
-
         em.assign(alumno, input);
         await em.flush();
         res.header('Access-Control-Allow-Origin', '*');
@@ -129,7 +124,6 @@ async function remove(req: Request, res: Response) {
         if (!alumno) {
             return res.status(404).json({ Error: 'Alumno no encontrado.' });
         }
-
         await em.removeAndFlush(alumno);
         res.header('Access-Control-Allow-Origin', '*');
         return res.status(200).json({ Message: 'Alumno eliminado con éxito.' });

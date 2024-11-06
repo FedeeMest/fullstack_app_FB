@@ -3,20 +3,15 @@ import { Materia } from './materia.entity.js';
 import { orm } from '../shared/db/orm.js';
 import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
 
-const em = orm.em
-
 function inputS (req: Request, res: Response, next: NextFunction) {
     req.body.inputS = {
         nombre: req.body.nombre,
         horas_anuales: req.body.horas_anuales,
         modalidad: req.body.modalidad,
     };
-    
-    // Eliminar propiedades indefinidas
     Object.keys(req.body.inputS).forEach((key) => {
         if (req.body.inputS[key] === undefined) delete req.body.inputS[key];
     });
-
     next();
 }
 
@@ -34,39 +29,34 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne (req:Request, res:Response) {
     const em = orm.em.fork();
-    const id = Number.parseInt(req.params.id)
+    const id = parseInt(req.params.id)
     try{
-        const materia = await em.findOne(Materia, { id })
+        const materia = await em.findOneOrFail(Materia, { id })
         if(!materia){
             return res.status(404).json({ mensaje: 'Materia no encontrado' })
         }
         res.header('Access-Control-Allow-Origin', '*');
         return res.status(200).json(materia);
-    } catch (error:any){
-        console.error('Error al buscar el materia:', error);
-        return res.status(500).json({ mensaje: error.message })
+    } catch (error){
+        console.error('Error al buscar el alumno:', error);
+        return res.status(500).json({ Error: 'Error al buscar la materia.' });
     }
 }
 
 async function add(req: Request, res: Response) { 
     const em = orm.em.fork();
     const input = req.body.inputS;
-
     try {
-        // Verificar si ya existe una materia con el mismo nombre
         const materiaExistente = await em.findOne(Materia, { nombre: input.nombre });
         if (materiaExistente) {
             return res.status(400).json({ mensaje: 'Ya existe una materia con ese nombre' });
         }
-
-        // Si no existe, crear la nueva materia
         const nuevaMateria = em.create(Materia, input);
         await em.persistAndFlush(nuevaMateria);
         res.header('Access-Control-Allow-Origin', '*');
-        return res.status(201).json({ mensaje: 'Materia creada', data: nuevaMateria });
+        return res.status(201).json({ mensaje: 'Materia creada con éxito', data: nuevaMateria });
     } catch (error: any) {
         console.error('Error al agregar materia:', error);
-        // Manejar el error de entrada duplicada
         if (error.code === 'ER_DUP_ENTRY') {
             return res.status(400).json({ mensaje: 'Ya existe una materia con ese nombre' });
         }
@@ -78,7 +68,6 @@ async function update(req:Request, res:Response) {
     const em = orm.em.fork();
     const id = parseInt(req.params.id)
     const input = req.body.inputS
-
     try{
         const materia = await em.findOne(Materia, { id })
         if(!materia){
@@ -87,7 +76,7 @@ async function update(req:Request, res:Response) {
         em.assign(materia, input);
         await em.flush()
         res.header('Access-Control-Allow-Origin', '*');
-        return res.status(200).json({ mensaje: 'Materia actualizado', data: materia});
+        return res.status(200).json({ mensaje: 'Materia actualizada con éxito', data: materia});
     } catch (error:any){
         console.error('Error al actualizar materia:', error);
         return res.status(500).json({ mensaje: error.message });
@@ -106,10 +95,9 @@ async function remove(req:Request, res:Response){
         if(!materia){
             return res.status(404).json({ mensaje: 'Materia no encontrado' })
         }
-
         await em.removeAndFlush(materia)
         res.header('Access-Control-Allow-Origin', '*');
-        return res.status(200).json({ mensaje: 'Materia eliminado'});
+        return res.status(200).json({ mensaje: 'Materia eliminado con éxito'});
     } catch (error:any){
         console.error('Error al eliminar materia:', error);
         return res.status(500).json({ mensaje: error.message });
