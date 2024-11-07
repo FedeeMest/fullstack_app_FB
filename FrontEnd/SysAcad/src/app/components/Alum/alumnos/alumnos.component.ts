@@ -25,7 +25,7 @@ export class AlumnosComponent implements OnInit {
     private router: Router
   ) {
     this.filtroForm = this.fb.group({
-      plan: [''], // Inicializa el select sin valor
+      plan: [''],
     });
   }
 
@@ -35,11 +35,9 @@ export class AlumnosComponent implements OnInit {
     if (storedAlumno) {
       localStorage.removeItem('alumno');
       console.log('Alumno eliminado del localStorage');
+      }
     }
-  }
-  this.getAlumnos();
-
-    // Escucha los cambios en el select y filtra la lista
+    this.getAlumnos();
     this.filtroForm.get('plan')?.valueChanges.subscribe((planSeleccionado) => {
       this.filtrarAlumnos(planSeleccionado);
     });
@@ -90,5 +88,9 @@ export class AlumnosComponent implements OnInit {
         },
       });
     }
+  }
+
+  goAdd(): void {
+    this.router.navigate(['/add_alumno']);
   }
 }

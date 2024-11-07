@@ -90,4 +90,8 @@ export class AddUpdateMateriaComponent implements OnInit {
   private showErrorMessage(message: string) {
     this.form.setErrors({ serverError: message }); // Asignar el mensaje de error al formulario
   }
+
+  volver() {
+    this.router.navigate(['/materias']);
+  }
 }

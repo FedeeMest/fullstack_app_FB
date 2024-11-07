@@ -9,7 +9,7 @@ import { Location } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './resultado.component.html',
-  styleUrls: ['./resultado.component.css'] // Cambié de 'styleUrl' a 'styleUrls'
+  styleUrls: ['./resultado.component.css']
 })
 export class ResultadoComponent implements OnInit {
   alumno: Alumno| null = null;
@@ -23,7 +23,7 @@ export class ResultadoComponent implements OnInit {
       console.log('Alumno cargado de localStorage:', this.alumno);
     } else {
       console.log('No se encontró el alumno en localStorage');
-      this.router.navigate(['/buscar']); // Redirige si no hay alumno
+      this.router.navigate(['/buscar']);
     }
   }
 
@@ -34,9 +34,6 @@ export class ResultadoComponent implements OnInit {
       console.error('No se pudo obtener el ID del alumno');
     }
   }
-
-  //VerInscripciones ()...
-  //navigate([/listado_i],id) --> con esto navegamos al componente listado_insc y tambien llevamos el id del alumno por lo que podemos hacer un query al iniciar el componente para obtener todas las insc con ese id y hay hacer la tabla
 
   verInscripciones(id: number | undefined) {
     if (id !== undefined) {

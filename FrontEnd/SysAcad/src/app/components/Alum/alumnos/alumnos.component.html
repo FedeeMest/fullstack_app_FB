@@ -1,16 +1,9 @@
 <div class="container">
-  <div class="card text-white bg-primary mb-3 mt-3 w-75 mx-auto"> <!-- Ajustar el ancho de la tarjeta -->
-    <div class="card-header d-flex justify-content-between align-items-center p-2"> <!-- Flexbox para alinear el contenido -->
-      <h4 class="m-0" style="font-size: 1.2rem;">Listado de Alumnos</h4> <!-- Reducir tamaño de fuente -->
-      <button
-        type="button"
-        class="btn btn-light btn-sm m-2"
-        onclick="location.href='http://localhost:4200/add_alumno'">
-        Agregar Alumno
-      </button>
+  <div class="card text-white bg-primary mb-3 mt-3 w-75 mx-auto">
+    <div class="card-header d-flex justify-content-between align-items-center p-2">
+      <h4 class="m-0" style="font-size: 1.2rem;">Listado de Alumnos</h4>
+      <button type="button"class="btn btn-light btn-sm m-2" (click)="goAdd()">Agregar Alumno</button>
     </div>
-
-    <!-- Filtro por plan usando formControlName -->
     <div>
       <form [formGroup]="filtroForm" class="d-flex justify-content-center mt-2 mb-2">
         <div class="d-flex align-items-center">
@@ -24,7 +17,6 @@
         </div>
       </form>
     </div>
-    
     <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
       <table class="table table-secondary text-center" style="position: relative;">
         <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">

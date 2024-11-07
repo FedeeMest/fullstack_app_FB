@@ -4,7 +4,6 @@
       <h4 class="m-3">Inscripciones</h4>
       <button type="button" class="btn btn-light btn-sm m-2" (click)="goadd()">Agregar Inscripción</button>
     </div>
-
     <div class="table-responsive">
       <table class="table table-secondary text-center mt-3 mb-3">
         <thead>
@@ -25,11 +24,9 @@
         </tbody>
       </table>
     </div>
-
     <div *ngIf="errorMessage" class="alert alert-danger m-3">
       {{ mensajeError }}
     </div>
-
     <div class="row mt-2 text-center">
       <div class="col-12">
         <button (click)="goBack()" type="button" class="btn btn-secondary btn-sm m-2">Volver</button>

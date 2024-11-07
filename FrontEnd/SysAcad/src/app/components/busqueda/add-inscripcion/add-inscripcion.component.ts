@@ -55,20 +55,13 @@ export class AddInscripcionComponent implements OnInit {
     }
   
     const alumnoId = alumno.id;
-  
-    // Primero obtenemos todas las materias
     this._materiaService.getMaterias().subscribe({
       next: (materias) => {
         this.listaMaterias = materias;
-        
-        // Ahora obtenemos las inscripciones del alumno
         this.alumnoService.getInscripcionesByAlumnoId(alumnoId).subscribe({
           next: (inscripciones) => {
             const materiaIdsInscritas = new Set(inscripciones.map(inscripcion => inscripcion.materia));
-            
-            // Filtramos las materias para excluir las que ya tienen inscripción
             this.materiasFiltradas = this.listaMaterias.filter(materia => materia.id !== undefined && !materiaIdsInscritas.has(materia.id));
-
             this.extraerModalidadesDisponibles();
           },
           error: (err) => {
@@ -83,7 +76,6 @@ export class AddInscripcionComponent implements OnInit {
   }
 
   extraerModalidadesDisponibles(): void {
-    // Obtener modalidades únicas de la lista de materias
     const modalidades = this.listaMaterias.map((materia) => materia.modalidad);
     this.modalidadesDisponibles = Array.from(new Set(modalidades.filter(Boolean)));
   }
@@ -100,8 +92,6 @@ export class AddInscripcionComponent implements OnInit {
 
   crearInscripcion(): void {
     const alumnoRaw = localStorage.getItem('alumno');
-  
-    // Verifica que 'alumno' exista en localStorage
     if (!alumnoRaw) {
       this.errorMessage = "No se encontró el alumno en el almacenamiento local.";
       return;
@@ -109,14 +99,12 @@ export class AddInscripcionComponent implements OnInit {
   
     let alumno;
     try {
-      alumno = JSON.parse(alumnoRaw); // Intenta parsear el JSON de 'alumno'
+      alumno = JSON.parse(alumnoRaw);
     } catch (error) {
       this.errorMessage = "Error al interpretar el objeto 'alumno' del almacenamiento local.";
       console.error("Error de parseo:", error);
       return;
     }
-  
-    // Verifica que 'alumno' tenga la propiedad 'id'
     if (!alumno.id) {
       this.errorMessage = "El objeto 'alumno' no contiene un 'id' válido.";
       return;
@@ -125,8 +113,6 @@ export class AddInscripcionComponent implements OnInit {
     const alumnoId = alumno.id;
     const fecha = this.filtroForm.get('fechaN')?.value;
     const materiaSeleccionada = this.filtroForm.get('materiaSeleccionada')?.value;
-  
-    // Prepara el objeto de inscripción con los datos obtenidos
     const inscripcion: Inscripcion = {
       fecha,
       alumno: alumnoId,

@@ -1,40 +1,29 @@
 <div class="row mt-3">
-    <div class="col-12 col-md-8 col-lg-4 offset-lg-4"> <!-- Se ajusta a pantallas pequeñas y grandes -->
+    <div class="col-12 col-md-8 col-lg-4 offset-lg-4">
       <div class="modal-content" style="background-color: #375a7f; border-radius: 0.25rem; border: none;">
         <div class="card-header text-center text-white">{{ operacion }} Alumno</div>
         <div class="card-body text-white pt-1">
           <form [formGroup]="form" (ngSubmit)="addAlumno()">
-            <!-- Nombre -->
             <div class="mb-2 mt-2">
               <label for="nombre" class="form-label">Nombre:</label>
               <input formControlName="nombre" type="text" id="nombre" class="form-control">
             </div>
-  
-            <!-- Apellido -->
             <div class="mb-2">
               <label for="apellido" class="form-label">Apellido:</label>
               <input formControlName="apellido" type="text" id="apellido" class="form-control">
             </div>
-  
-            <!-- Email -->
             <div class="mb-2">
               <label for="mail" class="form-label">Email:</label>
               <input formControlName="mail" type="email" id="mail" class="form-control">
             </div>
-  
-            <!-- Dirección -->
             <div class="mb-2">
               <label for="direccion" class="form-label">Dirección:</label>
               <input formControlName="direccion" type="text" id="direccion" class="form-control">
             </div>
-  
-            <!-- Fecha de nacimiento -->
             <div class="mb-2">
               <label for="fecha_n" class="form-label">Fecha de Nacimiento:</label>
               <input formControlName="fecha_n" type="date" id="fecha_n" class="form-control">
             </div>
-  
-            <!-- Plan -->
             <div class="d-flex justify-content-center align-items-center mt-2 mb-2">
               <label for="plan" class="form-label mr-2">Plan:</label>
               <select formControlName="plan" id="plan" class="form-select">
@@ -45,8 +34,6 @@
                 <option>24</option>
               </select>
             </div>
-  
-            <!-- Botones -->
             <div class="row mt-2 text-center">
               <div class="col-6">
                 <button (click)="volver()" type="button" class="btn btn-secondary btn-sm m-2">Volver</button>

@@ -2,45 +2,36 @@
   <div class="card text-white bg-primary mb-3" style="max-width: 600px;">
     <div class="card-header text-center">Alumno</div>
     <div class="card-body">
-      <!-- Campos del alumno -->
-      <div class="row mb-3" *ngIf="alumno"> <!-- Asegúrate de que alumno no sea null -->
+      <div class="row mb-3" *ngIf="alumno">
         <div class="col-md-6">
           <label for="nombre" class="form-label text-white mb-0">Nombre</label>
           <input type="text" id="nombre" [value]="alumno.nombre" readonly class="form-control mt-0 mb-3">
         </div>
-
         <div class="col-md-6">
           <label for="apellido" class="form-label text-white mb-0">Apellido</label>
           <input type="text" id="apellido" [value]="alumno.apellido" readonly class="form-control mt-0 mb-3">
         </div>
-
         <div class="col-md-6">
           <label for="direccion" class="form-label text-white mb-0">Dirección</label>
           <input type="text" id="direccion" [value]="alumno.direccion" readonly class="form-control mt-0 mb-3">
         </div>
-
         <div class="col-md-6">
           <label for="fechaN" class="form-label text-white mb-0">Fecha de Nacimiento</label>
           <input type="text" id="fechaN" [value]="alumno.fecha_n" readonly class="form-control mt-0 mb-3">
         </div>
-
         <div class="col-md-6">
           <label for="legajo" class="form-label text-white mb-0">Legajo</label>
           <input type="text" id="legajo" [value]="alumno.legajo" readonly class="form-control mt-0 mb-3">
         </div>
-
         <div class="col-md-6">
           <label for="mail" class="form-label text-white mb-0">Mail</label>
           <input type="text" id="mail" [value]="alumno.mail" readonly class="form-control mt-0 mb-3">
         </div>
-
         <div class="col-md-6">
           <label for="plan" class="form-label text-white mb-0">Plan</label>
           <input type="text" id="plan" [value]="alumno.plan" readonly class="form-control mt-0 mb-3">
         </div>
       </div>
-
-      <!-- Botones para navegar -->
       <div class="d-flex justify-content-between mt-3">
         <button class="btn btn-secondary" (click)="goBack()">Volver</button>
         <div>

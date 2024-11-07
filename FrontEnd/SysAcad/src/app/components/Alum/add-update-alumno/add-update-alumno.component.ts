@@ -67,13 +67,11 @@ export class AddUpdateAlumnoComponent implements OnInit {
     };
   
     if (this.id !== 0) {
-      // Actualización de un alumno existente
       alumno.id = this.id;
       this.alumnosService.updateAlumno(this.id, alumno).subscribe({
         next: (response: any) => {
           console.log('Alumno actualizado', response.data);
           this.errorMessage = '';
-          // Si es una edición, actualiza también en el localStorage
           localStorage.setItem('alumno', JSON.stringify(response.data));
           this.volver();
         },
@@ -83,7 +81,6 @@ export class AddUpdateAlumnoComponent implements OnInit {
         }
       });
     } else {
-      // Creación de un nuevo alumno
       this.alumnosService.saveAlumno(alumno).subscribe({
         next: (response: any) => {
           console.log('Alumno creado', response.data);
@@ -99,7 +96,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
   }
 
   volver() {
-    this.location.back();  // Navega hacia atrás en el historial
+    this.location.back();
   }
   
 
