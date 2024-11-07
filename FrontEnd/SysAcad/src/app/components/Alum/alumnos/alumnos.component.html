@@ -29,7 +29,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let alumno of alumnosFiltrados" class="table-active">
+          <tr *ngFor="let alumno of alumnosFiltrados; trackBy: trackByAlumno" class="table-active">
             <th scope="row" class="text-center align-middle">{{ alumno.legajo }}</th>
             <td class="text-center align-middle">{{ alumno.nombre }}</td>
             <td class="text-center align-middle">{{ alumno.apellido }}</td>

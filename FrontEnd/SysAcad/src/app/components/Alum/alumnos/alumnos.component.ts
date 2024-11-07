@@ -90,6 +90,10 @@ export class AlumnosComponent implements OnInit {
     }
   }
 
+  trackByAlumno(index: number, alumno: Alumno): number {
+    return alumno.id ?? 0; // Asegúrate de que `id` sea único
+  }
+
   goAdd(): void {
     this.router.navigate(['/add_alumno']);
   }
