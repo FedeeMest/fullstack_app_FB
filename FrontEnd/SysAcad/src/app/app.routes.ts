@@ -8,11 +8,13 @@ import { BuscadorComponent } from './components/busqueda/buscador/buscador.compo
 import { ResultadoComponent } from './components/busqueda/resultado/resultado.component';
 import { ListadoIComponent } from './components/busqueda/listado-i/listado-i.component';
 import { AddInscripcionComponent } from './components/busqueda/add-inscripcion/add-inscripcion.component';
+import { LoginComponent } from './auth/login/login.component';
 
 
 
 export const routes: Routes = [
     {path: "", component: InicioComponent},
+    {path:"login", component:LoginComponent},
     {path: "alumnos", component: AlumnosComponent},
     {path: "add_alumno", component: AddUpdateAlumnoComponent},
     {path: "editar_alumno/:id", component: AddUpdateAlumnoComponent},
