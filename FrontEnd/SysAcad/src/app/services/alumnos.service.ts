@@ -20,7 +20,7 @@ export class AlumnosService {
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Error desconocido';
-
+  
     if (error.error instanceof ErrorEvent) {
       // Errores del lado del cliente
       errorMessage = `Error: ${error.error.message}`;
@@ -29,7 +29,7 @@ export class AlumnosService {
       if (error.status === 400) {
         errorMessage = 'Solicitud inválida. Por favor, verifica los datos ingresados.';
       } else if (error.status === 404) {
-        errorMessage = 'El alumno no fue encontrado.';
+        errorMessage = 'El alumno no fue encontrado.'; // Este es el caso correcto para el 404
       } else if (error.status === 409) {
         errorMessage = 'Conflicto al procesar la solicitud. Intenta de nuevo.';
       } else if (error.status === 500) {
@@ -38,7 +38,7 @@ export class AlumnosService {
         errorMessage = `Ocurrió un error inesperado: ${error.message}`;
       }
     }
-
+  
     return throwError(() => new Error(errorMessage));
   }
 

@@ -54,19 +54,19 @@ export class BuscadorComponent implements OnInit  {
         this.mensajeError = 'No se encontró un alumno con el legajo proporcionado.';
       }
     },
-      error: (err) => {
-        console.error('Error al buscar el alumno:', err);
-  
-        // Si el error es 404, significa que no se encontró el alumno
-        if (err.status === 404) {
-          this.errorMessage = true;
-          this.mensajeError = 'No se encontró ningún alumno con este legajo.';
-        } else {
-          // Para cualquier otro error
-          this.errorMessage = true;
-          this.mensajeError = 'Hubo un error al buscar el alumno. Por favor, inténtalo de nuevo más tarde.';
-        }
+    error: (err) => {
+      console.error('Error al buscar el alumno:', err);
+    
+      // Si el error es 404, significa que no se encontró el alumno
+      if (err.message.includes('El alumno no fue encontrado')) {
+        this.errorMessage = true;
+        this.mensajeError = 'No se encontró un alumno con el legajo proporcionado.';
+      } else {
+        // Para cualquier otro error
+        this.errorMessage = true;
+        this.mensajeError = 'Hubo un error al buscar el alumno. Por favor, inténtalo de nuevo más tarde.';
       }
+    }
     });
   }
 }

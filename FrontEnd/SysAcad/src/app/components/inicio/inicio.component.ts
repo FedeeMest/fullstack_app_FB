@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-inicio',
@@ -7,6 +8,18 @@ import { Component } from '@angular/core';
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })
-export class InicioComponent {
+export class InicioComponent  implements OnInit {
+
+  constructor() {}
+
+  ngOnInit(): void {
+    if (typeof localStorage !== 'undefined') {
+      const storedAlumno = localStorage.getItem('alumno');
+      if (storedAlumno) {
+        localStorage.removeItem('alumno');
+        console.log('Alumno eliminado del localStorage');
+        }
+      }
+  }
 
 }
