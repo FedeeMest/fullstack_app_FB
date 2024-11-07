@@ -28,11 +28,13 @@ export class MateriasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (typeof localStorage !== 'undefined') {
     const storedAlumno = localStorage.getItem('alumno');
     if (storedAlumno) {
       localStorage.removeItem('alumno');
       console.log('Alumno eliminado del localStorage');
     }
+  }
     this.getMaterias();
 
     // Escuchar cambios en el filtro

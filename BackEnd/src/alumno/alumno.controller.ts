@@ -87,7 +87,7 @@ async function add(req: Request, res: Response) {
     const input = req.body.inputS;
     try {
         const [alumnoConMaxLegajo] = await em.find(Alumno, {}, { orderBy: { legajo: 'DESC' }, limit: 1 });
-        const maxLegajo = alumnoConMaxLegajo ? alumnoConMaxLegajo.legajo + 1 : 1 // Si no hay alumnos, empieza en 1
+        const maxLegajo = alumnoConMaxLegajo ? alumnoConMaxLegajo.legajo + 1 : 1
         const nuevoAlumno = em.create(Alumno, { ...input, legajo: maxLegajo });
         await em.persistAndFlush(nuevoAlumno);
         res.header('Access-Control-Allow-Origin', '*');

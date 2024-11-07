@@ -29,12 +29,14 @@ export class BuscadorComponent implements OnInit  {
   }
 
   ngOnInit(): void {
+    if (typeof localStorage !== 'undefined') {
     const storedAlumno = localStorage.getItem('alumno');
     if (storedAlumno) {
       localStorage.removeItem('alumno');
       console.log('Alumno eliminado del localStorage');
     }
   }
+}
 
   buscarAlumno() {
     console.log("Buscando alumno...");

@@ -30,12 +30,14 @@ export class AlumnosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (typeof localStorage !== 'undefined') {
     const storedAlumno = localStorage.getItem('alumno');
     if (storedAlumno) {
       localStorage.removeItem('alumno');
       console.log('Alumno eliminado del localStorage');
     }
-    this.getAlumnos();
+  }
+  this.getAlumnos();
 
     // Escucha los cambios en el select y filtra la lista
     this.filtroForm.get('plan')?.valueChanges.subscribe((planSeleccionado) => {

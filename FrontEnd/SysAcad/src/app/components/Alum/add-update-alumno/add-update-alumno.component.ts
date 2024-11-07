@@ -88,9 +88,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
         next: (response: any) => {
           console.log('Alumno creado', response.data);
           this.errorMessage = '';
-          // Guarda el nuevo alumno en localStorage
-          localStorage.setItem('alumno', JSON.stringify(response.data));
-          this.volver();
+          this.router.navigate(['/alumnos']);
         },
         error: (error) => {
           this.errorMessage = error.error.message || 'Error desconocido';
