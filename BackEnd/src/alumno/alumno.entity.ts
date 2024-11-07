@@ -1,13 +1,32 @@
-import crypto from "node:crypto"
+import {Entity,Property,PrimaryKey} from '@mikro-orm/core'
 
+
+@Entity()
 export class Alumno {
-    constructor(
-        public nombre: string,
-        public apellido: string,
-        public plan:string,
-        public mail:string,
-        public direccion:string,
-        public fechaN:string,
-        public id = crypto.randomUUID()
-    ){}
+
+    @PrimaryKey({nullable: false})
+    id!: number
+
+    @Property({nullable: false})
+    nombre!: string
+
+    @Property({nullable: false})
+    apellido!: string
+
+    @Property({nullable: false})
+    plan!:string
+
+    @Property({nullable: false})
+    mail!:string
+
+    @Property({nullable: false})
+    direccion!:string
+
+    @Property({nullable: false})
+    fecha_n!: string
+
+    @Property({nullable: false})
+    legajo!: number
+
+
 }

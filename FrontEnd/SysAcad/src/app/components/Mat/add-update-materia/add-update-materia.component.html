@@ -1,0 +1,38 @@
+<div class="row mt-3">
+    <div class="col-12 col-md-8 col-lg-4 offset-lg-4">
+        <div class="card text-white bg-primary mb-3" style="max-width: 50rem;">
+            <div class="card-header text-center">{{ operacion }} Materia</div>
+            <div class="card-body pt-2">
+                <div *ngIf="form.errors?.['serverError']" class="alert alert-danger" role="alert">
+                    {{ form.errors?.['serverError'] }}
+                  </div>
+                <form [formGroup]="form" (ngSubmit)="addMateria()">
+                     <div class="mb-2">
+                        <label for="nombre" class="form-label mb-1">Nombre:</label>
+                        <input id="nombre" formControlName="nombre" type="text" class="form-control">
+                     </div>
+                    <div class="mb-3">
+                        <label for="horas_anuales" class="form-label mb-1">Horas Anuales:</label>
+                        <input id="horas_anuales" formControlName="horas_anuales" type="number" class="form-control" placeholder="Ingrese la cantidad de horas anuales">
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <label for="modalidad" class="form-label mr-2">Modalidad:</label>
+                        <select id="modalidad" formControlName="modalidad" class="form-select">
+                            <option>Anual</option>
+                            <option>Cuatrimestral</option>
+                        </select>
+                    </div>
+                    <div class="row mt-2 text-center">
+                        <div class="col-6">
+                            <button (click)="volver()" type="button" class="btn btn-secondary btn-sm m-2">Volver</button>
+                        </div>
+                        <div class="col-6">
+                            <button [disabled]="form.invalid" type="submit" class="btn btn-light btn-sm m-2">Aceptar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  
