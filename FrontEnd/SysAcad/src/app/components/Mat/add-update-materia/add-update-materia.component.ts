@@ -53,6 +53,45 @@ export class AddUpdateMateriaComponent implements OnInit {
   }
 
   addMateria() {
+    const materia: Materia = {
+      nombre: this.form.value.nombre,
+      horas_anuales: this.form.value.horas_anuales,
+      modalidad: this.form.value.modalidad,
+    };
+
+    if(this.id !== 0){
+      materia.id = this.id;
+      this.materiasService.updateMateria(this.id, materia).subscribe({
+        next:(response: any) => {
+          console.log('Materia actualizada');
+          this.toastr.success('La materia fue actualizada con éxito', 'Materia Actualizada',{
+            progressBar: true,
+            progressAnimation:'decreasing'
+          });
+          this.router.navigate(['/materias']);
+        },
+        error: (error) => {
+          this.handleError(error);
+        }
+      });
+    } else {
+      this.materiasService.saveMateria(materia).subscribe({
+        next:(response: any) => {
+          console.log('Materia creada');
+          this.toastr.success('La materia fue creada con éxito', 'Materia Creada',{
+            progressBar: true,
+            progressAnimation:'decreasing'
+          });
+          this.router.navigate(['/materias']);
+        },
+        error: (error) => {
+          this.handleError(error);
+        }
+      });
+  }
+}
+
+  /* addMateria() {
     console.log(this.form.value);
     const materia: Materia = {
       nombre: this.form.value.nombre,
@@ -75,21 +114,21 @@ export class AddUpdateMateriaComponent implements OnInit {
         this.router.navigate(['/materias']);
       },
     });
-  }
+  } */
 
   private handleError(error: any) {
     console.error('Detalles del error:', error);
     let errorMessage = 'Ocurrió un error al procesar la solicitud.';
 
     if (error instanceof Error) {
-      errorMessage = error.message; // Usar el mensaje del error lanzado
+      errorMessage = error.message; 
     }
 
-    this.showErrorMessage(errorMessage); // Muestra el mensaje de error al usuario
+    this.showErrorMessage(errorMessage); 
   }
 
   private showErrorMessage(message: string) {
-    this.form.setErrors({ serverError: message }); // Asignar el mensaje de error al formulario
+    this.form.setErrors({ serverError: message }); 
   }
 
   volver() {

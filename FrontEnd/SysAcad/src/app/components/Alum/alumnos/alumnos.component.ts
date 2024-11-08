@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-alumnos',
@@ -19,11 +20,7 @@ export class AlumnosComponent implements OnInit {
   planesDisponibles: string[] = [];
   filtroForm: FormGroup;
 
-  constructor(
-    private _alumnoService: AlumnosService,
-    private fb: FormBuilder,
-    private router: Router
-  ) {
+  constructor(private _alumnoService: AlumnosService, private fb: FormBuilder, private router: Router, private toastr: ToastrService) {
     this.filtroForm = this.fb.group({
       plan: [''],
     });
@@ -81,6 +78,10 @@ export class AlumnosComponent implements OnInit {
       this._alumnoService.deleteAlumno(id).subscribe({
         next: () => {
           console.log('Alumno eliminado');
+          this.toastr.error('El alumno fue eliminado con éxito', 'Alumno Eliminado',{
+            progressBar: true,
+            progressAnimation:'decreasing'
+          })
           this.getAlumnos();
         },
         error: (err) => {

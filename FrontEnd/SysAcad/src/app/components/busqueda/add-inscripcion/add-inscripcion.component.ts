@@ -7,6 +7,7 @@ import { Materia } from '../../../interfaces/materia';
 import { Inscripcion } from '../../../interfaces/inscripcion';
 import { InscripcionService } from '../../../services/inscripcion.service';
 import { AlumnosService } from '../../../services/alumnos.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-inscripcion',
@@ -23,7 +24,7 @@ export class AddInscripcionComponent implements OnInit {
   filtroForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private location: Location,private _materiaService: MateriaService,private fb: FormBuilder, private alumnoService: AlumnosService,private inscripcionService: InscripcionService) {
+  constructor(private location: Location,private _materiaService: MateriaService,private fb: FormBuilder, private alumnoService: AlumnosService,private inscripcionService: InscripcionService,private toastr: ToastrService) {
     this.filtroForm = this.fb.group({
       modalidad: [''],
       fechaN: ['', Validators.required],
@@ -98,18 +99,12 @@ export class AddInscripcionComponent implements OnInit {
     }
   
     let alumno;
-    try {
-      alumno = JSON.parse(alumnoRaw);
-    } catch (error) {
-      this.errorMessage = "Error al interpretar el objeto 'alumno' del almacenamiento local.";
-      console.error("Error de parseo:", error);
-      return;
-    }
+    alumno = JSON.parse(alumnoRaw);
     if (!alumno.id) {
       this.errorMessage = "El objeto 'alumno' no contiene un 'id' válido.";
       return;
     }
-  
+
     const alumnoId = alumno.id;
     const fecha = this.filtroForm.get('fechaN')?.value;
     const materiaSeleccionada = this.filtroForm.get('materiaSeleccionada')?.value;
@@ -122,6 +117,10 @@ export class AddInscripcionComponent implements OnInit {
     this.inscripcionService.addInscripcion(inscripcion).subscribe({
       next: (response) => {
         console.log('Inscripción creada:', response);
+        this.toastr.success('La inscripción fue creada con éxito', 'Inscripción Creada',{
+          progressBar: true,
+          progressAnimation:'decreasing'
+        });
         this.goBack();
       },
       error: (err) => {

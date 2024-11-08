@@ -4,6 +4,7 @@ import { MateriaService } from '../../../services/materia.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-materias',
@@ -20,7 +21,7 @@ export class MateriasComponent implements OnInit {
   errorMessage: string | null = null;
 
 
-  constructor(private _materiaService: MateriaService,private fb: FormBuilder, private router: Router) {
+  constructor(private _materiaService: MateriaService,private fb: FormBuilder, private router: Router,private toastr: ToastrService) {
     // Inicializar el formulario de filtro
     this.filtroForm = this.fb.group({
       modalidad: ['']
@@ -79,6 +80,10 @@ export class MateriasComponent implements OnInit {
       this._materiaService.deleteMateria(id).subscribe({
         next: () => {
           console.log('Materia eliminada');
+          this.toastr.error('La materia fue eliminada con éxito', 'Materia eliminada',{
+            progressBar: true,
+            progressAnimation:'decreasing'
+          });
           this.getMaterias();
         },
         error: (err) => {

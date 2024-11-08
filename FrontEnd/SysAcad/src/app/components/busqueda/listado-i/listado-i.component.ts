@@ -9,6 +9,7 @@ import { EMPTY, filter, forkJoin, Observable, of } from 'rxjs';
 import { Materia } from '../../../interfaces/materia';
 import { Location } from '@angular/common';
 import { InscripcionService } from '../../../services/inscripcion.service';
+import {ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-listado-i',
@@ -24,7 +25,7 @@ export class ListadoIComponent implements OnInit {
     inscripciones: Inscripcion[] = [];
     materiasNombres: { [id: number]: string } = {};
 
-    constructor(private route: ActivatedRoute,private alumnoService: AlumnosService,private router: Router,private materiaService: MateriaService,private location: Location,private inscripcionService: InscripcionService) {}
+    constructor(private route: ActivatedRoute,private alumnoService: AlumnosService,private router: Router,private materiaService: MateriaService,private location: Location,private inscripcionService: InscripcionService, private toastr:ToastrService) {}
     ngOnInit():void{
       this.route.params.subscribe(params => {
         this.alumnoId = +params['id'];
@@ -88,6 +89,10 @@ export class ListadoIComponent implements OnInit {
       this.inscripcionService.deleteInscripcion(id).subscribe({
         next: () => {
           console.log('Inscripción eliminada con éxito');
+          this.toastr.error('La inscripción fue eliminada con éxito', 'Inscripción Eliminada',{
+            progressBar: true,
+            progressAnimation:'decreasing'
+          });
          this.getInscripciones();
         },
         error: (err) => {
