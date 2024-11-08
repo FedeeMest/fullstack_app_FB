@@ -5,6 +5,7 @@ import { AlumnosService } from '../../../services/alumnos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
   operacion: string = 'Agregar ';
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private alumnosService: AlumnosService, private router: Router, private aRouter: ActivatedRoute,private location: Location) {
+  constructor(private fb: FormBuilder, private alumnosService: AlumnosService, private router: Router, private aRouter: ActivatedRoute,private location: Location,private toastr: ToastrService) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['',Validators.required],
@@ -73,6 +74,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
           console.log('Alumno actualizado', response.data);
           this.errorMessage = '';
           localStorage.setItem('alumno', JSON.stringify(response.data));
+          this.toastr.success('Alumno fue actualizado con éxito', 'Alumno actualizado');
           this.volver();
         },
         error: (error) => {
@@ -85,6 +87,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
         next: (response: any) => {
           console.log('Alumno creado', response.data);
           this.errorMessage = '';
+          this.toastr.success('Alumno fue creado con éxito', 'Alumno creado');
           this.router.navigate(['/alumnos']);
         },
         error: (error) => {

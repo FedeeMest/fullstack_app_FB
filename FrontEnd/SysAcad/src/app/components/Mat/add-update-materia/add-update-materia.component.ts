@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Materia } from '../../../interfaces/materia.js';
 import { CommonModule } from '@angular/common';
 import { catchError, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-update-materia',
@@ -18,7 +19,7 @@ export class AddUpdateMateriaComponent implements OnInit {
   id: number;
   operacion: string = 'Agregar ';
 
-  constructor(private fb: FormBuilder, private materiasService: MateriaService, private router: Router, private aRouter: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private materiasService: MateriaService, private router: Router, private aRouter: ActivatedRoute,private toastr: ToastrService) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       horas_anuales: [0,Validators.required],
