@@ -64,7 +64,7 @@ export class AddUpdateMateriaComponent implements OnInit {
       this.materiasService.updateMateria(this.id, materia).subscribe({
         next:(response: any) => {
           console.log('Materia actualizada');
-          this.toastr.success('La materia fue actualizada con éxito', 'Materia Actualizada',{
+          this.toastr.success(`La materia ${materia.nombre} fue actualizada con éxito`, 'Materia Actualizada',{
             progressBar: true,
             progressAnimation:'decreasing'
           });
@@ -78,7 +78,7 @@ export class AddUpdateMateriaComponent implements OnInit {
       this.materiasService.saveMateria(materia).subscribe({
         next:(response: any) => {
           console.log('Materia creada');
-          this.toastr.success('La materia fue creada con éxito', 'Materia Creada',{
+          this.toastr.success(`La materia ${materia.nombre} fue creada con éxito`, 'Materia Creada',{
             progressBar: true,
             progressAnimation:'decreasing'
           });

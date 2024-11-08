@@ -74,7 +74,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
           console.log('Alumno actualizado', response.data);
           this.errorMessage = '';
           localStorage.setItem('alumno', JSON.stringify(response.data));
-          this.toastr.success('El alumno fue actualizado con éxito', 'Alumno actualizado',{
+          this.toastr.success(`El alumno ${alumno.apellido} ${alumno.nombre} fue actualizado con éxito`, 'Alumno Actualizado',{
             progressBar: true,
             progressAnimation:'decreasing'
           });
@@ -90,7 +90,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
         next: (response: any) => {
           console.log('Alumno creado', response.data);
           this.errorMessage = '';
-          this.toastr.success('Alumno fue creado con éxito', 'Alumno creado',{
+          this.toastr.success(`El alumno ${alumno.apellido} ${alumno.nombre} fue creado con éxito`, 'Alumno Creado',{
             progressBar: true,
             progressAnimation:'decreasing'
           });
