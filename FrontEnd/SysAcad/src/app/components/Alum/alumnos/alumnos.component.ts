@@ -55,6 +55,10 @@ export class AlumnosComponent implements OnInit {
 
   verAlumno(alumno: Alumno): void {
     localStorage.setItem('alumno', JSON.stringify(alumno));
+    this.toastr.info('Mostrando la informacion del alumno seleccionado', 'Alumno Seleccionado',{
+      progressBar: true,
+      progressAnimation:'decreasing'
+    })
     this.router.navigate(['/resultado']);
   }
 

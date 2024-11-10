@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AlumnosService } from '../../../services/alumnos.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -18,11 +19,7 @@ export class BuscadorComponent implements OnInit  {
   errorMessage: boolean = false;
   mensajeError: string = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private alumnoService: AlumnosService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private alumnoService: AlumnosService, private router: Router, private toastr: ToastrService) {
     this.form = this.fb.group({
       legajo: [null, [Validators.required, Validators.min(1)]]
     });
@@ -48,6 +45,10 @@ export class BuscadorComponent implements OnInit  {
       if (alumno) {
         // Almacena el alumno en localStorage antes de redirigir
         localStorage.setItem('alumno', JSON.stringify(alumno));
+        this.toastr.info('Mostrando la informacion del alumno solicitado', 'Alumno Encontrado', {
+          progressBar: true,
+          progressAnimation: 'decreasing'
+        });
         this.router.navigate(['/resultado']);
       } else {
         this.errorMessage = true;
