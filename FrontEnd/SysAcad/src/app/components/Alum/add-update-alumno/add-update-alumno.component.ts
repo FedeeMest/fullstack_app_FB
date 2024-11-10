@@ -25,8 +25,8 @@ export class AddUpdateAlumnoComponent implements OnInit {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['',Validators.required],
-      mail: ['',Validators.required],
-      direccion: ['',Validators.required],
+      mail: ['',[Validators.required, Validators.email, Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
+      direccion: ['',[Validators.required,Validators.required, Validators.pattern(/^[A-Za-z\s]+\s\d+$/)]],
       fecha_n: ['',Validators.required],
       plan: ['',Validators.required]
     })

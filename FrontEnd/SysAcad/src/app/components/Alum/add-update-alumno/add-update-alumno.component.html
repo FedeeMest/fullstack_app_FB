@@ -15,10 +15,12 @@
             <div class="mb-2">
               <label for="mail" class="form-label">Email:</label>
               <input formControlName="mail" type="email" id="mail" class="form-control">
+                <small *ngIf="form.get('mail')?.errors?.['email']">El formato del email no es válido.</small>
             </div>
             <div class="mb-2">
               <label for="direccion" class="form-label">Dirección:</label>
               <input formControlName="direccion" type="text" id="direccion" class="form-control">
+              <small *ngIf="form.get('direccion')?.errors?.['pattern']" class="fw-bold fs-6">La dirección debe ser en formato "Calle 123".</small>
             </div>
             <div class="mb-2">
               <label for="fecha_n" class="form-label">Fecha de Nacimiento:</label>
@@ -40,6 +42,9 @@
               </div>
               <div class="col-6">
                 <button [disabled]="form.invalid" type="submit" class="btn btn-light btn-sm m-2">Aceptar</button>
+              </div>
+              <div>
+                <small class="ml-1 fw-bold">* Todos los campos son obligatorios.</small>
               </div>
             </div>
           </form>
