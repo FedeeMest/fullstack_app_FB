@@ -25,17 +25,17 @@ create table if not exists `sistema`.`materia` (
 
 create table if not exists `sistema`.`inscripcion` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `alumno_id` INT UNSIGNED NOT NULL,
-  `materia_id` INT UNSIGNED NOT NULL,
+  `alumno` INT UNSIGNED NOT NULL,
+  `materia` INT UNSIGNED NOT NULL,
   `fecha` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_alumno`
-    FOREIGN KEY (`alumno_id`)
+    FOREIGN KEY (`alumno`)
     REFERENCES `sistema`.`alumno` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_materia`
-    FOREIGN KEY (`materia_id`)
+    FOREIGN KEY (`materia`)
     REFERENCES `sistema`.`materia` (`id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE);
