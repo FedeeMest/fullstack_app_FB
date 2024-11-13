@@ -4,8 +4,8 @@ Sistema de gestión del instituto diseñado para simplificar y optimizar todas l
 ## Backend
 
 comandos: 
-pnpm install (si es la primera vez utilizando el proyecto)
-pnpm star:dev
+pnpm install (si es la primera vez utilizando el proyecto) \n
+pnpm star:dev \n
 enjoy :)
 
 ## Frontend
