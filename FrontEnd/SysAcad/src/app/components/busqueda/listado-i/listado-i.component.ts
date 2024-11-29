@@ -28,10 +28,16 @@ export class ListadoIComponent implements OnInit {
     constructor(private route: ActivatedRoute,private alumnoService: AlumnosService,private router: Router,private materiaService: MateriaService,private location: Location,private inscripcionService: InscripcionService, private toastr:ToastrService) {}
     ngOnInit():void{
       this.route.params.subscribe(params => {
-        this.alumnoId = +params['id'];
-        console.log('ID del alumno recibido:', this.alumnoId);
-        this.getInscripciones();
-    });
+        const id = +params['id'];
+        if(!isNaN(id) && id > 0){
+          this.alumnoId = id;
+          console.log('ID del alumno recibido desde queryParams:', this.alumnoId);
+          this.getInscripciones();
+          } else {
+            console.error('No se recibió un ID válido en los queryParams');
+            this.goBack();
+          }
+      });
   }
 
   getInscripciones(): void {

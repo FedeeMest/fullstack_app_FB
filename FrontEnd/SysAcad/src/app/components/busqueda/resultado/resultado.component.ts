@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Alumno } from '../../../interfaces/alumno';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
+import { AlumnosService } from '../../../services/alumnos.service';
 
 @Component({
   selector: 'app-resultado',
@@ -14,17 +15,23 @@ import { Location } from '@angular/common';
 export class ResultadoComponent implements OnInit {
   alumno: Alumno| null = null;
 
-  constructor(private router: Router,private location: Location) {}
+  constructor(private activatedroute:ActivatedRoute, private router: Router,private location: Location,private alumnosService: AlumnosService) {}
 
   ngOnInit(): void {
-    const storedAlumno = localStorage.getItem('alumno');
-    if (storedAlumno) {
-      this.alumno = JSON.parse(storedAlumno);
-      console.log('Alumno cargado de localStorage:', this.alumno);
-    } else {
-      console.log('No se encontró el alumno en localStorage');
-      this.router.navigate(['/buscar']);
-    }
+    this.activatedroute.params.subscribe((params) => {
+      const alumnoId = +params['id'];
+      if(alumnoId){
+        this.alumnosService.getAlumno(alumnoId).subscribe({
+          next: (alumno) => {
+            this.alumno = alumno;
+          },
+          error: (err) => {
+            console.error('Error al obtener los datos del alumno:', err);
+            this.goBack()
+          },
+        });
+      }
+    });
   }
 
   editarAlumno(id: number | undefined) {
@@ -37,7 +44,7 @@ export class ResultadoComponent implements OnInit {
 
   verInscripciones(id: number | undefined) {
     if (id !== undefined) {
-      this.router.navigate(['/lista_insc', id])
+      this.router.navigate(['/lista_insc', id]);
     } else {
       console.error('No se pudo obtener el ID del alumno');
     }

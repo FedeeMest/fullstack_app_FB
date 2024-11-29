@@ -22,7 +22,7 @@ export const routes: Routes = [
     {path: "add_materia", component: AddUpdateMateriaComponent},
     {path: "editar_materia/:id", component: AddUpdateMateriaComponent},
     {path: "buscar", component: BuscadorComponent},
-    {path: "resultado", component: ResultadoComponent},
+    {path: "resultado/:id", component: ResultadoComponent},
     {path: "lista_insc/:id", component: ListadoIComponent},
     {path: "add_inscripcion", component: AddInscripcionComponent},
     { path: "**", redirectTo: "" }

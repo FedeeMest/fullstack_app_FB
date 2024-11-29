@@ -27,13 +27,6 @@ export class AlumnosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (typeof localStorage !== 'undefined') {
-    const storedAlumno = localStorage.getItem('alumno');
-    if (storedAlumno) {
-      localStorage.removeItem('alumno');
-      console.log('Alumno eliminado del localStorage');
-      }
-    }
     this.getAlumnos();
     this.filtroForm.get('plan')?.valueChanges.subscribe((planSeleccionado) => {
       this.filtrarAlumnos(planSeleccionado);
@@ -54,12 +47,12 @@ export class AlumnosComponent implements OnInit {
   }
 
   verAlumno(alumno: Alumno): void {
-    localStorage.setItem('alumno', JSON.stringify(alumno));
+    const alumnoId = alumno.id;
     this.toastr.info('Mostrando la informacion del alumno seleccionado', 'Alumno Seleccionado',{
       progressBar: true,
       progressAnimation:'decreasing'
     })
-    this.router.navigate(['/resultado']);
+    this.router.navigate(['/resultado', alumnoId]);
   }
 
   extraerPlanesDisponibles(): void {

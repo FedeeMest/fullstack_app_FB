@@ -41,15 +41,13 @@ export class BuscadorComponent implements OnInit  {
 
   this.alumnoService.getAlumnoByLegajo(legajo).subscribe({
     next: (alumno) => {
-      console.log("Alumno encontrado:", alumno); // Verifica si el alumno se encuentra
+      console.log("Alumno encontrado:", alumno);
       if (alumno) {
-        // Almacena el alumno en localStorage antes de redirigir
-        localStorage.setItem('alumno', JSON.stringify(alumno));
         this.toastr.info('Mostrando la informacion del alumno solicitado', 'Alumno Encontrado', {
           progressBar: true,
           progressAnimation: 'decreasing'
         });
-        this.router.navigate(['/resultado']);
+        this.router.navigate(['/resultado', alumno.id]);
       } else {
         this.errorMessage = true;
         this.mensajeError = 'No se encontró un alumno con el legajo proporcionado.';
@@ -57,13 +55,10 @@ export class BuscadorComponent implements OnInit  {
     },
     error: (err) => {
       console.error('Error al buscar el alumno:', err);
-    
-      // Si el error es 404, significa que no se encontró el alumno
       if (err.message.includes('El alumno no fue encontrado')) {
         this.errorMessage = true;
         this.mensajeError = 'No se encontró un alumno con el legajo proporcionado.';
       } else {
-        // Para cualquier otro error
         this.errorMessage = true;
         this.mensajeError = 'Hubo un error al buscar el alumno. Por favor, inténtalo de nuevo más tarde.';
       }
