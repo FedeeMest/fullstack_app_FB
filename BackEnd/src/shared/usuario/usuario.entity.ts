@@ -1,17 +1,9 @@
-import {Entity,Property} from '@mikro-orm/core'
-import { usuario } from '../shared/usuario/usuario.entity'
+import {Entity,Property,PrimaryKey} from '@mikro-orm/core'
 
 
 @Entity()
-export class Alumno extends usuario {
-
-    @Property({nullable: false})
-    plan!:string
-
-    @Property({nullable: false})
-    legajo!: number
-
-    /* @PrimaryKey({nullable: false})
+export class usuario {
+    @PrimaryKey({nullable: false})
     id!: number
 
     @Property({nullable: false})
@@ -34,5 +26,5 @@ export class Alumno extends usuario {
 
     @Property({nullable: false})
     direccion!:string
- */
+
 }
