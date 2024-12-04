@@ -8,6 +8,7 @@ import { Inscripcion } from '../../../interfaces/inscripcion';
 import { InscripcionService } from '../../../services/inscripcion.service';
 import { AlumnosService } from '../../../services/alumnos.service';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-inscripcion',
@@ -17,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './add-inscripcion.component.css'
 })
 export class AddInscripcionComponent implements OnInit {
+  alumnoId!: number;
   listaMaterias: Materia[] = [];
   materiasFiltradas: Materia[] = [];
   modalidadesDisponibles: string[] = [];
@@ -24,7 +26,7 @@ export class AddInscripcionComponent implements OnInit {
   filtroForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private location: Location,private _materiaService: MateriaService,private fb: FormBuilder, private alumnoService: AlumnosService,private inscripcionService: InscripcionService,private toastr: ToastrService) {
+  constructor(private route: ActivatedRoute,private location: Location,private _materiaService: MateriaService,private fb: FormBuilder, private alumnoService: AlumnosService,private inscripcionService: InscripcionService,private toastr: ToastrService) {
     this.filtroForm = this.fb.group({
       modalidad: [''],
       fechaN: ['', Validators.required],
@@ -35,31 +37,25 @@ export class AddInscripcionComponent implements OnInit {
   
   ngOnInit(): void {
     this.getMaterias();
+    this.route.params.subscribe(params => {
+      const id = +params['id'];
+      if(!isNaN(id) && id > 0){
+        this.alumnoId = id;
+        console.log('ID del alumno recibido desde queryParams:', this.alumnoId);
+        } else {
+          console.log('No se recibió un ID válido en los queryParams');
+        }
+    });
     this.filtroForm.get('modalidad')?.valueChanges.subscribe((modalidadSeleccionada) => {
       this.filtrarMaterias(modalidadSeleccionada);
     });
   }
   
   getMaterias(): void {
-    const alumnoRaw = localStorage.getItem('alumno');
-    if (!alumnoRaw) {
-      this.errorMessage = "No se encontró el alumno en el almacenamiento local.";
-      return;
-    }
-  
-    let alumno;
-    try {
-      alumno = JSON.parse(alumnoRaw);
-    } catch (error) {
-      this.errorMessage = "Error al interpretar el objeto 'alumno' del almacenamiento local.";
-      return;
-    }
-  
-    const alumnoId = alumno.id;
     this._materiaService.getMaterias().subscribe({
       next: (materias) => {
         this.listaMaterias = materias;
-        this.alumnoService.getInscripcionesByAlumnoId(alumnoId).subscribe({
+        this.alumnoService.getInscripcionesByAlumnoId(this.alumnoId).subscribe({
           next: (inscripciones) => {
             const materiaIdsInscritas = new Set(inscripciones.map(inscripcion => inscripcion.materia));
             this.materiasFiltradas = this.listaMaterias.filter(materia => materia.id !== undefined && !materiaIdsInscritas.has(materia.id));
@@ -92,20 +88,7 @@ export class AddInscripcionComponent implements OnInit {
   }
 
   crearInscripcion(): void {
-    const alumnoRaw = localStorage.getItem('alumno');
-    if (!alumnoRaw) {
-      this.errorMessage = "No se encontró el alumno en el almacenamiento local.";
-      return;
-    }
-  
-    let alumno;
-    alumno = JSON.parse(alumnoRaw);
-    if (!alumno.id) {
-      this.errorMessage = "El objeto 'alumno' no contiene un 'id' válido.";
-      return;
-    }
-
-    const alumnoId = alumno.id;
+    const alumnoId = this.alumnoId;
     const fecha = this.filtroForm.get('fechaN')?.value;
     const materiaSeleccionada = this.filtroForm.get('materiaSeleccionada')?.value;
     const inscripcion: Inscripcion = {

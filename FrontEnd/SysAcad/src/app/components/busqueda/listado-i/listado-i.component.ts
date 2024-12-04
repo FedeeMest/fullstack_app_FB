@@ -10,6 +10,7 @@ import { Materia } from '../../../interfaces/materia';
 import { Location } from '@angular/common';
 import { InscripcionService } from '../../../services/inscripcion.service';
 import {ToastrService } from 'ngx-toastr';
+import { Alumno } from '../../../interfaces/alumno';
 
 @Component({
   selector: 'app-listado-i',
@@ -29,14 +30,9 @@ export class ListadoIComponent implements OnInit {
     ngOnInit():void{
       this.route.params.subscribe(params => {
         const id = +params['id'];
-        if(!isNaN(id) && id > 0){
           this.alumnoId = id;
           console.log('ID del alumno recibido desde queryParams:', this.alumnoId);
           this.getInscripciones();
-          } else {
-            console.error('No se recibió un ID válido en los queryParams');
-            this.goBack();
-          }
       });
   }
 
@@ -109,7 +105,7 @@ export class ListadoIComponent implements OnInit {
   }
 
   goadd(){
-    this.router.navigate(['/add_inscripcion']);
+    this.router.navigate(['/add_inscripcion', this.alumnoId]);
   }
 
   goBack() {

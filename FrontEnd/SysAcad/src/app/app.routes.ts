@@ -24,7 +24,7 @@ export const routes: Routes = [
     {path: "buscar", component: BuscadorComponent},
     {path: "resultado/:id", component: ResultadoComponent},
     {path: "lista_insc/:id", component: ListadoIComponent},
-    {path: "add_inscripcion", component: AddInscripcionComponent},
+    {path: "add_inscripcion/:id", component: AddInscripcionComponent},
     { path: "**", redirectTo: "" }
 
 ];
