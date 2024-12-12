@@ -28,7 +28,9 @@ export class AddUpdateAlumnoComponent implements OnInit {
       mail: ['',[Validators.required, Validators.email, Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
       direccion: ['',[Validators.required,Validators.required, Validators.pattern(/^[A-Za-z\s]+\s\d+$/)]],
       fecha_n: ['',Validators.required],
-      plan: ['',Validators.required]
+      plan: ['',Validators.required],
+      usuario: ['',Validators.required],
+      password: ['',Validators.required]
     })
     this.id = Number(aRouter.snapshot.paramMap.get('id'));
     
@@ -52,7 +54,9 @@ export class AddUpdateAlumnoComponent implements OnInit {
         mail: data.mail,
         direccion: data.direccion,
         fecha_n: fechaFormateada,
-        plan: data.plan
+        plan: data.plan,
+        usuario: data.usuario,
+        password: data.password
       })
     })
   }
@@ -64,7 +68,9 @@ export class AddUpdateAlumnoComponent implements OnInit {
       mail: this.form.value.mail,
       direccion: this.form.value.direccion,
       fecha_n: this.form.value.fecha_n,
-      plan: this.form.value.plan
+      plan: this.form.value.plan,
+      usuario: this.form.value.usuario,
+      password: this.form.value.password
     };
   
     if (this.id !== 0) {
