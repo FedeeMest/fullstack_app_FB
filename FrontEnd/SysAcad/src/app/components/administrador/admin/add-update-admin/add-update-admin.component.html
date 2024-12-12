@@ -1,9 +1,9 @@
 <div class="row mt-3">
     <div class="col-12 col-md-8 col-lg-4 offset-lg-4">
       <div class="modal-content" style="background-color: #375a7f; border-radius: 0.25rem; border: none;">
-        <div class="card-header text-center text-white">{{ operacion }} Alumno</div>
+        <div class="card-header text-center text-white">{{ operacion }} Admin</div>
         <div class="card-body text-white pt-1">
-          <form [formGroup]="form" (ngSubmit)="addAlumno()">
+          <form [formGroup]="form" (ngSubmit)="addAdmin()">
             <div class="mb-2 mt-2">
               <label for="nombre" class="form-label">Nombre:</label>
               <input formControlName="nombre" type="text" id="nombre" class="form-control">
@@ -33,16 +33,6 @@
             <div class="mb-2">
               <label for="password" class="form-label">Contraseña:</label>
               <input formControlName="password" type="password" id="password" class="form-control">
-            </div>
-            <div class="d-flex justify-content-center align-items-center mt-2 mb-2">
-              <label for="plan" class="form-label mr-2">Plan:</label>
-              <select formControlName="plan" id="plan" class="form-select">
-                <option>98</option>
-                <option>01</option>
-                <option>05</option>
-                <option>10</option>
-                <option>24</option>
-              </select>
             </div>
             <div class="row mt-2 text-center">
               <div class="col-6">

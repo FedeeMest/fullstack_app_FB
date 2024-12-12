@@ -6,3 +6,4 @@ export class Admin extends usuario {
   @Property({ nullable: false })
   numero!: string;
 }
+

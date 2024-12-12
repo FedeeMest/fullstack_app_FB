@@ -9,6 +9,8 @@ import { ResultadoComponent } from './components/administrador/busqueda/resultad
 import { ListadoIComponent } from './components/administrador/busqueda/listado-i/listado-i.component';
 import { AddInscripcionComponent } from './components/administrador/busqueda/add-inscripcion/add-inscripcion.component';
 import { LoginComponent } from './auth/login/login.component';
+import { AdminsComponent } from './components/administrador/admin/admins/admins.component.js';
+import { AddUpdateAdminComponent } from './components/administrador/admin/add-update-admin/add-update-admin.component.js';
 
 
 
@@ -25,6 +27,8 @@ export const routes: Routes = [
     {path: "resultado/:id", component: ResultadoComponent},
     {path: "lista_insc/:id", component: ListadoIComponent},
     {path: "add_inscripcion/:id", component: AddInscripcionComponent},
+    {path: "admins", component: AdminsComponent},
+    {path: "add_admin", component: AddUpdateAdminComponent},
     { path: "**", redirectTo: "" }
 
 ];

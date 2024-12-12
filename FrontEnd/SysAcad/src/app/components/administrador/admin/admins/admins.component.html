@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="card text-white bg-primary mb-3 mt-3 w-100 mx-auto">
+        <div class="card-header d-flex justify-content-between align-items-center p-2 flex-wrap">
+            <h4 class="m-0" style="font-size: 1.2rem;">Listado de Administradores</h4>
+            <button type="button" class="btn btn-light btn-sm mt-2 mt-md-0" (click)="goAdd()">Agregar Administrador</button>
+        </div>
+        
+        <div class="card-body">
+            <form class="d-flex flex-column flex-md-row justify-content-center mb-3">
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-secondary text-center" style="position: relative;">
+                        <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
+                            <tr>
+                                <th scope="col">Numero</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellido</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let admin of listaAdmins" class="table-active">
+                                <th scope="row" class="text-center align-middle">{{ admin.numero }}</th>
+                                <td class="text-center align-middle">{{ admin.nombre }}</td>
+                                <td class="text-center align-middle">{{ admin.apellido }}</td>
+                                <td class="text-center align-middle">
+                                    <button routerLink="/editar_admin/{{ admin.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
+                                    <button (click)="deleteAdmin(admin.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
+                                    <button (click)="verAdmin(admin)" type="button" class="btn btn-info btn-sm m-1">Ver Info</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
