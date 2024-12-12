@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Materia } from '../../../interfaces/materia';
-import { MateriaService } from '../../../services/materia.service';
+import { Materia } from '../../../../interfaces/materia';
+import { MateriaService } from '../../../../services/materia.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';

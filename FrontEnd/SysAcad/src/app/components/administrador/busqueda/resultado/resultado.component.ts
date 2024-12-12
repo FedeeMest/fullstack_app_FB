@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Alumno } from '../../../interfaces/alumno';
+import { Alumno } from '../../../../interfaces/alumno';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
-import { AlumnosService } from '../../../services/alumnos.service';
+import { AlumnosService } from '../../../../services/alumnos.service';
 
 @Component({
   selector: 'app-resultado',

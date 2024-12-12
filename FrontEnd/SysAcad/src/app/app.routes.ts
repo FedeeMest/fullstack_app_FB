@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { AlumnosComponent } from './components/Alum/alumnos/alumnos.component';
-import { AddUpdateAlumnoComponent } from './components/Alum/add-update-alumno/add-update-alumno.component';
-import { MateriasComponent } from './components/Mat/materias/materias.component';
-import { AddUpdateMateriaComponent } from './components/Mat/add-update-materia/add-update-materia.component';
+import { AlumnosComponent } from './components/administrador/Alum/alumnos/alumnos.component';
+import { AddUpdateAlumnoComponent } from './components/administrador/Alum/add-update-alumno/add-update-alumno.component';
+import { MateriasComponent } from './components/administrador/Mat/materias/materias.component';
+import { AddUpdateMateriaComponent } from './components/administrador/Mat/add-update-materia/add-update-materia.component';
 import { InicioComponent } from './components/inicio/inicio.component';
-import { BuscadorComponent } from './components/busqueda/buscador/buscador.component';
-import { ResultadoComponent } from './components/busqueda/resultado/resultado.component';
-import { ListadoIComponent } from './components/busqueda/listado-i/listado-i.component';
-import { AddInscripcionComponent } from './components/busqueda/add-inscripcion/add-inscripcion.component';
+import { BuscadorComponent } from './components/administrador/busqueda/buscador/buscador.component';
+import { ResultadoComponent } from './components/administrador/busqueda/resultado/resultado.component';
+import { ListadoIComponent } from './components/administrador/busqueda/listado-i/listado-i.component';
+import { AddInscripcionComponent } from './components/administrador/busqueda/add-inscripcion/add-inscripcion.component';
 import { LoginComponent } from './auth/login/login.component';
 
 

@@ -1,5 +1,5 @@
 import { Entity, Property } from '@mikro-orm/core';
-import { usuario } from '../shared/usuario/usuario.entity';
+import { usuario } from '../shared/usuario/usuario.entity.js';
 
 @Entity()
 export class Admin extends usuario {

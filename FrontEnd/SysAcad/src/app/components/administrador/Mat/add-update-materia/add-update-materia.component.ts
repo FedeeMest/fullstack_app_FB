@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MateriaService } from '../../../services/materia.service.js';
+
 import { ActivatedRoute, Router } from '@angular/router';
-import { Materia } from '../../../interfaces/materia.js';
 import { CommonModule } from '@angular/common';
 import { catchError, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { MateriaService } from '../../../../services/materia.service';
+import { Materia } from '../../../../interfaces/materia';
 
 @Component({
   selector: 'app-add-update-materia',

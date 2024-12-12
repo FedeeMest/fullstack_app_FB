@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Alumno } from '../../../interfaces/alumno';
-import { AlumnosService } from '../../../services/alumnos.service';
+import { Alumno } from '../../../../interfaces/alumno';
+import { AlumnosService } from '../../../../services/alumnos.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';

@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { MateriaService } from '../../../services/materia.service';
-import { Materia } from '../../../interfaces/materia';
-import { Inscripcion } from '../../../interfaces/inscripcion';
-import { InscripcionService } from '../../../services/inscripcion.service';
-import { AlumnosService } from '../../../services/alumnos.service';
+import { MateriaService } from '../../../../services/materia.service';
+import { Materia } from '../../../../interfaces/materia';
+import { Inscripcion } from '../../../../interfaces/inscripcion';
+import { InscripcionService } from '../../../../services/inscripcion.service';
+import { AlumnosService } from '../../../../services/alumnos.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 

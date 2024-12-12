@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlumnosService } from '../../../services/alumnos.service';
-import { Inscripcion } from '../../../interfaces/inscripcion';
+import { AlumnosService } from '../../../../services/alumnos.service';
+import { Inscripcion } from '../../../../interfaces/inscripcion';
 import { CommonModule, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
-import { MateriaService } from '../../../services/materia.service';
+import { MateriaService } from '../../../../services/materia.service';
 import { EMPTY, filter, forkJoin, Observable, of } from 'rxjs';
-import { Materia } from '../../../interfaces/materia';
+import { Materia } from '../../../../interfaces/materia';
 import { Location } from '@angular/common';
-import { InscripcionService } from '../../../services/inscripcion.service';
+import { InscripcionService } from '../../../../services/inscripcion.service';
 import {ToastrService } from 'ngx-toastr';
-import { Alumno } from '../../../interfaces/alumno';
+import { Alumno } from '../../../../interfaces/alumno';
 
 @Component({
   selector: 'app-listado-i',
@@ -30,9 +30,14 @@ export class ListadoIComponent implements OnInit {
     ngOnInit():void{
       this.route.params.subscribe(params => {
         const id = +params['id'];
+        if(!isNaN(id) && id > 0){
           this.alumnoId = id;
           console.log('ID del alumno recibido desde queryParams:', this.alumnoId);
           this.getInscripciones();
+          } else {
+            console.error('No se recibió un ID válido en los queryParams');
+            this.goBack();
+          }
       });
   }
 

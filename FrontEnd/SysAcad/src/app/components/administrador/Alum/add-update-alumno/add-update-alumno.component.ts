@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Alumno } from '../../../interfaces/alumno';
-import { AlumnosService } from '../../../services/alumnos.service';
+import { Alumno } from '../../../../interfaces/alumno';
+import { AlumnosService } from '../../../../services/alumnos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
