@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="card text-white bg-primary mb-3 mt-3 w-100 mx-auto">
+    <div class="d-flex justify-content-between align-items-center card-header p-2 flex-wrap">
+      <h4 class="m-0" style="font-size: 1.2rem;">Inscripciones</h4>
+      <button type="button" class="btn btn-light btn-sm mt-2 mt-md-0" (click)="goadd()">Agregar Inscripción</button>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <div *ngIf="errorMessage" class="alert alert-danger mb-2 mt-2" role="alert">
+        {{ errorMessage }}
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-secondary text-center" style="position: relative;">
+          <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Materia</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let inscripcion of inscripciones" class="table-active">
+              <td class="text-center align-middle">{{ inscripcion.fecha }}</td>
+              <td class="text-center align-middle">{{ materiasNombres[inscripcion.materia] || 'Cargando...' }}</td>
+              <td class="text-center align-middle">
+                <button type="button" (click)="deleteInscripcion(inscripcion.id!)" class="btn btn-danger btn-sm m-1">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row mt-2 text-center">
+      <div class="col-12">
+        <button (click)="goBack()" type="button" class="btn btn-secondary btn-sm m-2">Volver</button>
+      </div>
+    </div>
+  </div>
+</div>

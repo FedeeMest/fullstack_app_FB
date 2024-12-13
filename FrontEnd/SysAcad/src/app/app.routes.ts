@@ -11,24 +11,45 @@ import { AddInscripcionComponent } from './components/administrador/busqueda/add
 import { LoginComponent } from './auth/login/login.component';
 import { AdminsComponent } from './components/administrador/admin/admins/admins.component.js';
 import { AddUpdateAdminComponent } from './components/administrador/admin/add-update-admin/add-update-admin.component.js';
-
-
+import { InformacionComponent } from './components/alumnos/informacion/informacion.component';
+import { RoleGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-    {path: "", component: InicioComponent},
-    {path:"login", component:LoginComponent},
-    {path: "alumnos", component: AlumnosComponent},
-    {path: "add_alumno", component: AddUpdateAlumnoComponent},
-    {path: "editar_alumno/:id", component: AddUpdateAlumnoComponent},
-    {path: "materias", component: MateriasComponent},
-    {path: "add_materia", component: AddUpdateMateriaComponent},
-    {path: "editar_materia/:id", component: AddUpdateMateriaComponent},
-    {path: "buscar", component: BuscadorComponent},
-    {path: "resultado/:id", component: ResultadoComponent},
-    {path: "lista_insc/:id", component: ListadoIComponent},
-    {path: "add_inscripcion/:id", component: AddInscripcionComponent},
-    {path: "admins", component: AdminsComponent},
-    {path: "add_admin", component: AddUpdateAdminComponent},
-    { path: "**", redirectTo: "" }
 
-];
+    { path: '', component: InicioComponent },
+  
+    { path: 'login', component: LoginComponent },
+
+    {
+      path: '',
+      canActivate: [RoleGuard],
+      data: { roles: ['admin', 'alumno'] }, // Roles compartidos
+      children: [
+        {path: "informacion", component: InformacionComponent},
+        {path: "lista_insc/:id", component: ListadoIComponent},
+        {path: "add_inscripcion/:id", component: AddInscripcionComponent},
+      ],
+    },
+
+    {
+      path: 'admin',
+      canActivate: [RoleGuard],
+      data: { roles: ['admin'] }, // Solo admin
+      children: [
+        {path: "alumnos", component: AlumnosComponent},
+        {path: "add_alumno", component: AddUpdateAlumnoComponent},
+        {path: "editar_alumno/:id", component: AddUpdateAlumnoComponent},
+        {path: "materias", component: MateriasComponent},
+        {path: "add_materia", component: AddUpdateMateriaComponent},
+        {path: "editar_materia/:id", component: AddUpdateMateriaComponent},
+        {path: "buscar", component: BuscadorComponent},
+        {path: "resultado/:id", component: ResultadoComponent},
+        {path: "admins", component: AdminsComponent},
+        {path: "add_admin", component: AddUpdateAdminComponent},
+      ],
+    },
+
+    {path: "**", redirectTo: "" }
+]
+
+  
