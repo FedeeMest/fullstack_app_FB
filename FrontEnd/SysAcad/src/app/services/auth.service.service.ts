@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private role: string | null = null;
+  private apiUrl = 'http://localhost:3000'; // URL del backend
+  private jwtHelper = new JwtHelperService();
 
-  // Simula inicio de sesión
-  login(usuario: string, contraseña: string): boolean {
-    // Simular autenticación real
-    if (usuario === 'admin_user') {
-      this.role = 'admin';
-    } else if (usuario === 'alumno_user') {
-      this.role = 'alumno';
-    } else {
-      return false;
-    }
-    return true;
+  constructor(private http: HttpClient) {}
+
+  login(usuario: string, contraseña: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { usuario, contraseña });
   }
 
   getRole(): string | null {
-    return this.role;
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return decodedToken.rol;
+    }
+    return null;
   }
 }
