@@ -11,7 +11,7 @@ function inputS(req: Request, res: Response, next: NextFunction) {
         direccion: req.body.direccion,
         fecha_n: fechaSinHora,
         usuario: req.body.usuario,
-        contrseña: req.body.contraseña
+        password: req.body.password
     };
     Object.keys(req.body.inputS).forEach((key) => {
         if (req.body.inputS[key] === undefined) delete req.body.inputS[key];

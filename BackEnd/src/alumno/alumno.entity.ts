@@ -18,7 +18,7 @@ export class Alumno extends Usuario {
     usuario!: string
 
     @Property({nullable: false})
-    contraseña!: string
+    password!: string
 
     @Property({nullable: false})
     nombre!:string

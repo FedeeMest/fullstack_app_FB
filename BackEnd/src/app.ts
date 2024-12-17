@@ -7,6 +7,8 @@ import { materiaRouter } from './materia/materia.routes.js';
 import { inscripcionRouter } from './inscripcion/inscripcion.routes.js';
 import cors from 'cors';
 import { authRoutes } from './auth/auth.routes.js';
+import { verifyRole } from '../src/Middleware/authMiddleware.js'; // Asegúrate de ajustar la ruta según tu estructura de proyecto
+
 
 
 const app = express();
@@ -19,9 +21,9 @@ app.use ((req, res, next) => {
 
 app.use('/auth', authRoutes);
 
-app.use("/api/alumnos", alumnoRouter)
-app.use("/api/materias", materiaRouter)
-app.use("/api/inscripciones", inscripcionRouter)
+app.use('/api/alumnos', verifyRole(['admin']), alumnoRouter);
+app.use('/api/materias', verifyRole(['admin']), materiaRouter);
+app.use('/api/inscripciones', verifyRole(['admin']), inscripcionRouter);
 
 
 app.use((_, res) => {

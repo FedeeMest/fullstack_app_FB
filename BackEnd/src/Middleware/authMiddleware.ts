@@ -1,4 +1,3 @@
-// middleware/authMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
@@ -22,16 +21,16 @@ export const verifyRole = (roles: string[]) => {
     const token = authHeader.split(' ')[1];
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret') as any;
+      const decoded = jwt.verify(token, 'your_jwt_secret');
+      req.user = decoded;
 
-      if (!roles.includes(decoded.rol)) {
-        return res.status(403).json({ message: `Access denied. Required roles: ${roles.join(', ')}` });
+      if (!roles.includes(req.user.rol)) {
+        return res.status(403).send('Access denied');
       }
 
-      req.user = decoded; // Ahora `req.user` no generará errores
       next();
     } catch (err) {
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(403).send('Invalid token');
     }
   };
 };
