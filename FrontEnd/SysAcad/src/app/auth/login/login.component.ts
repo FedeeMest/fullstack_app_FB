@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service.service';
+import { AuthService } from '../../services/auth.service.service'; // Ajusta la ruta según tu estructura de proyecto
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   usuario: string = '';

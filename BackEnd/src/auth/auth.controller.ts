@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { orm } from '../shared/db/orm'; // Asegúrate de ajustar la ruta según tu estructura de proyecto
 import { Usuario } from '../shared/usuario/usuario.entity'; // Asegúrate de ajustar la ruta según tu estructura de proyecto
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 export const login = async (req: Request, res: Response) => {
   const { usuario, contraseña } = req.body;
@@ -10,9 +11,16 @@ export const login = async (req: Request, res: Response) => {
 
   try {
     // Buscar el usuario en la base de datos
-    const user = await em.findOne(Usuario, { usuario, contraseña });
+    const user = await em.findOne(Usuario, { usuario });
 
     if (!user) {
+      return res.status(401).send('Invalid credentials');
+    }
+
+    // Verificar la contraseña
+    const isMatch = await bcrypt.compare(contraseña, user.contraseña);
+
+    if (!isMatch) {
       return res.status(401).send('Invalid credentials');
     }
 

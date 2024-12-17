@@ -6,6 +6,7 @@ import { RequestContext } from '@mikro-orm/core';
 import { materiaRouter } from './materia/materia.routes.js';
 import { inscripcionRouter } from './inscripcion/inscripcion.routes.js';
 import cors from 'cors';
+import { authRoutes } from './auth/auth.routes.js';
 
 
 const app = express();
@@ -15,6 +16,8 @@ app.use(cors());
 app.use ((req, res, next) => {
   RequestContext.create(orm.em, next)
 })
+
+app.use('/auth', authRoutes);
 
 app.use("/api/alumnos", alumnoRouter)
 app.use("/api/materias", materiaRouter)
