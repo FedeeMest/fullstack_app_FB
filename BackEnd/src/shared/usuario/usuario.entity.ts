@@ -1,7 +1,7 @@
 import { Entity, Property, PrimaryKey } from '@mikro-orm/core';
 
 @Entity()
-export class usuario {
+export class Usuario {
   @PrimaryKey({ nullable: false })
   id!: number;
 
@@ -27,5 +27,5 @@ export class usuario {
   direccion!: string;
 
   @Property({ nullable: false })
-  tipo_usuario!: string; //  campo para distinguir entre Alumno y Admin
+  rol!: string; //  campo para distinguir entre Alumno y Admin
 }
