@@ -5,11 +5,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AdminbarComponent } from '../../../adminbar/adminbar.component.js';
 
 @Component({
   selector: 'app-materias',
   standalone: true,
-  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule, NgIf],
+  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule, NgIf, AdminbarComponent],
   templateUrl: './materias.component.html',
   styleUrls: ['./materias.component.css']
 })
@@ -95,6 +96,6 @@ export class MateriasComponent implements OnInit {
   }
 
   goadd(){
-    this.router.navigate(['/add_materia']);
+    this.router.navigate(['/admin/add_materia']);
   }
 }

@@ -16,9 +16,9 @@ import { RoleGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
 
-    { path: '', component: InicioComponent },
+    { path: 'inicio', component: InicioComponent },
   
-    { path: 'login', component: LoginComponent },
+    { path: '', component: LoginComponent },
 
     {
       path: '',
@@ -49,7 +49,7 @@ export const routes: Routes = [
       ],
     },
 
-    {path: "**", redirectTo: "" }
+    {path: "**", redirectTo: "inicio" }
 ]
 
   

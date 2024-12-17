@@ -69,7 +69,7 @@ export class AddUpdateMateriaComponent implements OnInit {
             progressBar: true,
             progressAnimation:'decreasing'
           });
-          this.router.navigate(['/materias']);
+          this.router.navigate(['/admin/materias']);
         },
         error: (error) => {
           this.handleError(error);
@@ -83,7 +83,7 @@ export class AddUpdateMateriaComponent implements OnInit {
             progressBar: true,
             progressAnimation:'decreasing'
           });
-          this.router.navigate(['/materias']);
+          this.router.navigate(['/admin/materias']);
         },
         error: (error) => {
           this.handleError(error);
@@ -133,6 +133,6 @@ export class AddUpdateMateriaComponent implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['/materias']);
+    this.router.navigate(['/admin/materias']);
   }
 }

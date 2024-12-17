@@ -17,15 +17,15 @@ export class NavbarComponent {
   }
 
   goBuscar() {
-    this.route.navigate(['/buscar']);
+    this.route.navigate(['/admin/buscar']);
   }
 
   goAlumnos() {
-    this.route.navigate(['/alumnos']);
+    this.route.navigate(['/admin/alumnos']);
   }
 
   goMaterias() {
-    this.route.navigate(['/materias']);
+    this.route.navigate(['/admin/materias']);
   }
 
 }

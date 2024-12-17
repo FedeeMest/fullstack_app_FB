@@ -99,7 +99,7 @@ export class AddUpdateAdminComponent implements OnInit {
             progressBar: true,
             progressAnimation:'decreasing'
           });
-          this.router.navigate(['/admins']);
+          this.router.navigate(['/admin/admins']);
         },
         error: (error) => {
           this.errorMessage = error.error.message || 'Error desconocido';

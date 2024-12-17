@@ -1,4 +1,8 @@
+
 <div class="container">
+    <div>
+    <app-adminbar></app-adminbar> 
+    </div>
     <div class="card text-white bg-primary mb-3 mt-3 w-100 mx-auto">
         <div class="card-header d-flex justify-content-between align-items-center p-2 flex-wrap">
             <h4 class="m-0" style="font-size: 1.2rem;">Listado de Administradores</h4>
@@ -23,7 +27,7 @@
                                 <td class="text-center align-middle">{{ admin.nombre }}</td>
                                 <td class="text-center align-middle">{{ admin.apellido }}</td>
                                 <td class="text-center align-middle">
-                                    <button routerLink="/editar_admin/{{ admin.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
+                                    <button routerLink="/admin/editar_admin/{{ admin.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
                                     <button (click)="deleteAdmin(admin.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
                                     <button (click)="verAdmin(admin)" type="button" class="btn btn-info btn-sm m-1">Ver Info</button>
                                 </td>

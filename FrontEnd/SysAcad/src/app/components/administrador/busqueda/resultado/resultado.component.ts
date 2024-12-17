@@ -4,11 +4,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
 import { AlumnosService } from '../../../../services/alumnos.service';
+import { AdminbarComponent } from '../../../adminbar/adminbar.component.js';
 
 @Component({
   selector: 'app-resultado',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AdminbarComponent],
   templateUrl: './resultado.component.html',
   styleUrls: ['./resultado.component.css']
 })
@@ -36,7 +37,7 @@ export class ResultadoComponent implements OnInit {
 
   editarAlumno(id: number | undefined) {
     if (id !== undefined) {
-      this.router.navigate(['/editar_alumno', id], { state: { from: 'resultado' } });
+      this.router.navigate(['/admin/editar_alumno', id], { state: { from: 'resultado' } });
     } else {
       console.error('No se pudo obtener el ID del alumno');
     }

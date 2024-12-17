@@ -4,13 +4,14 @@ import { AlumnosService } from '../../../../services/alumnos.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { AdminbarComponent } from '../../../adminbar/adminbar.component.js';
 
 
 
 @Component({
   selector: 'app-buscador',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule, AdminbarComponent],
   templateUrl: './buscador.component.html',
   styleUrl: './buscador.component.css'
 })
@@ -47,7 +48,7 @@ export class BuscadorComponent implements OnInit  {
           progressBar: true,
           progressAnimation: 'decreasing'
         });
-        this.router.navigate(['/resultado', alumno.id]);
+        this.router.navigate(['/admin/resultado', alumno.id]);
       } else {
         this.errorMessage = true;
         this.mensajeError = 'No se encontró un alumno con el legajo proporcionado.';

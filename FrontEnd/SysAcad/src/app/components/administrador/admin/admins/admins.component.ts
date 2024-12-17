@@ -5,11 +5,12 @@ import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Admin } from '../../../../interfaces/admin.js';
 import { CommonModule, NgFor } from '@angular/common';
+import { AdminbarComponent } from '../../../adminbar/adminbar.component.js';
 
 @Component({
   selector: 'app-admins',
   standalone: true,
-  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule, AdminbarComponent],
   templateUrl: './admins.component.html',
   styleUrl: './admins.component.css'
 })
@@ -40,7 +41,7 @@ export class AdminsComponent implements OnInit {
       progressBar: true,
       progressAnimation:'decreasing'
     })
-    this.router.navigate(['/resultado', adminId]);
+    this.router.navigate(['/admin/resultado', adminId]);
 
   }
 
@@ -62,7 +63,7 @@ export class AdminsComponent implements OnInit {
   }
 
   goAdd(): void {
-    this.router.navigate(['/add_admin']);
+    this.router.navigate(['/admin/add_admin']);
   }
 
 
