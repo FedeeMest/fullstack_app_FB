@@ -20,7 +20,7 @@ export class AuthService {
     }
 
     // Verificar la contraseña
-    const isMatch = await bcrypt.compare(contraseña, user.contraseña);
+    const isMatch = await bcrypt.compare(contraseña, user.password);
 
     if (!isMatch) {
       throw new Error('Contraseña incorrecta');
