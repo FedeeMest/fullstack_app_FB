@@ -8,23 +8,23 @@ import bcrypt from 'bcryptjs';
 export const login = async (req: Request, res: Response) => {
   const { usuario, password } = req.body;
   const em = orm.em.fork(); // Crear una nueva instancia del EntityManager
-
   console.log('Contraseña recibida:', password);
 
   try {
     // Buscar el usuario en la tabla Admin
-    let user = await em.findOne(Admin, { usuario });
+    let user: Admin | Alumno | null = await em.findOne(Admin, { usuario });
     console.log('Buscando en Admin:', user);
 
     // Si no se encuentra en la tabla Admin, buscar en la tabla Alumno
     if (!user) {
-      let user: Admin | Alumno | null = await em.findOne(Admin, { usuario });      console.log('Buscando en Alumno:', user);
+      user= await em.findOne(Alumno, { usuario });      
+      console.log('Buscando en Alumno:', user);
     }
 
     // Si no se encuentra en ninguna tabla, devolver error
     if (!user) {
       console.log('Usuario no encontrado');
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+      return res.status(401).json({ error: 'Usuario no encontrado' });
     }
 
     console.log('Contraseña almacenada (hash):', user.password);
