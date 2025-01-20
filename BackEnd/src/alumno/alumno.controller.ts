@@ -90,7 +90,8 @@ async function add(req: Request, res: Response) {
     try {
         const [alumnoConMaxLegajo] = await em.find(Alumno, {}, { orderBy: { legajo: 'DESC' }, limit: 1 });
         const maxLegajo = alumnoConMaxLegajo ? alumnoConMaxLegajo.legajo + 1 : 1
-        const nuevoAlumno = em.create(Alumno, { ...input, legajo: maxLegajo });
+        const rol= 'alumno';
+        const nuevoAlumno = em.create(Alumno, { ...input, legajo: maxLegajo, rol: rol });
         await em.persistAndFlush(nuevoAlumno);
         res.header('Access-Control-Allow-Origin', '*');
         return res.status(201).json({ Message: 'Alumno creado con éxito', data: nuevoAlumno });

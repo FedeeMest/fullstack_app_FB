@@ -100,7 +100,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
             progressBar: true,
             progressAnimation:'decreasing'
           });
-          this.router.navigate(['/alumnos']);
+          this.router.navigate(['/admin/alumnos']);
         },
         error: (error) => {
           this.errorMessage = error.error.message || 'Error desconocido';
