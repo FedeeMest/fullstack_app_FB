@@ -13,7 +13,7 @@ export class NavbarComponent {
   constructor(private route:Router) { }
 
   goHome() {
-    this.route.navigate(['/']);
+    this.route.navigate(['/inicio']);
   }
 
   goBuscar() {
@@ -26,6 +26,10 @@ export class NavbarComponent {
 
   goMaterias() {
     this.route.navigate(['/admin/materias']);
+  }
+
+  goAdmins() {
+    this.route.navigate(['/admin/admins']);
   }
 
 }
