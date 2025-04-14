@@ -25,7 +25,7 @@ export const routes: Routes = [
       canActivate: [RoleGuard],
       data: { roles: ['admin', 'alumno'] }, // Roles compartidos
       children: [
-        {path: "informacion", component: InformacionComponent},
+        {path: "informacion/:id", component: InformacionComponent},
         {path: "lista_insc/:id", component: ListadoIComponent},
         {path: "add_inscripcion/:id", component: AddInscripcionComponent},
       ],

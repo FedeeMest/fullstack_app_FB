@@ -24,10 +24,13 @@ export class LoginComponent {
         localStorage.setItem('token', response.token); // Almacenar el token en el almacenamiento local
         const decodedToken = this.jwtHelper.decodeToken(response.token);
         const userRole = decodedToken.rol;
+        const userId = decodedToken.id; // Recuperar el ID del usuario
+
+
         if (userRole === 'admin') {
           this.router.navigate(['/admin/alumnos']); // Redirigir al componente de administrador
         } else if (userRole === 'alumno') {
-          this.router.navigate(['/informacion']); // Redirigir al componente de alumno
+          this.router.navigate([`/informacion/${userId}`]); // Redirigir al componente de alumno
         } else {
           this.router.navigate(['/']); // Redirigir a la página principal o a la ruta deseada
         }

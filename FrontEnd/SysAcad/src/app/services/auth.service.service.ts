@@ -17,10 +17,20 @@ export class AuthService {
   }
 
   getRole(): string | null {
+    if (typeof window !== 'undefined' && localStorage) { // Verificar si localStorage está disponible
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        return decodedToken.rol;
+      }
+    }
+    return null;
+  }
+  getUserId(): number | null {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken.rol;
+      return decodedToken.id;
     }
     return null;
   }

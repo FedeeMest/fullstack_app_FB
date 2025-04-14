@@ -1,7 +1,4 @@
 <div class="container">
-  <div>
-    <app-adminbar></app-adminbar> 
-  </div>
   <div class="card text-white bg-primary mb-3 mt-3 w-100 mx-auto">
     <div class="d-flex justify-content-between align-items-center card-header p-2 flex-wrap">
       <h4 class="m-0" style="font-size: 1.2rem;">Listado de Materias</h4>
@@ -17,8 +14,8 @@
     <div class="card-body">
       <form [formGroup]="filtroForm" class="d-flex flex-column flex-md-row justify-content-center mb-3">
         <div class="d-flex align-items-center mb-2 mb-md-0">
-          <label for="modalidad" class="form-label mr-2 mb-0">Selecciona una Modalidad:</label>
-          <select formControlName="modalidad" id="modalidad" class="form-select text-center w-100 w-md-auto" style="min-width: 200px;">
+          <label for="modalidad" class="form-label me-3 mb-0">Selecciona una Modalidad:</label>
+          <select formControlName="modalidad" id="modalidad" class="form-select w-50 text-center" style="max-width: 250px;">
             <option value="">Todos</option>
             <option *ngFor="let modalidad of modalidadesDisponibles" [value]="modalidad">
               {{ modalidad }}
@@ -43,9 +40,23 @@
               <td class="text-center align-middle">{{ materia.horas_anuales }}</td>
               <td class="text-center align-middle">{{ materia.modalidad }}</td>
               <td class="text-center align-middle">
-                <button routerLink="/admin/editar_materia/{{ materia.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
-                <button (click)="deleteMateria(materia.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
-              </td>
+              
+                <div class="dropdown d-block d-sm-none">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" [routerLink]="'/admin/editar_materia/' + materia.id" type="button" >Editar</a></li>
+                    <li><a class="dropdown-item text-danger" (click)="deleteMateria(materia.id!)" type="button">Eliminar</a></li>
+                  </ul>
+                </div>
+
+                <div class="d-none d-sm-block">
+                  <button routerLink="/admin/editar_materia/{{ materia.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
+                  <button (click)="deleteMateria(materia.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
+                </div>
+                </td>
             </tr>
           </tbody>
         </table>
