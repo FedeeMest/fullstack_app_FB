@@ -69,7 +69,7 @@ export class AddUpdateMateriaComponent implements OnInit {
             progressBar: true,
             progressAnimation:'decreasing'
           });
-          this.router.navigate(['/admin/materias']);
+          this.router.navigate(['/materias']);
         },
         error: (error) => {
           this.handleError(error);
@@ -83,7 +83,7 @@ export class AddUpdateMateriaComponent implements OnInit {
             progressBar: true,
             progressAnimation:'decreasing'
           });
-          this.router.navigate(['/admin/materias']);
+          this.router.navigate(['/materias']);
         },
         error: (error) => {
           this.handleError(error);
@@ -91,32 +91,6 @@ export class AddUpdateMateriaComponent implements OnInit {
       });
   }
 }
-
-  /* addMateria() {
-    console.log(this.form.value);
-    const materia: Materia = {
-      nombre: this.form.value.nombre,
-      horas_anuales: this.form.value.horas_anuales,
-      modalidad: this.form.value.modalidad,
-    };
-
-    const materiaRequest = this.id !== 0 
-      ? this.materiasService.updateMateria(this.id, materia) 
-      : this.materiasService.saveMateria(materia);
-
-    materiaRequest.pipe(
-      catchError((error) => {
-        this.handleError(error);
-        return throwError(() => error); // Re-lanzar el error si es necesario
-      })
-    ).subscribe({
-      next: () => {
-        console.log(this.id !== 0 ? 'Materia actualizada' : 'Materia creada');
-        this.router.navigate(['/materias']);
-      },
-    });
-  } */
-
   private handleError(error: any) {
     console.error('Detalles del error:', error);
     let errorMessage = 'Ocurrió un error al procesar la solicitud.';

@@ -116,7 +116,7 @@ export class NavbarComponent implements OnInit {
   }
 
   goMaterias() {
-    this.route.navigate(['/admin/materias']);
+    this.route.navigate(['/materias']);
   }
 
   goAdmins() {
