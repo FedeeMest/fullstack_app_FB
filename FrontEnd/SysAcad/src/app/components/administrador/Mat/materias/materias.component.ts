@@ -5,12 +5,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AdminbarComponent } from '../../../adminbar/adminbar.component.js';
+
 
 @Component({
   selector: 'app-materias',
   standalone: true,
-  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule, NgIf, AdminbarComponent],
+  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule, NgIf],
   templateUrl: './materias.component.html',
   styleUrls: ['./materias.component.css']
 })

@@ -6,12 +6,11 @@ import { CommonModule, NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AdminbarComponent } from '../../../adminbar/adminbar.component.js';
 
 @Component({
   selector: 'app-alumnos',
   standalone: true,
-  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule,AdminbarComponent],
+  imports: [NgFor, CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './alumnos.component.html',
   styleUrl: './alumnos.component.css',
 })
@@ -53,7 +52,7 @@ export class AlumnosComponent implements OnInit {
       progressBar: true,
       progressAnimation:'decreasing'
     })
-    this.router.navigate(['/admin/resultado', alumnoId]);
+    this.router.navigate(['/admin/resultado', 'alumnos', alumnoId]);
   }
 
   extraerPlanesDisponibles(): void {

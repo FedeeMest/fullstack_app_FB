@@ -4,14 +4,14 @@ import { AlumnosService } from '../../../../services/alumnos.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-import { AdminbarComponent } from '../../../adminbar/adminbar.component.js';
+
 
 
 
 @Component({
   selector: 'app-buscador',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule, AdminbarComponent],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './buscador.component.html',
   styleUrl: './buscador.component.css'
 })

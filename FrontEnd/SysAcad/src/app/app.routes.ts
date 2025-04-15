@@ -43,9 +43,10 @@ export const routes: Routes = [
         {path: "add_materia", component: AddUpdateMateriaComponent},
         {path: "editar_materia/:id", component: AddUpdateMateriaComponent},
         {path: "buscar", component: BuscadorComponent},
-        {path: "resultado/:id", component: ResultadoComponent},
+        {path: "resultado/:tabla/:id", component: ResultadoComponent},
         {path: "admins", component: AdminsComponent},
         {path: "add_admin", component: AddUpdateAdminComponent},
+        {path: "editar_admin/:id", component: AddUpdateAdminComponent},
       ],
     },
 

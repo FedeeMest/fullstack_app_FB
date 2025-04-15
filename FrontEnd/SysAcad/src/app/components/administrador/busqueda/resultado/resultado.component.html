@@ -1,8 +1,9 @@
 <div class="container d-flex justify-content-center align-items-center mt-3">
-  <div class="card text-white bg-primary mb-3" style="max-width: 600px;">
-    <div class="card-header text-center">Alumno</div>
+  <!-- Mostrar información del Alumno -->
+  <div *ngIf="tabla === 'alumnos' && alumno" class="card text-white bg-primary mb-3" style="max-width: 600px;">
+    <div class="card-header text-center">Información del Alumno</div>
     <div class="card-body">
-      <div class="row mb-3" *ngIf="alumno">
+      <div class="row mb-3">
         <div class="col-md-6">
           <label for="nombre" class="form-label text-white mb-0">Nombre</label>
           <input type="text" id="nombre" [value]="alumno.nombre" readonly class="form-control mt-0 mb-3">
@@ -40,5 +41,51 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Mostrar información del Admin -->
+  <div *ngIf="tabla === 'admins' && admin" class="card text-white bg-primary mb-3" style="max-width: 600px;">
+    <div class="card-header text-center">Información del Admin</div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="nombre" class="form-label text-white mb-0">Nombre</label>
+          <input type="text" id="nombre" [value]="admin.nombre" readonly class="form-control mt-0 mb-3">
+        </div>
+        <div class="col-md-6">
+          <label for="apellido" class="form-label text-white mb-0">Apellido</label>
+          <input type="text" id="apellido" [value]="admin.apellido" readonly class="form-control mt-0 mb-3">
+        </div>
+        <div class="col-md-6">
+          <label for="usuario" class="form-label text-white mb-0">Usuario</label>
+          <input type="text" id="usuario" [value]="admin.usuario" readonly class="form-control mt-0 mb-3">
+        </div>
+        <div class="col-md-6">
+          <label for="mail" class="form-label text-white mb-0">Mail</label>
+          <input type="text" id="mail" [value]="admin.mail" readonly class="form-control mt-0 mb-3">
+        </div>
+        <div class="col-md-6">
+          <label for="direccion" class="form-label text-white mb-0">Dirección</label>
+          <input type="text" id="direccion" [value]="admin.direccion" readonly class="form-control mt-0 mb-3">
+        </div>
+        <div class="col-md-6">
+          <label for="fechaN" class="form-label text-white mb-0">Fecha de Nacimiento</label>
+          <input type="text" id="fechaN" [value]="admin.fecha_n" readonly class="form-control mt-0 mb-3">
+        </div>
+        <div class="col-md-6">
+          <label for="legajo" class="form-label text-white mb-0">Numero</label>
+          <input type="text" id="legajo" [value]="admin.numero" readonly class="form-control mt-0 mb-3">
+        </div>
+      </div>
+      <div class="d-flex justify-content-between mt-3">
+        <button class="btn btn-secondary" (click)="goBack()">Volver</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar mensaje si no hay información -->
+  <div *ngIf="!admin && !alumno" class="text-center mt-5">
+    <p>No se encontró información para el usuario especificado.</p>
+    <button class="btn btn-primary" (click)="goBack()">Volver</button>
   </div>
 </div>

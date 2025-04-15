@@ -28,7 +28,6 @@ export class AddUpdateAdminComponent implements OnInit {
       mail: ['',[Validators.required, Validators.email, Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
       direccion: ['',[Validators.required,Validators.required, Validators.pattern(/^[A-Za-z\s]+\s\d+$/)]],
       fecha_n: ['',Validators.required],
-      plan: ['',Validators.required],
       usuario: ['',Validators.required],
       password: ['',Validators.required]
     })
@@ -54,7 +53,6 @@ export class AddUpdateAdminComponent implements OnInit {
         mail: data.mail,
         direccion: data.direccion,
         fecha_n: fechaFormateada,
-        numero : data.numero,
         usuario: data.usuario,
         password: data.password
       })

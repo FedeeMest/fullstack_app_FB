@@ -10,7 +10,7 @@ import { Materia } from '../../../../interfaces/materia';
 import { Location } from '@angular/common';
 import { InscripcionService } from '../../../../services/inscripcion.service';
 import {ToastrService } from 'ngx-toastr';
-import { Alumno } from '../../../../interfaces/alumno';
+
 
 @Component({
   selector: 'app-listado-i',
