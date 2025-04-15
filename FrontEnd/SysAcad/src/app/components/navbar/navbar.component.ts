@@ -21,6 +21,9 @@ export class NavbarComponent implements OnInit {
   apellido: string = ''; // Apellido del usuario
   usuario: string = ''; // usuario
   rol: string = ''; // Rol del usuario (admin o alumno)
+  isMenuLeft = false;
+
+
 
   constructor(
     private route: Router,
@@ -33,12 +36,14 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   // Escuchar cambios en el estado de autenticación
   this.authtateService.authState$.subscribe((isAuthenticated) => {
+    this.checkMenuPosition();
     if (isAuthenticated) {
       this.checkRole();
       this.loadUserInfo();
     } else {
       this.clearUserInfo();
     }
+    
   });
 
   // Inicializar el estado al cargar el componente
@@ -48,6 +53,11 @@ export class NavbarComponent implements OnInit {
   }
 }
 
+checkMenuPosition(): void {
+  const screenWidth = window.innerWidth;
+  // Aseguramos que el menú no se salga de la pantalla (ajustamos según el tamaño de la ventana)
+  this.isMenuLeft = screenWidth <= 768; // Por ejemplo, en pantallas pequeñas se fuerza hacia la izquierda
+}
   checkRole() {
     const role = this.authService.getRole(); // Recuperar el rol del usuario
     this.isAdmin = role === 'admin'; // Verificar si el rol es admin
