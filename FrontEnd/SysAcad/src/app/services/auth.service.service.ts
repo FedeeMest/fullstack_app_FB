@@ -27,10 +27,12 @@ export class AuthService {
     return null;
   }
   getUserId(): number | null {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken.id;
+    if (typeof window !== 'undefined' && localStorage) { // Verificar si localStorage está disponible
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        return decodedToken.id; 
+      }
     }
     return null;
   }
