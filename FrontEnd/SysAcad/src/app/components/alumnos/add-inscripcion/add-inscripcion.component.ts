@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { MateriaService } from '../../../../services/materia.service';
-import { Materia } from '../../../../interfaces/materia';
-import { Inscripcion } from '../../../../interfaces/inscripcion';
-import { InscripcionService } from '../../../../services/inscripcion.service';
-import { AlumnosService } from '../../../../services/alumnos.service';
+import { Inscripcion } from '../../../interfaces/inscripcion';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { Materia } from '../../../interfaces/materia';
+import { MateriaService } from '../../../services/materia.service';
+import { AlumnosService } from '../../../services/alumnos.service';
+import { InscripcionService } from '../../../services/inscripcion.service';
 
 @Component({
   selector: 'app-add-inscripcion',
