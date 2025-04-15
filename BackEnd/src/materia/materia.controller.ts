@@ -19,7 +19,7 @@ async function findAll(req: Request, res: Response) {
     const em = orm.em.fork();
     try{
         const materias = await em.find(Materia, {})
-        res.header('Access-Control-Allow-Origin', '*');
+        //res.header('Access-Control-Allow-Origin', '*');
         return res.status(200).json(materias);
     } catch (error:any){
         console.error('Error al obtener materia:', error);
