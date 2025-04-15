@@ -28,6 +28,7 @@ export const routes: Routes = [
         {path: "informacion/:id", component: InformacionComponent},
         {path: "lista_insc/:id", component: ListadoIComponent},
         {path: "add_inscripcion/:id", component: AddInscripcionComponent},
+        {path: "materias", component: MateriasComponent}
       ],
     },
 
@@ -39,7 +40,6 @@ export const routes: Routes = [
         {path: "alumnos", component: AlumnosComponent},
         {path: "add_alumno", component: AddUpdateAlumnoComponent},
         {path: "editar_alumno/:id", component: AddUpdateAlumnoComponent},
-        {path: "materias", component: MateriasComponent},
         {path: "add_materia", component: AddUpdateMateriaComponent},
         {path: "editar_materia/:id", component: AddUpdateMateriaComponent},
         {path: "buscar", component: BuscadorComponent},

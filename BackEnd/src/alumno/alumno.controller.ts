@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { orm } from '../shared/db/orm.js';
 import { Alumno } from './alumno.entity.js';
 import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
+import bcrypt from 'bcryptjs';
 
 function inputS(req: Request, res: Response, next: NextFunction) {
     const fechaSinHora = req.body.fecha_n ? new Date(req.body.fecha_n).toISOString().split('T')[0] : '';
@@ -88,11 +89,21 @@ async function add(req: Request, res: Response) {
     const em = orm.em.fork();
     const input = req.body.inputS;
     try {
+        // Encriptar la contraseña
+        const salt = await bcrypt.genSalt(10); // Generar un salt
+        const hashedPassword = await bcrypt.hash(input.password, salt); // Encriptar la contraseña
+        console.log(hashedPassword)
+        // Obtener el legajo más alto y asignar el siguiente
         const [alumnoConMaxLegajo] = await em.find(Alumno, {}, { orderBy: { legajo: 'DESC' }, limit: 1 });
-        const maxLegajo = alumnoConMaxLegajo ? alumnoConMaxLegajo.legajo + 1 : 1
-        const rol= 'alumno';
-        const nuevoAlumno = em.create(Alumno, { ...input, legajo: maxLegajo, rol: rol });
+        const maxLegajo = alumnoConMaxLegajo ? alumnoConMaxLegajo.legajo + 1 : 1;
+
+        // Crear el nuevo alumno con la contraseña encriptada
+        const rol = 'alumno';
+        const nuevoAlumno = em.create(Alumno, { ...input, password: hashedPassword, legajo: maxLegajo, rol: rol });
+
+        // Guardar el alumno en la base de datos
         await em.persistAndFlush(nuevoAlumno);
+
         res.header('Access-Control-Allow-Origin', '*');
         return res.status(201).json({ Message: 'Alumno creado con éxito', data: nuevoAlumno });
     } catch (error) {
