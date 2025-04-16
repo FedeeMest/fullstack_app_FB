@@ -7,11 +7,43 @@
       <form class="d-flex flex-column align-items-center" (ngSubmit)="login()">
         <div class="form-group w-75 mb-3">
           <label for="usuario" class="form-label">Usuario</label>
-          <input type="text" id="usuario" class="form-control" placeholder="Ingresa tu usuario" [(ngModel)]="usuario" name="usuario" required>
+          <input
+            type="text"
+            id="usuario"
+            class="form-control"
+            placeholder="Ingresa tu usuario"
+            [(ngModel)]="usuario"
+            name="usuario"
+            required
+          />
         </div>
+
         <div class="form-group w-75 mb-3">
           <label for="password" class="form-label">Contraseña</label>
-          <input type="password" id="password" class="form-control" placeholder="Ingresa tu contraseña" [(ngModel)]="password" name="password" required>
+          <div class="input-group">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              class="form-control rounded"
+              placeholder="Ingresa tu contraseña"
+              [(ngModel)]="password"
+              name="password"
+              required
+            />
+            <button
+              class="btn bg-white ml-2 border border-dark rounded-end"
+              
+              type="button"
+              (click)="togglePasswordVisibility()"
+              tabindex="-1"
+            >
+              <i
+                class="bi"
+                [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+                style="color: #000000;"
+              ></i>
+            </button>
+          </div>
         </div>
         <button type="submit" class="btn btn-light btn-sm w-50">Iniciar Sesión</button>
       </form>

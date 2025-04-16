@@ -9,5 +9,5 @@ inscripcionRouter.get("/:id", verifyRole(['admin', 'alumno']), findOne);
 inscripcionRouter.post("/", verifyRole(['admin', 'alumno']), inputS, add);
 inscripcionRouter.put("/:id", verifyRole(['admin']), inputS, update);
 inscripcionRouter.patch("/:id", verifyRole(['admin']), inputS, update);
-inscripcionRouter.delete("/:id", verifyRole(['admin']), remove);
+inscripcionRouter.delete("/:id", verifyRole(['admin', 'alumno']), remove);
 

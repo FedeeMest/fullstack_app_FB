@@ -2,21 +2,27 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service.service'; // Ajusta la ruta según tu estructura de proyecto
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { JwtHelperService } from '@auth0/angular-jwt'
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   usuario: string = '';
   password: string = '';
+  showPassword: boolean = false;
   private jwtHelper = new JwtHelperService();
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   login() {
     this.authService.login(this.usuario, this.password).subscribe(

@@ -22,12 +22,12 @@ app.use ((req, res, next) => {
 app.use('/auth', authRoutes);
 
 // Rutas protegidas para admin
-app.use('/api/admins', verifyRole(['admin']), adminRouter);
-app.use('/api/materias', verifyRole(['admin', 'alumno']), materiaRouter);
+app.use('/api/admins',adminRouter);
+app.use('/api/materias', materiaRouter);
 
 // Rutas protegidas para admin y alumno
-app.use('/api/alumnos', verifyRole(['admin', 'alumno']), alumnoRouter);
-app.use('/api/inscripciones', verifyRole(['admin', 'alumno']), inscripcionRouter);
+app.use('/api/alumnos', alumnoRouter);
+app.use('/api/inscripciones', inscripcionRouter);
 
 
 app.use((_, res) => {
