@@ -23,7 +23,7 @@ app.use('/auth', authRoutes);
 
 // Rutas protegidas para admin
 app.use('/api/admins', verifyRole(['admin']), adminRouter);
-app.use('/api/materias', verifyRole(['admin']), materiaRouter);
+app.use('/api/materias', verifyRole(['admin', 'alumno']), materiaRouter);
 
 // Rutas protegidas para admin y alumno
 app.use('/api/alumnos', verifyRole(['admin', 'alumno']), alumnoRouter);
