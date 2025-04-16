@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { orm } from '../shared/db/orm.js';
 import { Admin } from './admin.entity.js';
+import bcrypt from 'bcryptjs';
 
 function inputS(req: Request, res: Response, next: NextFunction) {
     const fechaSinHora = req.body.fecha_n ? new Date(req.body.fecha_n).toISOString().split('T')[0] : '';
@@ -54,7 +55,14 @@ async function add(req: Request, res: Response) {
     try {
         const [adminConMaxNumero] = await em.find(Admin, {}, { orderBy: { numero: 'DESC' }, limit: 1 });
         const maxNumero = adminConMaxNumero ? adminConMaxNumero.numero + 1 : 1
-        const nuevoAdmin = em.create(Admin, { ...input, numero: maxNumero });
+
+        const rol = 'admin';
+
+        const salt = await bcrypt.genSalt(10); // Generar un salt
+        const hashedPassword = await bcrypt.hash(input.password, salt); // Encriptar la contraseña
+        console.log(hashedPassword)
+
+        const nuevoAdmin = em.create(Admin, { ...input, numero: maxNumero, rol: rol, password: hashedPassword });
         await em.persistAndFlush(nuevoAdmin);
         res.header('Access-Control-Allow-Origin', '*');
         return res.status(201).json({ Message: 'Admin creado con éxito', data: nuevoAdmin });
