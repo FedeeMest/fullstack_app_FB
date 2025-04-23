@@ -48,7 +48,7 @@ export class BuscadorComponent implements OnInit  {
           progressBar: true,
           progressAnimation: 'decreasing'
         });
-        this.router.navigate(['/admin/resultado', alumno.id]);
+        this.router.navigate(['/admin/resultado/alumnos/'+ alumno.id]);
       } else {
         this.errorMessage = true;
         this.mensajeError = 'No se encontró un alumno con el legajo proporcionado.';
