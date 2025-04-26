@@ -1,53 +1,71 @@
 <div class="row mt-3">
-    <div class="col-12 col-md-8 col-lg-4 offset-lg-4">
-      <div class="modal-content" style="background-color: #375a7f; border-radius: 0.25rem; border: none;">
-        <div class="card-header text-center text-white">{{ operacion }} Admin</div>
-        <div class="card-body text-white pt-1">
-          <form [formGroup]="form" (ngSubmit)="addAdmin()">
-            <div class="mb-2 mt-2">
-              <label for="nombre" class="form-label">Nombre:</label>
-              <input formControlName="nombre" type="text" id="nombre" class="form-control">
+  <!-- Contenedor principal centrado -->
+  <div class="col-12 col-md-8 col-lg-4 offset-lg-4">
+    <!-- Tarjeta para el formulario -->
+    <div class="modal-content" style="background-color: #375a7f; border-radius: 0.25rem; border: none;">
+      <!-- Encabezado de la tarjeta -->
+      <div class="card-header text-center text-white">{{ operacion }} Admin</div>
+      <!-- Cuerpo de la tarjeta -->
+      <div class="card-body text-white pt-1">
+        <!-- Formulario reactivo -->
+        <form [formGroup]="form" (ngSubmit)="addAdmin()">
+          <!-- Campo: Nombre -->
+          <div class="mb-2 mt-2">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input formControlName="nombre" type="text" id="nombre" class="form-control">
+          </div>
+          <!-- Campo: Apellido -->
+          <div class="mb-2">
+            <label for="apellido" class="form-label">Apellido:</label>
+            <input formControlName="apellido" type="text" id="apellido" class="form-control">
+          </div>
+          <!-- Campo: Email -->
+          <div class="mb-2">
+            <label for="mail" class="form-label">Email:</label>
+            <input formControlName="mail" type="email" id="mail" class="form-control">
+            <!-- Mensaje de error para el email -->
+            <small *ngIf="form.get('mail')?.errors?.['email']">El formato del email no es válido.</small>
+          </div>
+          <!-- Campo: Dirección -->
+          <div class="mb-2">
+            <label for="direccion" class="form-label">Dirección:</label>
+            <input formControlName="direccion" type="text" id="direccion" class="form-control">
+            <!-- Mensaje de error para la dirección -->
+            <small *ngIf="form.get('direccion')?.errors?.['pattern']" class="fw-bold fs-6">La dirección debe ser en formato "Calle 123".</small>
+          </div>
+          <!-- Campo: Fecha de Nacimiento -->
+          <div class="mb-2">
+            <label for="fecha_n" class="form-label">Fecha de Nacimiento:</label>
+            <input formControlName="fecha_n" type="date" id="fecha_n" class="form-control">
+          </div>
+          <!-- Campo: Usuario -->
+          <div class="mb-2">
+            <label for="usuario" class="form-label">Usuario:</label>
+            <input formControlName="usuario" type="text" id="usuario" class="form-control">
+          </div>
+          <!-- Campo: Contraseña -->
+          <div class="mb-2">
+            <label for="password" class="form-label">Contraseña:</label>
+            <input formControlName="password" type="password" id="password" class="form-control">
+          </div>
+          <!-- Botones de acción -->
+          <div class="row mt-2 text-center">
+            <!-- Botón: Volver -->
+            <div class="col-6">
+              <button (click)="volver()" type="button" class="btn btn-secondary btn-sm m-2">Volver</button>
             </div>
-            <div class="mb-2">
-              <label for="apellido" class="form-label">Apellido:</label>
-              <input formControlName="apellido" type="text" id="apellido" class="form-control">
+            <!-- Botón: Aceptar -->
+            <div class="col-6">
+              <button [disabled]="form.invalid" type="submit" class="btn btn-light btn-sm m-2">Aceptar</button>
             </div>
-            <div class="mb-2">
-              <label for="mail" class="form-label">Email:</label>
-              <input formControlName="mail" type="email" id="mail" class="form-control">
-                <small *ngIf="form.get('mail')?.errors?.['email']">El formato del email no es válido.</small>
+            <!-- Nota: Campos obligatorios -->
+            <div>
+              <small class="ml-1 fw-bold">* Todos los campos son obligatorios.</small>
             </div>
-            <div class="mb-2">
-              <label for="direccion" class="form-label">Dirección:</label>
-              <input formControlName="direccion" type="text" id="direccion" class="form-control">
-              <small *ngIf="form.get('direccion')?.errors?.['pattern']" class="fw-bold fs-6">La dirección debe ser en formato "Calle 123".</small>
-            </div>
-            <div class="mb-2">
-              <label for="fecha_n" class="form-label">Fecha de Nacimiento:</label>
-              <input formControlName="fecha_n" type="date" id="fecha_n" class="form-control">
-            </div>
-            <div class = "mb-2">
-              <label for="ususario" class = "from-label">Usuario:</label>
-              <input formControlName="usuario" type="text" id="usuario" class="form-control">
-            </div>
-            <div class="mb-2">
-              <label for="password" class="form-label">Contraseña:</label>
-              <input formControlName="password" type="password" id="password" class="form-control">
-            </div>
-            <div class="row mt-2 text-center">
-              <div class="col-6">
-                <button (click)="volver()" type="button" class="btn btn-secondary btn-sm m-2">Volver</button>
-              </div>
-              <div class="col-6">
-                <button [disabled]="form.invalid" type="submit" class="btn btn-light btn-sm m-2">Aceptar</button>
-              </div>
-              <div>
-                <small class="ml-1 fw-bold">* Todos los campos son obligatorios.</small>
-              </div>
-            </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
   

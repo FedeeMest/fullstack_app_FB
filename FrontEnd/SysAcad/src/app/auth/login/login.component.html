@@ -1,10 +1,15 @@
 <div class="container">
+  <!-- Tarjeta para el formulario de inicio de sesión -->
   <div class="card text-white bg-primary mb-3 mt-5 w-50 mx-auto">
+    <!-- Encabezado de la tarjeta -->
     <div class="card-header d-flex justify-content-center align-items-center p-2">
       <h4 class="m-0" style="font-size: 1.2rem;">Inicio de Sesión</h4>
     </div>
+    <!-- Cuerpo de la tarjeta -->
     <div class="card-body">
+      <!-- Formulario de inicio de sesión -->
       <form class="d-flex flex-column align-items-center" (ngSubmit)="login()">
+        <!-- Campo para ingresar el usuario -->
         <div class="form-group w-75 mb-3">
           <label for="usuario" class="form-label">Usuario</label>
           <input
@@ -12,39 +17,42 @@
             id="usuario"
             class="form-control"
             placeholder="Ingresa tu usuario"
-            [(ngModel)]="usuario"
+            [(ngModel)]="usuario" <!-- Enlaza el campo con la variable `usuario` -->
             name="usuario"
             required
           />
         </div>
 
+        <!-- Campo para ingresar la contraseña -->
         <div class="form-group w-75 mb-3">
           <label for="password" class="form-label">Contraseña</label>
           <div class="input-group">
             <input
-              [type]="showPassword ? 'text' : 'password'"
+              [type]="showPassword ? 'text' : 'password'" <!-- Alterna entre texto y contraseña según `showPassword` -->
               id="password"
               class="form-control rounded"
               placeholder="Ingresa tu contraseña"
-              [(ngModel)]="password"
+              [(ngModel)]="password" <!-- Enlaza el campo con la variable `password` -->
               name="password"
               required
             />
+            <!-- Botón para alternar la visibilidad de la contraseña -->
             <button
               class="btn bg-white ml-2 border border-dark rounded-end"
-              
               type="button"
               (click)="togglePasswordVisibility()"
               tabindex="-1"
             >
               <i
                 class="bi"
-                [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+                [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'" <!-- Cambia el ícono según `showPassword` -->
                 style="color: #000000;"
               ></i>
             </button>
           </div>
         </div>
+
+        <!-- Botón para enviar el formulario -->
         <button type="submit" class="btn btn-light btn-sm w-50">Iniciar Sesión</button>
       </form>
     </div>

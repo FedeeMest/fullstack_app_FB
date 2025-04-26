@@ -6,15 +6,15 @@ import { Materia } from '../interfaces/materia.js';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' // Hace que este servicio esté disponible en toda la aplicación
 })
 export class MateriaService {
-  private myAppUrl: string;
-  private myApiUrl: string;
+  private myAppUrl: string; // URL base de la aplicación
+  private myApiUrl: string; // URL específica para la API de materias
 
   constructor(private http: HttpClient) { 
-    this.myAppUrl = environment.endpoint;
-    this.myApiUrl = 'api/materias';
+    this.myAppUrl = environment.endpoint; // Asigna la URL base desde las variables de entorno
+    this.myApiUrl = 'api/materias'; // Define la ruta específica para las materias
   }
 
   // Manejo de errores centralizado
@@ -43,33 +43,38 @@ export class MateriaService {
     return throwError(() => new Error(errorMessage));
   }
 
+  // Método para obtener todas las materias
   getMaterias(): Observable<Materia[]> {
     return this.http.get<Materia[]>(`${this.myAppUrl}${this.myApiUrl}`).pipe(
-      catchError(this.handleError)
+      catchError(this.handleError) // Maneja errores en la solicitud
     );
   }
 
+  // Método para eliminar una materia por su ID
   deleteMateria(id: number): Observable<void> {
     return this.http.delete<void>(this.myAppUrl + this.myApiUrl + "/" + id).pipe(
-      catchError(this.handleError)
+      catchError(this.handleError) // Maneja errores en la solicitud
     );
   }
 
+  // Método para guardar una nueva materia
   saveMateria(materia: Materia): Observable<Materia> {
     return this.http.post<Materia>(`${this.myAppUrl}${this.myApiUrl}`, materia).pipe(
-      catchError(this.handleError)
+      catchError(this.handleError) // Maneja errores en la solicitud
     );
   }
 
+  // Método para obtener una materia por su ID
   getMateria(id: number): Observable<Materia> {
     return this.http.get<Materia>(this.myAppUrl + this.myApiUrl + "/" + id).pipe(
-      catchError(this.handleError)
+      catchError(this.handleError) // Maneja errores en la solicitud
     );
   }
 
+  // Método para actualizar una materia existente
   updateMateria(id: number, materia: Materia): Observable<Materia> {
     return this.http.put<Materia>(`${this.myAppUrl}${this.myApiUrl}/${id}`, materia).pipe(
-      catchError(this.handleError)
+      catchError(this.handleError) // Maneja errores en la solicitud
     );
   }
 }

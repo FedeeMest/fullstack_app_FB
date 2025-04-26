@@ -1,38 +1,77 @@
-<div class="row mt-3">
-    <div class="col-12 col-md-8 col-lg-4 offset-lg-4">
-        <div class="card text-white bg-primary mb-3" style="max-width: 50rem;">
-            <div class="card-header text-center">{{ operacion }} Materia</div>
-            <div class="card-body pt-2">
-                <div *ngIf="form.errors?.['serverError']" class="alert alert-danger" role="alert">
-                    {{ form.errors?.['serverError'] }}
+<div class="container">
+    <!-- Tarjeta principal que contiene el listado de alumnos -->
+    <div class="card text-white bg-primary mb-3 mt-3 w-100 mx-auto">
+      <!-- Encabezado de la tarjeta -->
+      <div class="card-header d-flex justify-content-between align-items-center p-2 flex-wrap">
+        <h4 class="m-0" style="font-size: 1.2rem;">Listado de Alumnos</h4>
+        <!-- Botón para agregar un nuevo alumno -->
+        <button type="button" class="btn btn-light btn-sm mt-2 mt-md-0" (click)="goAdd()">Agregar Alumno</button>
+      </div>
+  
+      <!-- Cuerpo de la tarjeta -->
+      <div class="card-body">
+        <!-- Formulario para filtrar alumnos por plan -->
+        <form [formGroup]="filtroForm" class="d-flex flex-column flex-md-row justify-content-center mb-3">
+          <div class="d-flex align-items-center mb-2 mb-md-0">
+            <label for="plan" class="form-label me-3 mb-0">Selecciona un Plan:</label>
+            <select formControlName="plan" id="plan" class="form-select w-50 text-center" style="max-width: 250px;">
+              <option value="">Todos</option>
+              <option *ngFor="let plan of planesDisponibles" [value]="plan">
+                {{ plan }}
+              </option>
+            </select>
+          </div>
+        </form>
+  
+        <!-- Tabla para mostrar la lista de alumnos -->
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <table class="table table-secondary text-center" style="position: relative;">
+            <!-- Encabezado de la tabla -->
+            <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
+              <tr>
+                <th scope="col">Legajo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Plan</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <!-- Cuerpo de la tabla -->
+            <tbody>
+              <tr *ngFor="let alumno of alumnosFiltrados; trackBy: trackByAlumno" class="table-active">
+                <!-- Columna: Legajo del alumno -->
+                <th scope="row" class="text-center align-middle">{{ alumno.legajo }}</th>
+                <!-- Columna: Nombre del alumno -->
+                <td class="text-center align-middle">{{ alumno.nombre }}</td>
+                <!-- Columna: Apellido del alumno -->
+                <td class="text-center align-middle">{{ alumno.apellido }}</td>
+                <!-- Columna: Plan del alumno -->
+                <td class="text-center align-middle">{{ alumno.plan }}</td>
+                <!-- Columna: Acciones -->
+                <td class="text-center align-middle">
+                  <!-- Menú desplegable para pantallas pequeñas -->
+                  <div class="dropdown d-block d-sm-none">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" [routerLink]="'/admin/editar_alumno/' + alumno.id">Editar</a></li>
+                      <li><a class="dropdown-item text-danger" (click)="deleteAlumno(alumno.id!)">Eliminar</a></li>
+                      <li><a class="dropdown-item" (click)="verAlumno(alumno)">Ver Info</a></li>
+                    </ul>
                   </div>
-                <form [formGroup]="form" (ngSubmit)="addMateria()">
-                     <div class="mb-2">
-                        <label for="nombre" class="form-label mb-1">Nombre:</label>
-                        <input id="nombre" formControlName="nombre" type="text" class="form-control">
-                     </div>
-                    <div class="mb-3">
-                        <label for="horas_anuales" class="form-label mb-1">Horas Anuales:</label>
-                        <input id="horas_anuales" formControlName="horas_anuales" type="number" class="form-control" placeholder="Ingrese la cantidad de horas anuales">
-                    </div>
-                    <div class="d-flex justify-content-center align-items-center mb-3">
-                        <label for="modalidad" class="form-label mr-2">Modalidad:</label>
-                        <select id="modalidad" formControlName="modalidad" class="form-select">
-                            <option>Anual</option>
-                            <option>Cuatrimestral</option>
-                        </select>
-                    </div>
-                    <div class="row mt-2 text-center">
-                        <div class="col-6">
-                            <button (click)="volver()" type="button" class="btn btn-secondary btn-sm m-2">Volver</button>
-                        </div>
-                        <div class="col-6">
-                            <button [disabled]="form.invalid" type="submit" class="btn btn-light btn-sm m-2">Aceptar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+  
+                  <!-- Botones para pantallas grandes -->
+                  <div class="d-none d-sm-block">
+                    <button routerLink="/admin/editar_alumno/{{ alumno.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
+                    <button (click)="deleteAlumno(alumno.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
+                    <button (click)="verAlumno(alumno)" type="button" class="btn btn-info btn-sm m-1">Ver Info</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
   </div>
-  

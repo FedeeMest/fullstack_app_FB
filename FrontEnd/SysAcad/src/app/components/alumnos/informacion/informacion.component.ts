@@ -2,65 +2,73 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
-import { Alumno } from '../../../interfaces/alumno';
-import { AlumnosService } from '../../../services/alumnos.service';
-import { JwtHelperService} from '@auth0/angular-jwt';
+import { Alumno } from '../../../interfaces/alumno'; // Interfaz para el modelo de Alumno
+import { AlumnosService } from '../../../services/alumnos.service'; // Servicio para interactuar con la API de alumnos
+import { JwtHelperService } from '@auth0/angular-jwt'; // Servicio para decodificar el token JWT
 
 @Component({
-  selector: 'app-informacion',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './informacion.component.html',
-  styleUrls: ['./informacion.component.css']
+  selector: 'app-informacion', // Selector del componente
+  standalone: true, // Indica que este componente es independiente
+  imports: [CommonModule], // Módulos necesarios para el componente
+  templateUrl: './informacion.component.html', // Ruta al archivo HTML del componente
+  styleUrls: ['./informacion.component.css'] // Ruta al archivo CSS del componente
 })
 export class InformacionComponent implements OnInit {
-    alumno: Alumno| null = null;
-    private jwtHelper = new JwtHelperService();
+  alumno: Alumno | null = null; // Información del alumno
+  private jwtHelper = new JwtHelperService(); // Instancia del servicio para manejar el token JWT
 
-    constructor(private activatedroute:ActivatedRoute, private router: Router,private location: Location,private alumnosService: AlumnosService) {}
+  constructor(
+    private activatedroute: ActivatedRoute, // Servicio para obtener parámetros de la ruta
+    private router: Router, // Servicio para redirigir
+    private location: Location, // Servicio para manejar la navegación hacia atrás
+    private alumnosService: AlumnosService // Servicio para interactuar con la API de alumnos
+  ) {}
 
-    ngOnInit(): void {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('No se encontró el token');
-        this.router.navigate(['/login']);
+  ngOnInit(): void {
+    const token = localStorage.getItem('token'); // Obtiene el token almacenado en el localStorage
+    if (!token) {
+      console.error('No se encontró el token'); // Muestra un error si no hay token
+      this.router.navigate(['/login']); // Redirige al login si no hay token
+      return;
+    }
+
+    const decodedToken = this.jwtHelper.decodeToken(token); // Decodifica el token JWT
+    const tokenAlumnoId = decodedToken.id; // Obtiene el ID del alumno del token
+
+    this.activatedroute.params.subscribe((params) => {
+      const routeAlumnoId = +params['id']; // Obtiene el ID del alumno desde los parámetros de la ruta
+
+      // Verificar si el ID del token coincide con el ID de la ruta
+      if (tokenAlumnoId !== routeAlumnoId) {
+        console.error('Acceso denegado: El ID del token no coincide con el ID de la ruta'); // Muestra un error si los IDs no coinciden
+        this.router.navigate(['/informacion/' + tokenAlumnoId]); // Redirige al alumno correspondiente
         return;
       }
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      const tokenAlumnoId = decodedToken.id; // ID del alumno en el token
 
-   this.activatedroute.params.subscribe((params) => {
-        const routeAlumnoId = +params['id']; // ID del alumno en la ruta
-
-        // Verificar si el ID del token coincide con el ID de la ruta
-        if (tokenAlumnoId !== routeAlumnoId) {
-          console.error('Acceso denegado: El ID del token no coincide con el ID de la ruta');
-          this.router.navigate(['/informacion/' + tokenAlumnoId]); // Redirigir a la página principal o de error
-          return;
-        }
-
-        // Si los IDs coinciden, cargar la información del alumno
-        this.alumnosService.getAlumno(routeAlumnoId).subscribe({
-          next: (alumno) => {
-            this.alumno = alumno;
-          },
-          error: (err) => {
-            console.error('Error al obtener los datos del alumno:', err);
-            this.goBack();
-          },
-        });
+      // Si los IDs coinciden, cargar la información del alumno
+      this.alumnosService.getAlumno(routeAlumnoId).subscribe({
+        next: (alumno) => {
+          this.alumno = alumno; // Asigna los datos del alumno
+        },
+        error: (err) => {
+          console.error('Error al obtener los datos del alumno:', err); // Muestra un error si no se pueden obtener los datos
+          this.goBack(); // Vuelve a la página anterior
+        },
       });
+    });
   }
 
-  verInscripciones(id: number | undefined) {
+  // Método para ver las inscripciones del alumno
+  verInscripciones(id: number | undefined): void {
     if (id !== undefined) {
-      this.router.navigate(['/lista_insc', id]);
+      this.router.navigate(['/lista_insc', id]); // Redirige a la lista de inscripciones del alumno
     } else {
-      console.error('No se pudo obtener el ID del alumno');
+      console.error('No se pudo obtener el ID del alumno'); // Muestra un error si no se puede obtener el ID
     }
   }
 
-  goBack() {
-    this.location.back();
+  // Método para volver a la página anterior
+  goBack(): void {
+    this.location.back(); // Navega hacia atrás en el historial
   }
 }

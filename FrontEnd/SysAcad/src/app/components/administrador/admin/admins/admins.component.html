@@ -1,55 +1,72 @@
 <div class="container">
-    <div class="card text-white bg-primary mb-3 mt-3 w-100 mx-auto">
-      <div class="card-header d-flex justify-content-between align-items-center p-2 flex-wrap">
-        <h4 class="m-0" style="font-size: 1.2rem;">Listado de Administradores</h4>
-        <button type="button" class="btn btn-light btn-sm mt-2 mt-md-0" (click)="goAdd()">Agregar Administrador</button>
-      </div>
-  
-      <div class="card-body">
-        <form class="d-flex flex-column flex-md-row justify-content-center mb-3">
-          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-            <table class="table table-secondary text-center" style="position: relative;">
-              <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
-                <tr>
-                  <th scope="col">Numero</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Apellido</th>
-                  <th scope="col">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let admin of listaAdmins" class="table-active">
-                  <th scope="row" class="text-center align-middle">{{ admin.numero }}</th>
-                  <td class="text-center align-middle">{{ admin.nombre }}</td>
-                  <td class="text-center align-middle">{{ admin.apellido }}</td>
-                  <td class="text-center align-middle">
-                    
-                    <!-- Botón con tres puntos para pantallas chicas -->
-                    <div class="dropdown d-block d-sm-none">
-                      <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-three-dots-vertical"></i>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" [routerLink]="'/admin/editar_admin/' + admin.id">Editar</a></li>
-                        <li><a class="dropdown-item text-danger" (click)="deleteAdmin(admin.id!)">Eliminar</a></li>
-                        <li><a class="dropdown-item" (click)="verAdmin(admin)">Ver Info</a></li>
-                      </ul>
-                    </div>
-  
-                    <!-- Botones visibles en pantallas grandes -->
-                    <div class="d-none d-sm-block">
-                      <button routerLink="/admin/editar_admin/{{ admin.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
-                      <button (click)="deleteAdmin(admin.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
-                      <button (click)="verAdmin(admin)" type="button" class="btn btn-info btn-sm m-1">Ver Info</button>
-                    </div>
-  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </form>
-      </div>
+  <!-- Tarjeta principal que contiene el listado de administradores -->
+  <div class="card text-white bg-primary mb-3 mt-3 w-100 mx-auto">
+    <!-- Encabezado de la tarjeta -->
+    <div class="card-header d-flex justify-content-between align-items-center p-2 flex-wrap">
+      <h4 class="m-0" style="font-size: 1.2rem;">Listado de Administradores</h4>
+      <!-- Botón para agregar un nuevo administrador -->
+      <button type="button" class="btn btn-light btn-sm mt-2 mt-md-0" (click)="goAdd()">Agregar Administrador</button>
+    </div>
+
+    <!-- Cuerpo de la tarjeta -->
+    <div class="card-body">
+      <!-- Formulario para manejar acciones adicionales (actualmente vacío) -->
+      <form class="d-flex flex-column flex-md-row justify-content-center mb-3">
+        <!-- Tabla para mostrar la lista de administradores -->
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <table class="table table-secondary text-center" style="position: relative;">
+            <!-- Encabezado de la tabla -->
+            <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
+              <tr>
+                <th scope="col">Numero</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <!-- Cuerpo de la tabla -->
+            <tbody>
+              <!-- Iterar sobre la lista de administradores -->
+              <tr *ngFor="let admin of listaAdmins" class="table-active">
+                <!-- Columna: Número del administrador -->
+                <th scope="row" class="text-center align-middle">{{ admin.numero }}</th>
+                <!-- Columna: Nombre del administrador -->
+                <td class="text-center align-middle">{{ admin.nombre }}</td>
+                <!-- Columna: Apellido del administrador -->
+                <td class="text-center align-middle">{{ admin.apellido }}</td>
+                <!-- Columna: Acciones -->
+                <td class="text-center align-middle">
+                  <!-- Menú desplegable para pantallas pequeñas -->
+                  <div class="dropdown d-block d-sm-none">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <!-- Opción para editar -->
+                      <li><a class="dropdown-item" [routerLink]="'/admin/editar_admin/' + admin.id">Editar</a></li>
+                      <!-- Opción para eliminar -->
+                      <li><a class="dropdown-item text-danger" (click)="deleteAdmin(admin.id!)">Eliminar</a></li>
+                      <!-- Opción para ver información -->
+                      <li><a class="dropdown-item" (click)="verAdmin(admin)">Ver Info</a></li>
+                    </ul>
+                  </div>
+
+                  <!-- Botones visibles en pantallas grandes -->
+                  <div class="d-none d-sm-block">
+                    <!-- Botón para editar -->
+                    <button routerLink="/admin/editar_admin/{{ admin.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
+                    <!-- Botón para eliminar -->
+                    <button (click)="deleteAdmin(admin.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
+                    <!-- Botón para ver información -->
+                    <button (click)="verAdmin(admin)" type="button" class="btn btn-info btn-sm m-1">Ver Info</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
     </div>
   </div>
+</div>
   

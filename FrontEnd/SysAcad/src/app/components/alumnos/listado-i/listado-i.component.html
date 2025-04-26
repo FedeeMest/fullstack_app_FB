@@ -1,19 +1,26 @@
 <div class="container">
+  <!-- Tarjeta principal para mostrar las inscripciones -->
   <div class="card text-white bg-primary mb-3 mt-3 w-100 mx-auto">
+    <!-- Encabezado de la tarjeta -->
     <div class="d-flex justify-content-between align-items-center card-header p-2 flex-wrap">
       <h4 class="m-0" style="font-size: 1.2rem;">Inscripciones</h4>
+      <!-- Botón para agregar una nueva inscripción -->
       <button type="button" class="btn btn-light btn-sm mt-2 mt-md-0" (click)="goadd()">Agregar Inscripción</button>
     </div>
 
+    <!-- Mensaje de error si ocurre algún problema -->
     <div class="d-flex justify-content-center">
       <div *ngIf="errorMessage" class="alert alert-danger mb-2 mt-2" role="alert">
         {{ errorMessage }}
       </div>
     </div>
 
+    <!-- Cuerpo de la tarjeta -->
     <div class="card-body">
+      <!-- Tabla para mostrar las inscripciones -->
       <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
         <table class="table table-secondary text-center" style="position: relative;">
+          <!-- Encabezado de la tabla -->
           <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
             <tr>
               <th scope="col">Fecha</th>
@@ -21,11 +28,16 @@
               <th scope="col">Acciones</th>
             </tr>
           </thead>
+          <!-- Cuerpo de la tabla -->
           <tbody>
             <tr *ngFor="let inscripcion of inscripciones" class="table-active">
+              <!-- Columna: Fecha de inscripción -->
               <td class="text-center align-middle">{{ inscripcion.fecha }}</td>
+              <!-- Columna: Nombre de la materia -->
               <td class="text-center align-middle">{{ materiasNombres[inscripcion.materia] || 'Cargando...' }}</td>
+              <!-- Columna: Acciones -->
               <td class="text-center align-middle">
+                <!-- Botón para eliminar una inscripción -->
                 <button type="button" (click)="deleteInscripcion(inscripcion.id!)" class="btn btn-danger btn-sm m-1">Eliminar</button>
               </td>
             </tr>
@@ -34,6 +46,7 @@
       </div>
     </div>
 
+    <!-- Botón para volver a la página anterior -->
     <div class="row mt-2 text-center">
       <div class="col-12">
         <button (click)="goBack()" type="button" class="btn btn-secondary btn-sm m-2">Volver</button>
