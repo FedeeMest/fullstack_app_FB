@@ -17,7 +17,7 @@
             id="usuario"
             class="form-control"
             placeholder="Ingresa tu usuario"
-            [(ngModel)]="usuario" <!-- Enlaza el campo con la variable `usuario` -->
+            [(ngModel)]="usuario"
             name="usuario"
             required
           />
@@ -28,11 +28,11 @@
           <label for="password" class="form-label">Contraseña</label>
           <div class="input-group">
             <input
-              [type]="showPassword ? 'text' : 'password'" <!-- Alterna entre texto y contraseña según `showPassword` -->
+              [type]="showPassword ? 'text' : 'password'" 
               id="password"
               class="form-control rounded"
               placeholder="Ingresa tu contraseña"
-              [(ngModel)]="password" <!-- Enlaza el campo con la variable `password` -->
+              [(ngModel)]="password" 
               name="password"
               required
             />
@@ -45,7 +45,7 @@
             >
               <i
                 class="bi"
-                [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'" <!-- Cambia el ícono según `showPassword` -->
+                [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'" 
                 style="color: #000000;"
               ></i>
             </button>
