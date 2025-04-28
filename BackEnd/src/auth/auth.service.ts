@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'; // Librería para comparar y encriptar contraseñas
 import jwt from 'jsonwebtoken'; // Librería para generar y verificar tokens JWT
-import { Alumno } from '../alumno/alumno.entity'; // Entidad Alumno para buscar usuarios alumnos
-import { Admin } from '../admin/admin.entity'; // Entidad Admin para buscar usuarios administradores
+import { Alumno } from '../alumno/alumno.entity.js'; // Entidad Alumno para buscar usuarios alumnos
+import { Admin } from '../admin/admin.entity.js'; // Entidad Admin para buscar usuarios administradores
 import { orm } from '../shared/db/orm.js'; // ORM para interactuar con la base de datos
 
 // Servicio de autenticación
