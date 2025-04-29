@@ -1,0 +1,72 @@
+<div class="container">
+  <!-- Tarjeta principal para agregar inscripción -->
+  <div class="card text-white bg-primary mb-3 mt-3">
+    <!-- Encabezado de la tarjeta -->
+    <div class="d-flex justify-content-between align-items-center card-header">
+      <h4 class="m-3">Agregar Inscripción</h4>
+    </div>
+
+    <!-- Cuerpo de la tarjeta -->
+    <div class="card-body">
+      <!-- Formulario reactivo -->
+      <form [formGroup]="filtroForm">
+        <!-- Tabla para mostrar las materias disponibles -->
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <table class="table table-secondary text-center" style="position: relative;">
+            <!-- Encabezado de la tabla -->
+            <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
+              <tr>
+                <th scope="col">Seleccionar</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Horas Anuales</th>
+                <th scope="col">Modalidad</th>
+              </tr>
+            </thead>
+            <!-- Cuerpo de la tabla -->
+            <tbody>
+              <tr *ngFor="let materia of materiasFiltradas" class="table-active">
+                <!-- Columna: Seleccionar materia -->
+                <td class="text-center align-middle">
+                  <input type="radio" formControlName="materiaSeleccionada" [value]="materia.id" aria-label="Seleccionar materia {{ materia.nombre }}">
+                </td>
+                <!-- Columna: Nombre de la materia -->
+                <td class="text-center align-middle">{{ materia.nombre }}</td>
+                <!-- Columna: Horas anuales -->
+                <td class="text-center align-middle">{{ materia.horas_anuales }}</td>
+                <!-- Columna: Modalidad -->
+                <td class="text-center align-middle">{{ materia.modalidad }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mensaje si no hay materias disponibles -->
+        <div *ngIf="materiasFiltradas.length === 0" class="alert alert-warning text-center mt-3">
+          No hay materias disponibles para inscribirse.
+        </div>
+
+        <!-- Campo: Fecha de inscripción -->
+        <div class="mb-2 mt-3">
+          <label for="fechaN" class="form-label mb-0">Fecha de Inscripción:</label>
+          <input formControlName="fechaN" type="date" id="fechaN" class="form-control" aria-label="Seleccionar fecha de inscripción">
+          <!-- Mensaje de error para la fecha -->
+          <div *ngIf="filtroForm.get('fechaN')?.hasError('fechaInvalida') && filtroForm.get('fechaN')?.touched" class="text-danger mt-1">
+            La fecha de inscripción no puede ser anterior a la fecha actual.
+          </div>
+        </div>
+      </form>
+
+      <!-- Botones de acción -->
+      <div class="row mt-2 text-center">
+        <!-- Botón: Volver -->
+        <div class="col-6">
+          <button type="button" class="btn btn-secondary btn-sm m-2" (click)="goBack()" aria-label="Volver a la página anterior">Volver</button>
+        </div>
+        <!-- Botón: Inscribirse -->
+        <div class="col-6">
+          <button type="submit" class="btn btn-light btn-sm m-2" (click)="crearInscripcion()" [disabled]="!filtroForm.valid" aria-label="Confirmar inscripción">Inscribirse</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

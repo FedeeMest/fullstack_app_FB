@@ -1,0 +1,62 @@
+<div class="container d-flex justify-content-center align-items-center mt-3">
+  <!-- Tarjeta principal para mostrar la información del alumno -->
+  <div class="card text-white bg-primary mb-3" style="max-width: 600px;">
+    <!-- Encabezado de la tarjeta -->
+    <div class="card-header text-center">Alumno</div>
+
+    <!-- Cuerpo de la tarjeta -->
+    <div class="card-body">
+      <!-- Mostrar información del alumno si está disponible -->
+      <div class="row mb-3" *ngIf="alumno">
+        <!-- Campo: Nombre -->
+        <div class="col-md-6">
+          <label for="nombre" class="form-label text-white mb-0">Nombre</label>
+          <input type="text" id="nombre" [value]="alumno.nombre" readonly class="form-control mt-0 mb-3">
+        </div>
+
+        <!-- Campo: Apellido -->
+        <div class="col-md-6">
+          <label for="apellido" class="form-label text-white mb-0">Apellido</label>
+          <input type="text" id="apellido" [value]="alumno.apellido" readonly class="form-control mt-0 mb-3">
+        </div>
+
+        <!-- Campo: Dirección -->
+        <div class="col-md-6">
+          <label for="direccion" class="form-label text-white mb-0">Dirección</label>
+          <input type="text" id="direccion" [value]="alumno.direccion" readonly class="form-control mt-0 mb-3">
+        </div>
+
+        <!-- Campo: Fecha de Nacimiento -->
+        <div class="col-md-6">
+          <label for="fechaN" class="form-label text-white mb-0">Fecha de Nacimiento</label>
+          <input type="text" id="fechaN" [value]="alumno.fecha_n" readonly class="form-control mt-0 mb-3">
+        </div>
+
+        <!-- Campo: Legajo -->
+        <div class="col-md-6">
+          <label for="legajo" class="form-label text-white mb-0">Legajo</label>
+          <input type="text" id="legajo" [value]="alumno.legajo" readonly class="form-control mt-0 mb-3">
+        </div>
+
+        <!-- Campo: Mail -->
+        <div class="col-md-6">
+          <label for="mail" class="form-label text-white mb-0">Mail</label>
+          <input type="text" id="mail" [value]="alumno.mail" readonly class="form-control mt-0 mb-3">
+        </div>
+
+        <!-- Campo: Plan -->
+        <div class="col-md-6">
+          <label for="plan" class="form-label text-white mb-0">Plan</label>
+          <input type="text" id="plan" [value]="alumno.plan" readonly class="form-control mt-0 mb-3">
+        </div>
+      </div>
+
+      <!-- Botón para ver las inscripciones -->
+      <div class="d-flex justify-content-center mt-3">
+        <div>
+          <button (click)="verInscripciones(alumno?.id)" class="btn btn-light ml-2">Ver inscripciones</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

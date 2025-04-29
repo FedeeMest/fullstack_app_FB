@@ -2,9 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import { orm } from '../shared/db/orm.js';
 import { Alumno } from './alumno.entity.js';
 import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
+import bcrypt from 'bcryptjs';
 
+// Middleware para procesar los datos de entrada
 function inputS(req: Request, res: Response, next: NextFunction) {
+    // Formatear la fecha de nacimiento al formato ISO sin la hora
     const fechaSinHora = req.body.fecha_n ? new Date(req.body.fecha_n).toISOString().split('T')[0] : '';
+    
+    // Crear un objeto con los datos de entrada
     req.body.inputS = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
@@ -12,126 +17,164 @@ function inputS(req: Request, res: Response, next: NextFunction) {
         mail: req.body.mail,
         direccion: req.body.direccion,
         fecha_n: fechaSinHora,
+        usuario: req.body.usuario,
+        password: req.body.password
     };
+
+    // Eliminar campos no definidos del objeto
     Object.keys(req.body.inputS).forEach((key) => {
         if (req.body.inputS[key] === undefined) delete req.body.inputS[key];
     });
+
+    // Pasar al siguiente middleware
     next();
 }
 
+// Controlador para obtener todos los alumnos
 async function findAll(req: Request, res: Response) {
-    const em = orm.em.fork();
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
     try {
+        // Obtener todos los alumnos de la base de datos
         const alumnos = await em.find(Alumno, {});
-        res.header('Access-Control-Allow-Origin', '*');
-        return res.status(200).json(alumnos);
+        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+        return res.status(200).json(alumnos); // Devolver la lista de alumnos
     } catch (error) {
-        console.error('Error al obtener alumnos:', error);
-        return res.status(500).json({ Error: 'Error al obtener la lista de alumnos.' });
+        console.error('Error al obtener alumnos:', error); // Loguear el error
+        return res.status(500).json({ Error: 'Error al obtener la lista de alumnos.' }); // Devolver un error 500
     }
 }
 
+// Controlador para obtener un alumno por ID
 async function findOne(req: Request, res: Response) {
-    const em = orm.em.fork();
-    const id = parseInt(req.params.id, 10);
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
+    const id = parseInt(req.params.id, 10); // Obtener el ID del alumno desde los parámetros
     try {
+        // Buscar el alumno en la base de datos
         const alumno = await em.findOneOrFail(Alumno, { id });
         if (!alumno) {
+            // Si no se encuentra, devolver un error 404
             return res.status(404).json({ Error: 'Alumno no encontrado.' });
         }
-        res.header('Access-Control-Allow-Origin', '*');
-        return res.status(200).json(alumno);
+        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+        return res.status(200).json(alumno); // Devolver el alumno encontrado
     } catch (error) {
-        console.error('Error al buscar el alumno:', error);
-        return res.status(500).json({ Error: 'Error al buscar el alumno.' });
+        console.error('Error al buscar el alumno:', error); // Loguear el error
+        return res.status(500).json({ Error: 'Error al buscar el alumno.' }); // Devolver un error 500
     }
 }
 
+// Controlador para obtener un alumno por legajo
 async function findLegajo(req: Request, res: Response) {
-    const em = orm.em.fork();
-    const legajo = parseInt(req.params.legajo, 10);
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
+    const legajo = parseInt(req.params.legajo, 10); // Obtener el legajo desde los parámetros
     if (isNaN(legajo)) {
+        // Validar que el legajo sea un número
         return res.status(400).json({ Error: 'Legajo inválido.' });
     }
     try {
+        // Buscar el alumno en la base de datos por legajo
         const alumno = await em.findOne(Alumno, { legajo });
         if (!alumno) {
+            // Si no se encuentra, devolver un error 404
             return res.status(404).json({ Error: 'Alumno no encontrado.' });
         }
-        res.header('Access-Control-Allow-Origin', '*');
-        return res.status(200).json(alumno);
+        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+        return res.status(200).json(alumno); // Devolver el alumno encontrado
     } catch (error) {
-        console.error('Error al buscar alumno por legajo:', error);
-        return res.status(500).json({ Error: 'Error al buscar el alumno por legajo.' });
+        console.error('Error al buscar alumno por legajo:', error); // Loguear el error
+        return res.status(500).json({ Error: 'Error al buscar el alumno por legajo.' }); // Devolver un error 500
     }
 }
 
+// Controlador para obtener las inscripciones de un alumno por su ID
 async function findInscripcionesByAlumnoId(req: Request, res: Response) {
-    const em = orm.em.fork();
-    const alumnoId = parseInt(req.params.id, 10);
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
+    const alumnoId = parseInt(req.params.id, 10); // Obtener el ID del alumno desde los parámetros
     if (isNaN(alumnoId)) {
+        // Validar que el ID sea un número
         return res.status(400).json({ Error: 'ID de alumno inválido.' });
     }
     try {
+        // Buscar las inscripciones del alumno en la base de datos
         const inscripciones = await em.find(Inscripcion, { alumno: { id: alumnoId } });
-        res.header('Access-Control-Allow-Origin', '*');
-        return res.status(200).json(inscripciones);
+        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+        return res.status(200).json(inscripciones); // Devolver las inscripciones encontradas
     } catch (error) {
-        console.error('Error al obtener inscripciones:', error);
-        return res.status(500).json({ Error: 'Error al obtener las inscripciones.' });
+        console.error('Error al obtener inscripciones:', error); // Loguear el error
+        return res.status(500).json({ Error: 'Error al obtener las inscripciones.' }); // Devolver un error 500
     }
 }
 
+// Controlador para agregar un nuevo alumno
 async function add(req: Request, res: Response) {
-    const em = orm.em.fork();
-    const input = req.body.inputS;
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
+    const input = req.body.inputS; // Obtener los datos procesados por el middleware
     try {
+        // Encriptar la contraseña
+        const salt = await bcrypt.genSalt(10); // Generar un salt
+        const hashedPassword = await bcrypt.hash(input.password, salt); // Encriptar la contraseña
+        console.log(hashedPassword); // Loguear la contraseña encriptada (solo para depuración)
+
+        // Obtener el legajo más alto y asignar el siguiente
         const [alumnoConMaxLegajo] = await em.find(Alumno, {}, { orderBy: { legajo: 'DESC' }, limit: 1 });
-        const maxLegajo = alumnoConMaxLegajo ? alumnoConMaxLegajo.legajo + 1 : 1
-        const nuevoAlumno = em.create(Alumno, { ...input, legajo: maxLegajo });
+        const maxLegajo = alumnoConMaxLegajo ? alumnoConMaxLegajo.legajo + 1 : 1;
+
+        // Crear el nuevo alumno con la contraseña encriptada
+        const rol = 'alumno';
+        const nuevoAlumno = em.create(Alumno, { ...input, password: hashedPassword, legajo: maxLegajo, rol: rol });
+
+        // Guardar el alumno en la base de datos
         await em.persistAndFlush(nuevoAlumno);
-        res.header('Access-Control-Allow-Origin', '*');
-        return res.status(201).json({ Message: 'Alumno creado con éxito', data: nuevoAlumno });
+
+        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+        return res.status(201).json({ Message: 'Alumno creado con éxito', data: nuevoAlumno }); // Devolver el alumno creado
     } catch (error) {
-        console.error('Error al agregar alumno:', error);
-        return res.status(500).json({ Error: 'Error al agregar el alumno.' });
+        console.error('Error al agregar alumno:', error); // Loguear el error
+        return res.status(500).json({ Error: 'Error al agregar el alumno.' }); // Devolver un error 500
     }
 }
 
+// Controlador para actualizar un alumno existente
 async function update(req: Request, res: Response) {
-    const em = orm.em.fork();
-    const id = parseInt(req.params.id, 10);
-    const input = req.body.inputS;
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
+    const id = parseInt(req.params.id, 10); // Obtener el ID del alumno desde los parámetros
+    const input = req.body.inputS; // Obtener los datos procesados por el middleware
     try {
+        // Buscar el alumno en la base de datos
         const alumno = await em.findOneOrFail(Alumno, { id });
         if (!alumno) {
+            // Si no se encuentra, devolver un error 404
             return res.status(404).json({ Error: 'Alumno no encontrado.' });
         }
-        em.assign(alumno, input);
-        await em.flush();
-        res.header('Access-Control-Allow-Origin', '*');
-        return res.status(200).json({ Message: 'Alumno actualizado con éxito', data: alumno });
+        em.assign(alumno, input); // Asignar los nuevos datos al alumno
+        await em.flush(); // Guardar los cambios en la base de datos
+        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+        return res.status(200).json({ Message: 'Alumno actualizado con éxito', data: alumno }); // Devolver el alumno actualizado
     } catch (error) {
-        console.error('Error al actualizar alumno:', error);
-        return res.status(500).json({ Error: 'Error al actualizar el alumno.' });
+        console.error('Error al actualizar alumno:', error); // Loguear el error
+        return res.status(500).json({ Error: 'Error al actualizar el alumno.' }); // Devolver un error 500
     }
 }
 
+// Controlador para eliminar un alumno
 async function remove(req: Request, res: Response) {
-    const em = orm.em.fork();
-    const id = parseInt(req.params.id, 10);
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
+    const id = parseInt(req.params.id, 10); // Obtener el ID del alumno desde los parámetros
     try {
+        // Buscar el alumno en la base de datos
         const alumno = await em.findOne(Alumno, { id });
         if (!alumno) {
+            // Si no se encuentra, devolver un error 404
             return res.status(404).json({ Error: 'Alumno no encontrado.' });
         }
-        await em.removeAndFlush(alumno);
-        res.header('Access-Control-Allow-Origin', '*');
-        return res.status(200).json({ Message: 'Alumno eliminado con éxito.' });
+        await em.removeAndFlush(alumno); // Eliminar el alumno de la base de datos
+        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+        return res.status(200).json({ Message: 'Alumno eliminado con éxito.' }); // Confirmar la eliminación
     } catch (error) {
-        console.error('Error al eliminar alumno:', error);
-        return res.status(500).json({ Error: 'Error al eliminar el alumno.' });
+        console.error('Error al eliminar alumno:', error); // Loguear el error
+        return res.status(500).json({ Error: 'Error al eliminar el alumno.' }); // Devolver un error 500
     }
 }
 
+// Exportar las funciones para usarlas en las rutas
 export { add, findAll, findLegajo, findInscripcionesByAlumnoId, findOne, remove, update, inputS };

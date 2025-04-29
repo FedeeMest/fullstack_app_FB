@@ -1,0 +1,79 @@
+<div class="container">
+  <!-- Tarjeta principal que contiene el listado de materias -->
+  <div class="card text-white bg-primary mb-3 mt-3 w-100 mx-auto">
+    <!-- Encabezado de la tarjeta -->
+    <div class="d-flex justify-content-between align-items-center card-header p-2 flex-wrap">
+      <h4 class="m-0" style="font-size: 1.2rem;">Listado de Materias</h4>
+      <!-- Botón para agregar una nueva materia -->
+      <button type="button" class="btn btn-light btn-sm mt-2 mt-md-0" (click)="goadd()">Agregar Materia</button>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div class="d-flex justify-content-center">
+      <div *ngIf="errorMessage" class="alert alert-danger mb-2 mt-2" role="alert">
+        {{ errorMessage }}
+      </div>
+    </div>
+
+    <!-- Cuerpo de la tarjeta -->
+    <div class="card-body">
+      <!-- Formulario para filtrar materias por modalidad -->
+      <form [formGroup]="filtroForm" class="d-flex flex-column flex-md-row justify-content-center mb-3">
+        <div class="d-flex align-items-center mb-2 mb-md-0">
+          <label for="modalidad" class="form-label me-3 mb-0">Selecciona una Modalidad:</label>
+          <select formControlName="modalidad" id="modalidad" class="form-select w-50 text-center" style="max-width: 250px;">
+            <option value="">Todos</option>
+            <option *ngFor="let modalidad of modalidadesDisponibles" [value]="modalidad">
+              {{ modalidad }}
+            </option>
+          </select>
+        </div>
+      </form>
+
+      <!-- Tabla para mostrar la lista de materias -->
+      <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-secondary text-center" style="position: relative;">
+          <!-- Encabezado de la tabla -->
+          <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Horas Anuales</th>
+              <th scope="col">Modalidad</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <!-- Cuerpo de la tabla -->
+          <tbody>
+            <tr *ngFor="let materia of materiasFiltradas" class="table-active">
+              <!-- Columna: Nombre de la materia -->
+              <th scope="row" class="text-center align-middle">{{ materia.nombre }}</th>
+              <!-- Columna: Horas anuales -->
+              <td class="text-center align-middle">{{ materia.horas_anuales }}</td>
+              <!-- Columna: Modalidad -->
+              <td class="text-center align-middle">{{ materia.modalidad }}</td>
+              <!-- Columna: Acciones -->
+              <td class="text-center align-middle">
+                <!-- Menú desplegable para pantallas pequeñas -->
+                <div class="dropdown d-block d-sm-none">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" [routerLink]="'/admin/editar_materia/' + materia.id" type="button">Editar</a></li>
+                    <li><a class="dropdown-item text-danger" (click)="deleteMateria(materia.id!)" type="button">Eliminar</a></li>
+                  </ul>
+                </div>
+
+                <!-- Botones para pantallas grandes -->
+                <div class="d-none d-sm-block">
+                  <button routerLink="/admin/editar_materia/{{ materia.id }}" type="button" class="btn btn-primary btn-sm m-1">Editar</button>
+                  <button (click)="deleteMateria(materia.id!)" type="button" class="btn btn-danger btn-sm m-1">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

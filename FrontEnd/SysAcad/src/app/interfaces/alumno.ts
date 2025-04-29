@@ -5,6 +5,8 @@ export interface Alumno {
     mail: string,
     direccion: string,
     fecha_n: string,
+    usuario: string,
+    password: string,
     legajo?: number,
     id?: number
 }
