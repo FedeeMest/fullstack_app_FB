@@ -27,7 +27,10 @@ export const verifyRole = (roles: string[]) => {
 
     try {
       // Verificar y decodificar el token JWT
-      const decoded = jwt.verify(token, 'your_jwt_secret'); // Reemplaza 'your_jwt_secret' con tu clave secreta
+      if (!process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET is not defined in environment variables');
+      }
+      const decoded = jwt.verify(token, process.env.JWT_SECRET); // Reemplaza 'your_jwt_secret' con tu clave secreta
       req.user = decoded; // Almacenar el payload decodificado en `req.user`
 
       // Verificar si el rol del usuario está incluido en los roles permitidos

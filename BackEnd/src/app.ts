@@ -9,6 +9,7 @@ import cors from 'cors'; // Middleware para habilitar CORS
 import { authRoutes } from './auth/auth.routes.js'; // Rutas para autenticación
 import { verifyRole } from './Middleware/authMiddleware.js'; // Middleware para verificar roles
 import { adminRouter } from './admin/admin.routes.js'; // Rutas para el módulo de administradores
+import * as dotenv from 'dotenv';
 
 // Crear una instancia de la aplicación Express
 const app = express();
@@ -34,6 +35,9 @@ app.use('/api/materias', materiaRouter);
 // Rutas protegidas para administradores y alumnos
 app.use('/api/alumnos', alumnoRouter);
 app.use('/api/inscripciones', inscripcionRouter);
+
+dotenv.config({ path: './envirement.env' });
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 // Middleware para manejar rutas no encontradas
 app.use((_, res) => {
