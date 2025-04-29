@@ -1,15 +1,31 @@
 import { MikroORM } from "@mikro-orm/core"; // MikroORM para interactuar con la base de datos
 import { defineConfig } from "@mikro-orm/mysql"; // Configuración específica para MySQL
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter"; // Resaltador para las consultas SQL en los logs
+import * as dotenv from 'dotenv';
+
+// Cargar las variables de entorno desde el archivo envirement.env
+dotenv.config({ path: './envirement.env' });
+
+// Verificar que las variables de entorno se carguen correctamente
+console.log('Variables de entorno cargadas:', {
+  DB_HOST: process.env.DB_HOST,
+  DB_PORT: process.env.DB_PORT,
+  DB_USER: process.env.DB_USER,
+  DB_PASSWORD: process.env.DB_PASSWORD,
+  DB_NAME: process.env.DB_NAME,
+});
+console.log('URL de conexión generada:', `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}`);
+console.log('Nombre de la base de datos:', process.env.DB_NAME);
+
 
 // Inicializar MikroORM con la configuración definida
 export const orm = await MikroORM.init(defineConfig({
     entities: ['dist/**/*.entity.js'], // Ruta a las entidades compiladas en JavaScript
     entitiesTs: ['src/**/*.entity.ts'], // Ruta a las entidades en TypeScript (para desarrollo)
-    dbName: 'sistema', // Nombre de la base de datos
-    clientUrl: 'mysql://dsw:dsw@localhost:3306', // URL de conexión a la base de datos (usuario, contraseña, host y puerto)
+    dbName: process.env.DB_NAME || 'sistema', // Nombre de la base de datos
+    clientUrl: `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}`, // URL de conexión sin el nombre de la base de datos
     highlighter: new SqlHighlighter(), // Resaltador para las consultas SQL en los logs
-    debug: true, // Habilitar el modo de depuración para mostrar consultas SQL en la consola
+    debug: process.env.NODE_ENV === 'development', // Habilitar el modo de depuración solo en desarrollo
     schemaGenerator: {
         disableForeignKeys: true, // Deshabilitar temporalmente las claves foráneas al generar el esquema
         createForeignKeyConstraints: true, // Crear restricciones de claves foráneas

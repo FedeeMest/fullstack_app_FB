@@ -36,13 +36,13 @@ app.use('/api/materias', materiaRouter);
 app.use('/api/alumnos', alumnoRouter);
 app.use('/api/inscripciones', inscripcionRouter);
 
-dotenv.config({ path: './envirement.env' });
-console.log('JWT_SECRET:', process.env.JWT_SECRET);
-
 // Middleware para manejar rutas no encontradas
 app.use((_, res) => {
   return res.status(404).json({ Error: "Ruta no encontrada" }); // Devuelve un error 404 si la ruta no existe
 });
+
+dotenv.config({ path: './envirement.env' });
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 // Sincronizar el esquema de la base de datos
 await syncSchema();
