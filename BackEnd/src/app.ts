@@ -42,7 +42,6 @@ app.use((_, res) => {
 });
 
 dotenv.config({ path: './envirement.env' });
-console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 // Sincronizar el esquema de la base de datos
 await syncSchema();

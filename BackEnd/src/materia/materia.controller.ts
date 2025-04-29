@@ -57,9 +57,8 @@ async function findOne(req: Request, res: Response) {
 async function add(req: Request, res: Response) {
     const em = orm.em.fork(); // Crear un EntityManager para la consulta
     const input = req.body.inputS; // Obtener los datos procesados por el middleware
-    console.log(input.nombre)
+
     let materiaCheck = validarMateria(input.nombre); // Validar el nombre de la materia
-    console.log('materiaCheck', materiaCheck); // Loguear el resultado de la validación
 
     if (!materiaCheck) {
         return res.status(400).json({ mensaje: 'El nombre de la materia debe tener al menos 3 caracteres' });
