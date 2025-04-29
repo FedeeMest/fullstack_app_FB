@@ -8,10 +8,7 @@ const authService = new AuthService();
 export const login = async (req: Request, res: Response) => {
   // Extraer las credenciales del cuerpo de la solicitud
   const { usuario, password } = req.body;
-
-  // Crear una nueva instancia del EntityManager para realizar consultas
-  const em = orm.em.fork();
-
+  
   // Log para depuración: mostrar la contraseña recibida
   console.log('Contraseña recibida:', password);
 
