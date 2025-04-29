@@ -22,6 +22,8 @@ export class AuthService {
 
     // Verificar si la contraseña ingresada coincide con el hash almacenado
     const isMatch = await bcrypt.compare(contraseña, user.password);
+    console.log(contraseña); 
+    console.log(user.password);
     if (!isMatch) {
       throw new Error('Contraseña incorrecta'); // Lanzar error si la contraseña no coincide
     }
