@@ -3,6 +3,7 @@ import { Materia } from './materia.entity.js'; // Entidad Materia para interactu
 import { orm } from '../shared/db/orm.js'; // ORM para interactuar con la base de datos
 import { Inscripcion } from '../inscripcion/inscripcion.entity.js'; // Entidad Inscripcion para verificar inscripciones asociadas
 import { validarMateria } from '../utils/validarMateria.js';
+import { validarHorasMateria } from '../utils/validarHorasMateria.js';
 
 // Middleware para procesar los datos de entrada
 function inputS(req: Request, res: Response, next: NextFunction) {
@@ -57,13 +58,17 @@ async function findOne(req: Request, res: Response) {
 async function add(req: Request, res: Response) {
     const em = orm.em.fork(); // Crear un EntityManager para la consulta
     const input = req.body.inputS; // Obtener los datos procesados por el middleware
-    console.log(input.nombre)
+
     let materiaCheck = validarMateria(input.nombre); // Validar el nombre de la materia
-    console.log('materiaCheck', materiaCheck); // Loguear el resultado de la validación
+    let horasCheck = validarHorasMateria(input.horas_anuales); // Validar las horas anuales
 
     if (!materiaCheck) {
         return res.status(400).json({ mensaje: 'El nombre de la materia debe tener al menos 3 caracteres' });
     }
+    if (!horasCheck) {
+        return res.status(400).json({ mensaje: 'Las horas anuales deben ser mayores a 0' });
+    }
+
     try {
         // Verificar si ya existe una materia con el mismo nombre
         const materiaExistente = await em.findOne(Materia, { nombre: input.nombre });

@@ -6,18 +6,6 @@ import * as dotenv from 'dotenv';
 // Cargar las variables de entorno desde el archivo envirement.env
 dotenv.config({ path: './envirement.env' });
 
-// Verificar que las variables de entorno se carguen correctamente
-console.log('Variables de entorno cargadas:', {
-  DB_HOST: process.env.DB_HOST,
-  DB_PORT: process.env.DB_PORT,
-  DB_USER: process.env.DB_USER,
-  DB_PASSWORD: process.env.DB_PASSWORD,
-  DB_NAME: process.env.DB_NAME,
-});
-console.log('URL de conexión generada:', `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}`);
-console.log('Nombre de la base de datos:', process.env.DB_NAME);
-
-
 // Inicializar MikroORM con la configuración definida
 export const orm = await MikroORM.init(defineConfig({
     entities: ['dist/**/*.entity.js'], // Ruta a las entidades compiladas en JavaScript

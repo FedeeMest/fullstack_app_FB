@@ -32,21 +32,8 @@ export class AddUpdateAlumnoComponent implements OnInit {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      mail: [
-        '',
-        [
-          Validators.required,
-          Validators.email,
-          Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) // Validación para correos electrónicos
-        ]
-      ],
-      direccion: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[A-Za-z\s]+\s\d+$/) // Validación para direcciones (ejemplo: "Calle 123")
-        ]
-      ],
+      mail: ['',[Validators.required,Validators.email,Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
+      direccion: ['',[Validators.required,Validators.pattern(/^[A-Za-z\s]+\s\d+$/) ]], // Validación para direcciones (ejemplo: "Calle 123")
       fecha_n: ['', Validators.required], // Fecha de nacimiento
       plan: ['', Validators.required], // Plan del alumno
       usuario: ['', Validators.required], // Usuario
@@ -64,7 +51,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
       this.getAlumno(this.id); // Obtener los datos del alumno
     }
   }
-
+  
   // Método para obtener los datos de un alumno por su ID
   getAlumno(id: number): void {
     this.alumnosService.getAlumno(id).subscribe((data: Alumno) => {
