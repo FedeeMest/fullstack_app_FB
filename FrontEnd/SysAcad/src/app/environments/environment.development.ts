@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    endpoint: 'https://mi-backend.vercel.app/' // Placeholder
+    endpoint: 'https://fullstackappfb-production.up.railway.app' // Placeholder
 };
