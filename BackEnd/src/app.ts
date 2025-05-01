@@ -43,9 +43,7 @@ app.use((_, res) => {
 dotenv.config();
 
 // Sincronizar el esquema de la base de datos
-if (process.env.NODE_ENV !== 'production') {
-  await syncSchema();
-}
+await syncSchema();
 
 // Manejo de excepciones no capturadas
 process.on('uncaughtException', (error) => {
