@@ -11,7 +11,7 @@ export const orm = await MikroORM.init(defineConfig({
     entities: ['dist/**/*.entity.js'], // Ruta a las entidades compiladas en JavaScript
     entitiesTs: ['src/**/*.entity.ts'], // Ruta a las entidades en TypeScript (para desarrollo)
     dbName: process.env.DB_NAME || 'sistema', // Nombre de la base de datos
-    clientUrl: `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}`, // URL de conexión sin el nombre de la base de datos
+    clientUrl: `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
     highlighter: new SqlHighlighter(), // Resaltador para las consultas SQL en los logs
     debug: process.env.NODE_ENV === 'development', // Habilitar el modo de depuración solo en desarrollo
     schemaGenerator: {
