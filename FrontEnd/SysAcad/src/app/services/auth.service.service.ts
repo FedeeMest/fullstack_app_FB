@@ -16,7 +16,7 @@ export class AuthService {
 
   // Método para iniciar sesión
   login(usuario: string, password: string): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { usuario, password });
+    return this.http.post<{ token: string }>(`${this.apiUrl}/auth/login`, { usuario, password });
     // Realiza una solicitud POST al endpoint de login con las credenciales del usuario
     // Devuelve un observable con el token de autenticación
   }

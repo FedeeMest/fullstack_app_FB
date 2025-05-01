@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    endpoint: 'https://fullstack-app-fb.vercel.app/'
+    endpoint: 'http://localhost:3000' // URL del backend para desarrollo
 };
