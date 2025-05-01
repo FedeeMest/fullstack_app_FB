@@ -10,8 +10,16 @@ test.describe('Gestión de materias - Admin', () => {
     // Login como admin
     await page.fill('#usuario', 'pedroadmin');
     await page.fill('#password', 'pedro123admin');
-    await page.click('#iniciarSecion');
-    await page.waitForURL('http://localhost:4200/admin/alumnos');  
+
+    // Esperar a que el botón esté visible y habilitado
+    await expect(page.getByRole('button', { name: 'Iniciar Sesión' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Iniciar Sesión' })).toBeEnabled();
+
+    // Hacer clic en el botón de inicio de sesión
+    await page.click('#iniciarSesion');
+
+    // Esperar a que redirija a /admin/alumnos
+    await page.waitForURL('http://localhost:4200/admin/alumnos');
   });
 
   test('crear nueva materia desde la vista de lista', async () => {
@@ -19,11 +27,16 @@ test.describe('Gestión de materias - Admin', () => {
     await page.getByRole('button', { name: 'Materias' }).click();
     await page.waitForURL('http://localhost:4200/materias');
 
-    // Clic en "Agregar materia"
-    
+    // Verificar que el botón "Agregar Materia" esté visible y habilitado
+    await expect(page.locator('#btnAgregarMateria')).toBeVisible();
+    await expect(page.locator('#btnAgregarMateria')).toBeEnabled();
 
-    // Verificar que se muestra el formulario de nueva materia
-    await expect(page.locator('h2:has-text("Nueva Materia")')).toBeVisible();
+    // Clic en "Agregar materia"
+    await page.click('#btnAgregarMateria');
+
+    // Esperar a que el formulario de nueva materia esté presente
+
+    await expect(page.locator('div.card-header:has-text("Agregar Materia")')).toBeVisible({ timeout: 10000 });
 
     // Llenar los campos del formulario
     await page.fill('#nombre', 'Introducción a Playwright');
