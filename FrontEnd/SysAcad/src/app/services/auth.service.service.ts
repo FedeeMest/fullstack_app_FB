@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt'; // Servicio para manejar y decodificar tokens JWT
 import { AuthStateService } from './auth-state.service'; // Servicio para manejar el estado de autenticación
+import { environment } from '../environments/environment.development';
 
 @Injectable({
   providedIn: 'root' // Hace que este servicio esté disponible en toda la aplicación
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/auth'; // URL del backend para autenticación
+  private apiUrl = environment.endpoint; // URL del backend para autenticación
   private jwtHelper = new JwtHelperService(); // Instancia del servicio para manejar tokens JWT
 
   constructor(private http: HttpClient, private authStateService: AuthStateService) {}
