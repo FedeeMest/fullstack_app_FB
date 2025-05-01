@@ -7,7 +7,6 @@ import { materiaRouter } from './materia/materia.routes.js'; // Rutas para el m�
 import { inscripcionRouter } from './inscripcion/inscripcion.routes.js'; // Rutas para el módulo de inscripciones
 import cors from 'cors'; // Middleware para habilitar CORS
 import { authRoutes } from './auth/auth.routes.js'; // Rutas para autenticación
-import { verifyRole } from './Middleware/authMiddleware.js'; // Middleware para verificar roles
 import { adminRouter } from './admin/admin.routes.js'; // Rutas para el módulo de administradores
 import * as dotenv from 'dotenv';
 

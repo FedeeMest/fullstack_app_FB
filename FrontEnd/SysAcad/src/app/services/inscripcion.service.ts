@@ -13,7 +13,7 @@ export class InscripcionService {
 
   constructor(private http: HttpClient) { 
     this.myAppUrl = environment.endpoint; // Asigna la URL base desde las variables de entorno
-    this.myApiUrl = 'api/inscripciones'; // Define la ruta específica para las inscripciones
+    this.myApiUrl = '/api/inscripciones'; // Define la ruta específica para las inscripciones
   }
 
   // Método para obtener el token del localStorage

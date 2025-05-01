@@ -14,7 +14,7 @@ export class AdminService {
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint; // Asigna la URL base desde las variables de entorno
-    this.myApiUrl = 'api/admins'; // Define la ruta específica para los administradores
+    this.myApiUrl = '/api/admins'; // Define la ruta específica para los administradores
   }
 
   // Manejo de errores en las solicitudes HTTP

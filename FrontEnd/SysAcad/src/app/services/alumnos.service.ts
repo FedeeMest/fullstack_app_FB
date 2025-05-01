@@ -15,7 +15,7 @@ export class AlumnosService {
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint; // Asigna la URL base desde las variables de entorno
-    this.myApiUrl = 'api/alumnos'; // Define la ruta específica para los alumnos
+    this.myApiUrl = '/api/alumnos'; // Define la ruta específica para los alumnos
   }
 
   // Manejo de errores en las solicitudes HTTP

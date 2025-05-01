@@ -14,7 +14,7 @@ export class MateriaService {
 
   constructor(private http: HttpClient) { 
     this.myAppUrl = environment.endpoint; // Asigna la URL base desde las variables de entorno
-    this.myApiUrl = 'api/materias'; // Define la ruta específica para las materias
+    this.myApiUrl = '/api/materias'; // Define la ruta específica para las materias
   }
 
   // Manejo de errores centralizado
