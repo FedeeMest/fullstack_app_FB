@@ -41,13 +41,9 @@ export class LoginComponent {
         const userRole = decodedToken.rol; // Obtener el rol del usuario
 
         // Redirigir según el rol del usuario
-        if (userRole === 'admin') {
-          this.router.navigate(['/admin/alumnos']); // Redirigir al componente de administrador
-        } else if (userRole === 'alumno') {
-          this.router.navigate([`/informacion/${decodedToken.id}`]); // Redirigir al componente de alumno
-        } else {
-          this.router.navigate(['/']); // Redirigir a la página principal
-        }
+      
+        this.router.navigate(['']); // Redirigir a la página principal
+  
       },
       (error) => {
         // Manejar errores en el inicio de sesión

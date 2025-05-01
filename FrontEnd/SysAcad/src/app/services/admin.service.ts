@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs'; // Manejo de observables y errore
 import { catchError } from 'rxjs/operators'; // Operador para manejar errores en las solicitudes HTTP
 import { Admin } from '../interfaces/admin.js'; // Interfaz para el modelo de administrador
 
+
 @Injectable({
   providedIn: 'root' // Hace que este servicio esté disponible en toda la aplicación
 })
