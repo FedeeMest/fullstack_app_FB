@@ -4,7 +4,7 @@ import { SqlHighlighter } from "@mikro-orm/sql-highlighter"; // Resaltador para 
 import * as dotenv from 'dotenv';
 
 // Cargar las variables de entorno desde el archivo envirement.env
-dotenv.config({ path: './envirement.env' });
+dotenv.config();
 
 // Inicializar MikroORM con la configuración definida
 export const orm = await MikroORM.init(defineConfig({

@@ -41,10 +41,10 @@ app.use((_, res) => {
   return res.status(404).json({ Error: "Ruta no encontrada" }); // Devuelve un error 404 si la ruta no existe
 });
 
-dotenv.config({ path: './envirement.env' });
+dotenv.config();
 
 // Sincronizar el esquema de la base de datos
-await syncSchema();
+/* await syncSchema(); */
 
 // Manejo de excepciones no capturadas
 process.on('uncaughtException', (error) => {
