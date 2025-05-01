@@ -19,6 +19,7 @@ export const orm = await MikroORM.init(defineConfig({
         createForeignKeyConstraints: true, // Crear restricciones de claves foráneas
         ignoreSchema: [], // Esquemas que se deben ignorar (vacío en este caso)
     },
+    ensureDatabase: false,
 }));
 
 // Función para sincronizar el esquema de la base de datos
