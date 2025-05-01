@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment'; // Importa las variables de entorno
+import { environment } from '../environments/environment.development'; // Importa las variables de entorno
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'; // Módulos para realizar solicitudes HTTP y manejar errores
 import { Observable, throwError } from 'rxjs'; // Manejo de observables y errores
 import { catchError } from 'rxjs/operators'; // Operador para manejar errores en las solicitudes HTTP
 import { Admin } from '../interfaces/admin.js'; // Interfaz para el modelo de administrador
+
 
 @Injectable({
   providedIn: 'root' // Hace que este servicio esté disponible en toda la aplicación

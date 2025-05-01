@@ -16,9 +16,9 @@ import { RoleGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
 
-    { path: 'inicio', component: InicioComponent },
+    { path: 'login', component: LoginComponent },
   
-    { path: '', component: LoginComponent },
+    { path: '', component: InicioComponent },
 
     {
       path: '',

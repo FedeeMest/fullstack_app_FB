@@ -8,6 +8,41 @@
     <!-- Menú colapsable -->
     <div class="collapse navbar-collapse text-center d-flex justify-content-between" id="navbarColor01">
       <ul class="navbar-nav me-auto">
+
+
+
+        <!-- Botón de login-->
+         <li class="nav-item" *ngIf="!isAdmin && !isAlumno">
+          <div class="d-none d-sm-flex gap-2">
+            <button type="button" class="btn btn-primary bg-secondary rounded-3 mb-2 mb-lg-0 ml-2" (click)="goLogin()">Iniciar Sesión</button>
+          </div>
+
+          <div class="dropdown d-block d-sm-none mt-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-list"></i> Menu
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="goLogin()">Iniciar Sesión</a></li>
+            </ul>
+          </div>
+
+         </li>
+
+        <!-- opciones para alumno -->
+         <li class="nav-item" *ngIf="isAlumno">
+          <div class="d-none d-sm-flex gap-2">
+          <button type="button" class="btn btn-primary bg-secondary rounded-3 mb-2 mb-lg-0 ml-2" (click)="goInfo()">Informacion Personal</button>
+          </div>
+
+          <div class="dropdown d-block d-sm-none mt-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-list"></i> Menu
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="goInfo()">Informacion Personal</a></li>
+            </ul>
+          </div>
+         </li>
         <!-- Opciones para admin -->
         <li class="nav-item" *ngIf="isAdmin">
           <!-- Botones para pantallas grandes -->
