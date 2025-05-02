@@ -44,10 +44,18 @@ export class NavbarComponent implements OnInit {
     });
 
     // Inicializar el estado al cargar el componente
-    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('token')) {
       this.checkRoleAdmin(); // Verificar el rol del usuario
       this.checkRoleAlumno(); // Verificar el rol del usuario
       this.loadUserInfo(); // Cargar la información del usuario
+    }
+
+    // Agregar listener para el evento beforeunload
+    if (typeof window !== 'undefined') {
+      // Agregar listener para el evento beforeunload
+      window.addEventListener('beforeunload', () => {
+        sessionStorage.removeItem('token'); // Eliminar el token del almacenamiento
+      });
     }
   }
 
@@ -109,7 +117,7 @@ export class NavbarComponent implements OnInit {
 
   // Método para cerrar sesión
   logout() {
-    localStorage.removeItem('token'); // Eliminar el token del almacenamiento local
+    sessionStorage.removeItem('token'); // Eliminar el token del almacenamiento
     this.authtateService.setAuthState(false); // Cambiar el estado de autenticación a false
     this.isAdmin = false; // Restablecer la variable `isAdmin` a false
     this.isAlumno = false; // Restablecer la variable `isAlumno` a false
@@ -145,9 +153,9 @@ export class NavbarComponent implements OnInit {
   }
 
   goInfo() {
-    const token = localStorage.getItem('token'); // Obtener el token del almacenamiento local
+    const token = sessionStorage.getItem('token'); // Obtener el token del almacenamiento 
     if (!token) {
-      console.error('No se encontró el token en localStorage'); // Manejar el caso en que no exista el token
+      console.error('No se encontró el token en sessionStorage'); // Manejar el caso en que no exista el token
       return;
     }
   

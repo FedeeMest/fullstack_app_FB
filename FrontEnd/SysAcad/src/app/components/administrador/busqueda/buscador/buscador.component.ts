@@ -30,12 +30,12 @@ export class BuscadorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Eliminar datos de alumno del localStorage si existen
-    if (typeof localStorage !== 'undefined') {
-      const storedAlumno = localStorage.getItem('alumno');
+    // Eliminar datos de alumno del sessionStorage si existen
+    if (typeof sessionStorage !== 'undefined') {
+      const storedAlumno = sessionStorage.getItem('alumno');
       if (storedAlumno) {
-        localStorage.removeItem('alumno');
-        console.log('Alumno eliminado del localStorage');
+        sessionStorage.removeItem('alumno');
+        console.log('Alumno eliminado del sessionStorage');
       }
     }
   }

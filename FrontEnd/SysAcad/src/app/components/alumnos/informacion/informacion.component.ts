@@ -25,7 +25,7 @@ export class InformacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token'); // Obtiene el token almacenado en el localStorage
+    const token = sessionStorage.getItem('token'); // Obtiene el token almacenado en el sessionStorage
     if (!token) {
       console.error('No se encontró el token'); // Muestra un error si no hay token
       this.router.navigate(['/login']); // Redirige al login si no hay token

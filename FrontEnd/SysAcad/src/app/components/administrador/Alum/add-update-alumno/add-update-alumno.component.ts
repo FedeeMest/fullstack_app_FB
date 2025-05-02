@@ -90,7 +90,7 @@ export class AddUpdateAlumnoComponent implements OnInit {
         next: (response: any) => {
           console.log('Alumno actualizado', response.data);
           this.errorMessage = '';
-          localStorage.setItem('alumno', JSON.stringify(response.data)); // Guardar los datos actualizados en el almacenamiento local
+          sessionStorage.setItem('alumno', JSON.stringify(response.data)); // Guardar los datos actualizados en el almacenamiento
           this.toastr.success(
             `El alumno ${alumno.apellido} ${alumno.nombre} fue actualizado con éxito`,
             'Alumno Actualizado',

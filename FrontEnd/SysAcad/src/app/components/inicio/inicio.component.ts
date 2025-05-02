@@ -13,11 +13,11 @@ export class InicioComponent  implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    if (typeof localStorage !== 'undefined') {
-      const storedAlumno = localStorage.getItem('alumno');
+    if (typeof sessionStorage !== 'undefined') {
+      const storedAlumno = sessionStorage.getItem('alumno');
       if (storedAlumno) {
-        localStorage.removeItem('alumno');
-        console.log('Alumno eliminado del localStorage');
+        sessionStorage.removeItem('alumno');
+        console.log('Alumno eliminado del sessionStorage');
         }
       }
   }
