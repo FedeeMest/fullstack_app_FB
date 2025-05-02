@@ -30,15 +30,11 @@ export class LoginComponent {
     // Llamar al servicio de autenticación con las credenciales ingresadas
     this.authService.login(this.usuario, this.password).subscribe(
       (response) => {
-        // Almacenar el token JWT en el almacenamiento local
-        localStorage.setItem('token', response.token);
+        // Almacenar el token JWT en el almacenamiento 
+        sessionStorage.setItem('token', response.token);
 
         // Notificar al servicio que el usuario inició sesión
         this.authService.notifyLogin();
-
-        // Decodificar el token JWT para obtener información del usuario
-        const decodedToken = this.jwtHelper.decodeToken(response.token);
-        const userRole = decodedToken.rol; // Obtener el rol del usuario
 
         // Redirigir según el rol del usuario
       

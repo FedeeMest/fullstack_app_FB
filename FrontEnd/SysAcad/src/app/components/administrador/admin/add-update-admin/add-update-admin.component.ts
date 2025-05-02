@@ -101,7 +101,7 @@ export class AddUpdateAdminComponent implements OnInit {
         next: (response: any) => {
           console.log('Admin actualizado', response.data);
           this.errorMessage = '';
-          localStorage.setItem('admin', JSON.stringify(response.data)); // Guardar los datos actualizados en el almacenamiento local
+          sessionStorage.setItem('admin', JSON.stringify(response.data)); // Guardar los datos actualizados en el almacenamiento 
           this.toastr.success(
             `El admin ${admin.apellido} ${admin.nombre} fue actualizado con éxito`,
             'Admin Actualizado',

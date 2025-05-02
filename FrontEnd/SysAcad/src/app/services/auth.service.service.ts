@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt'; // Servicio para manejar y decodificar tokens JWT
 import { AuthStateService } from './auth-state.service'; // Servicio para manejar el estado de autenticación
-import { environment } from '../environments/../environments/environment.development';
+import { environment } from '../environments/../environments/environment';
 
 @Injectable({
   providedIn: 'root' // Hace que este servicio esté disponible en toda la aplicación
@@ -23,7 +23,7 @@ export class AuthService {
 
   // Método para cerrar sesión
   logout(): void {
-    localStorage.removeItem('token'); // Elimina el token del almacenamiento local
+    sessionStorage.removeItem('token'); // Elimina el token del almacenamiento local
     this.authStateService.setAuthState(false); // Notifica que el usuario cerró sesión
   }
 
@@ -34,8 +34,8 @@ export class AuthService {
 
   // Método para obtener el rol del usuario
   getRole(): string | null {
-    if (typeof window !== 'undefined' && localStorage) { // Verifica si localStorage está disponible
-      const token = localStorage.getItem('token'); // Obtiene el token del almacenamiento local
+    if (typeof window !== 'undefined' && sessionStorage) { // Verifica si localStorage está disponible
+      const token = sessionStorage.getItem('token'); // Obtiene el token del almacenamiento local
       if (token) {
         const decodedToken = this.jwtHelper.decodeToken(token); // Decodifica el token JWT
         return decodedToken.rol; // Devuelve el rol del usuario
@@ -46,8 +46,8 @@ export class AuthService {
 
   // Método para obtener el ID del usuario
   getUserId(): number | null {
-    if (typeof window !== 'undefined' && localStorage) { // Verifica si localStorage está disponible
-      const token = localStorage.getItem('token'); // Obtiene el token del almacenamiento local
+    if (typeof window !== 'undefined' && sessionStorage) { // Verifica si localStorage está disponible
+      const token = sessionStorage.getItem('token'); // Obtiene el token del almacenamiento local
       if (token) {
         const decodedToken = this.jwtHelper.decodeToken(token); // Decodifica el token JWT
         return decodedToken.id; // Devuelve el ID del usuario

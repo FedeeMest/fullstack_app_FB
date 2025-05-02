@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 // Interceptor para agregar el token de autenticación a las solicitudes HTTP
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
-  const token = localStorage.getItem('token'); // Obtiene el token almacenado en el localStorage
+  const token = sessionStorage.getItem('token'); // Obtiene el token almacenado en el sessionStorage
   if (token) {
     // Si el token existe, clona la solicitud y agrega el encabezado de autorización
     const cloned = req.clone({
