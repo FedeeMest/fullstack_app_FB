@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common'; // Módulos comunes de Angular
 import { ToastrService } from 'ngx-toastr'; // Servicio para mostrar notificaciones
 import { MateriaService } from '../../../../services/materia.service'; // Servicio para interactuar con la API de materias
 import { Materia } from '../../../../interfaces/materia'; // Interfaz para el modelo de Materia
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-update-materia', // Selector del componente
@@ -23,7 +24,8 @@ export class AddUpdateMateriaComponent implements OnInit {
     private materiasService: MateriaService, // Servicio para interactuar con la API
     private router: Router, // Servicio para redirigir
     private aRouter: ActivatedRoute, // Servicio para obtener parámetros de la ruta
-    private toastr: ToastrService // Servicio para mostrar notificaciones
+    private toastr: ToastrService, // Servicio para mostrar notificaciones
+    private location: Location
   ) {
     // Inicializar el formulario con validaciones
     this.form = this.fb.group({
@@ -131,6 +133,6 @@ export class AddUpdateMateriaComponent implements OnInit {
 
   // Método para volver a la página anterior
   volver(): void {
-    this.router.navigate(['/admin/materias']);
+    this.location.back();
   }
 }
