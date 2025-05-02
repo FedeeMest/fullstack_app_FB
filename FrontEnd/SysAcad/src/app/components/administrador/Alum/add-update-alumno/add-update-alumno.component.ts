@@ -137,6 +137,6 @@ export class AddUpdateAlumnoComponent implements OnInit {
 
    // Método para redirigir al componente de cambio de contraseña
    goToChangePassword(): void {
-    this.router.navigate([`admin/change-password/${this.id}`]); // Pasar el ID del alumno en la ruta
+    this.router.navigate([`/change-password/${this.id}`]); // Pasar el ID del alumno en la ruta
   }
 }

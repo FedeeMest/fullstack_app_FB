@@ -186,44 +186,44 @@ async function remove(req: Request, res: Response) {
     }}
 
     // Controlador para cambiar la contraseña de un alumno
-async function changePassword(req: Request, res: Response) {
-    const em = orm.em.fork(); // Crear un EntityManager para la consulta
-    const id = parseInt(req.params.id, 10); // Obtener el ID del alumno desde los parámetros
-    const { currentPassword, newPassword } = req.body; // Obtener las contraseñas del cuerpo de la solicitud
-
-    try {
-        // Buscar el alumno en la base de datos
-        const alumno = await em.findOne(Alumno, { id });
-        if (!alumno) {
-            // Si no se encuentra, devolver un error 404
-            return res.status(404).json({ Error: 'Alumno no encontrado.' });
+    async function changePassword(req: Request, res: Response) {
+        const em = orm.em.fork(); // Crear un EntityManager para la consulta
+        const id = parseInt(req.params.id, 10); // Obtener el ID del alumno desde los parámetros
+        const { currentPassword, newPassword } = req.body; // Obtener las contraseñas del cuerpo de la solicitud
+        const userRole = req.user?.rol; // Obtener el rol del usuario desde el token (asegúrate de que el middleware de autenticación lo agregue)
+    
+        try {
+            // Buscar el alumno en la base de datos
+            const alumno = await em.findOne(Alumno, { id });
+            if (!alumno) {
+                // Si no se encuentra, devolver un error 404
+                return res.status(404).json({ Error: 'Alumno no encontrado.' });
+            }
+    
+            // Si el rol es "alumno", verificar la contraseña actual
+            if (userRole === 'alumno') {
+                const isMatch = await bcrypt.compare(currentPassword, alumno.password);
+                if (!isMatch) {
+                    // Si no coincide, devolver un error 400
+                    return res.status(400).json({ Error: 'La contraseña actual es incorrecta.' });
+                }
+            }
+    
+            // Encriptar la nueva contraseña
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(newPassword, salt);
+    
+            // Actualizar la contraseña del alumno
+            alumno.password = hashedPassword;
+            await em.flush(); // Guardar los cambios en la base de datos
+    
+            res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+            return res.status(200).json({ Message: 'Contraseña actualizada con éxito.' }); // Confirmar la actualización
+        } catch (error) {
+            console.error('Error al cambiar la contraseña:', error); // Loguear el error
+            return res.status(500).json({ Error: 'Error al cambiar la contraseña.' }); // Devolver un error 500
         }
-        console.log('Alumno encontrado:', alumno); // Loguear el alumno encontrado
-        console.log('Contraseña actual ingresada:', currentPassword);
-        console.log('Contraseña almacenada (hash):', alumno.password);
-
-        // Verificar que la contraseña actual coincida
-        const isMatch = await bcrypt.compare(currentPassword, alumno.password);
-        if (!isMatch) {
-            // Si no coincide, devolver un error 400
-            return res.status(400).json({ Error: 'La contraseña actual es incorrecta.' });
-        }
-
-        // Encriptar la nueva contraseña
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-        // Actualizar la contraseña del alumno
-        alumno.password = hashedPassword;
-        await em.flush(); // Guardar los cambios en la base de datos
-
-        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
-        return res.status(200).json({ Message: 'Contraseña actualizada con éxito.' }); // Confirmar la actualización
-    } catch (error) {
-        console.error('Error al cambiar la contraseña:', error); // Loguear el error
-        return res.status(500).json({ Error: 'Error al cambiar la contraseña.' }); // Devolver un error 500
     }
-}
 
 
 // Exportar las funciones para usarlas en las rutas

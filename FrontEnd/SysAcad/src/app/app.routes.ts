@@ -29,7 +29,8 @@ export const routes: Routes = [
         {path: "informacion/:id", component: InformacionComponent},
         {path: "lista_insc/:id", component: ListadoIComponent},
         {path: "add_inscripcion/:id", component: AddInscripcionComponent},
-        {path: "materias", component: MateriasComponent}
+        {path: "materias", component: MateriasComponent},
+        {path: "change-password/:id", component: ChangepasswordComponent},
       ],
     },
 
@@ -48,7 +49,7 @@ export const routes: Routes = [
         {path: "admins", component: AdminsComponent},
         {path: "add_admin", component: AddUpdateAdminComponent},
         {path: "editar_admin/:id", component: AddUpdateAdminComponent},
-        {path: "change-password/:id", component: ChangepasswordComponent},
+
         
       ],
     },

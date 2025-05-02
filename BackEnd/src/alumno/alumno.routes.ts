@@ -12,4 +12,4 @@ alumnoRouter.post("/", verifyRole(['admin']), inputS, add);
 alumnoRouter.put("/:id", verifyRole(['admin']), inputS, update);
 alumnoRouter.patch("/:id", verifyRole(['admin']), inputS, update);
 alumnoRouter.delete("/:id", verifyRole(['admin']), remove);
-alumnoRouter.put('/:id/change-password', verifyRole(['admin']), changePassword);
+alumnoRouter.put('/:id/change-password', verifyRole(['admin','alumno']), changePassword);

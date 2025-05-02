@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ChangepasswordComponent {
   form: FormGroup;
   id: number; // ID del alumno
+  role: string | null = null; // Rol del usuario
 
   constructor(
     private fb: FormBuilder,
@@ -23,11 +24,16 @@ export class ChangepasswordComponent {
     private location: Location,
     private route: ActivatedRoute
   ) {
+    // Obtener el rol del usuario
+    this.role = this.authService.getRole();
+
+    // Crear el formulario dinámicamente según el rol
     this.form = this.fb.group({
-      currentPassword: ['', Validators.required], // Contraseña actual requerida
+      ...(this.role === 'alumno' && { currentPassword: ['', Validators.required] }), // Contraseña actual requerida solo para alumnos
       newPassword: ['', [Validators.required, Validators.minLength(6)]], // Nueva contraseña requerida y con mínimo 6 caracteres
       confirmPassword: ['', Validators.required] // Confirmación de contraseña requerida
     });
+
     // Obtener el ID del alumno desde la URL
     this.id = Number(this.route.snapshot.paramMap.get('id'));
   }
@@ -42,7 +48,7 @@ export class ChangepasswordComponent {
     }
 
     // Llamar al servicio con el ID del alumno
-    this.authService.changePassword(this.id, currentPassword, newPassword).subscribe({
+    this.authService.changePassword(this.id, currentPassword || '', newPassword).subscribe({
       next: () => {
         this.toastr.success('Contraseña actualizada con éxito.', 'Éxito');
         this.form.reset();
@@ -58,6 +64,4 @@ export class ChangepasswordComponent {
   cancel(): void {
     this.location.back(); // Navegar hacia atrás en el historial del navegador
   }
-  
-
 }
