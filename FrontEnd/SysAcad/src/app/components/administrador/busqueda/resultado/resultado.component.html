@@ -92,9 +92,12 @@
           <input type="text" id="legajo" [value]="admin.numero" readonly class="form-control mt-0 mb-3">
         </div>
       </div>
-      <!-- Botón de volver -->
+      <!-- Botones de acción -->
       <div class="d-flex justify-content-between mt-3">
         <button class="btn btn-secondary" (click)="goBack()">Volver</button>
+        <div>
+          <button (click)="editarAdmin(admin.id)" class="btn btn-light">Editar</button>
+        </div>
       </div>
     </div>
   </div>

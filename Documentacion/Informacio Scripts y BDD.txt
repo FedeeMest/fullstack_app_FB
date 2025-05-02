@@ -1,53 +1,123 @@
-<------------------------------------------------------------------------------------------------------------------>
-Crear Base De Datos:
+Documentación del Proyecto SysAcad
 
-create database if not exists sistema;
+Descripción del Proyecto
+SysAcad es una aplicación Full Stack diseñada para la gestión académica de una institución educativa. 
+Permite a los administradores gestionar alumnos, materias, inscripciones y otros aspectos relacionados con la administración académica. 
+Los alumnos pueden acceder a su información personal y realizar consultas relacionadas con su progreso académico.
 
-use sistema;
+El sistema está dividido en dos partes principales:
+FrontEnd: Una aplicación web desarrollada en Angular para la interacción con los usuarios.
+BackEnd: Una API RESTful desarrollada en Node.js para manejar la lógica del servidor y la base de datos.
 
-create table if not exists `sistema`.`alumno` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(255) NOT NULL,
-  `apellido` VARCHAR(255) NOT NULL,
-  `plan` VARCHAR(255) NOT NULL,
-  `mail` VARCHAR(255) NOT NULL,
-  `direccion` VARCHAR(255) NOT NULL,
-  `fecha_n` VARCHAR(50) NOT NULL,
-  `legajo` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`id`));
+________________
 
-create table if not exists `sistema`.`materia` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(255) NOT NULL UNIQUE,
-  `horas_anuales` INT NOT NULL,
-  `modalidad` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`id`));
+Objetivo del Proyecto
+El objetivo principal de SysAcad es proporcionar una solución eficiente y escalable para la gestión académica, permitiendo:
 
-create table if not exists `sistema`.`inscripcion` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `alumno` INT UNSIGNED NOT NULL,
-  `materia` INT UNSIGNED NOT NULL,
-  `fecha` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_alumno`
-    FOREIGN KEY (`alumno`)
-    REFERENCES `sistema`.`alumno` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_materia`
-    FOREIGN KEY (`materia`)
-    REFERENCES `sistema`.`materia` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE);
 
-<------------------------------------------------------------------------------------------------------------------>
-Scripts para ejecutar backend y frontend:
+A los administradores: gestionar alumnos, materias, inscripciones y otros recursos académicos.
+A los alumnos: consultar su información personal, inscribirse en materias y realizar otras acciones relacionadas con su progreso académico.
 
-Scripts BackEnd ---> pnpm start:dev
-Scripts FrontEnd ---> ng serve o-
+________________
 
-Instalar Dependencias:
+Tecnologías Utilizadas
+FrontEnd
+* Framework: Angular 18.1.2
+* Lenguaje: TypeScript
+* Estilos: CSS, Bootstrap
+* Autenticación: JWT (JSON Web Tokens)
+* Testing:
+* Unit Testing: Karma
+* End-to-End Testing: Playwright
+* Gestión de Dependencias: PNPM
 
-pnpm install
 
-<------------------------------------------------------------------------------------------------------------------>
+BackEnd
+* Framework: Express.js
+* Lenguaje: TypeScript
+* Base de Datos: MySQL
+* ORM: MikroORM
+* Autenticación: JWT (JSON Web Tokens)
+* Encriptación: bcryptjs
+* Gestión de Dependencias: PNPM
+
+
+Testing:
+* Unit Testing: Jest
+* API Testing: Supertest
+
+________________
+
+Estructura del Proyecto
+FrontEnd
+Ubicación: SysAcad
+Estructura de Carpetas
+* src/app: Contiene los componentes, servicios e interfaces de la aplicación.
+* components: Componentes como navbar, login, etc.
+* services: Servicios para interactuar con la API del BackEnd.
+* interfaces: Definiciones de tipos e interfaces.
+* public: Archivos estáticos como imágenes y estilos globales.
+* tests: Pruebas end-to-end con Playwright.
+
+
+Archivos Clave
+* angular.json: Configuración del proyecto Angular.
+* package.json: Dependencias y scripts del FrontEnd.
+* server.ts: Configuración del servidor para SSR (Server-Side Rendering).
+* vercel.json: Configuración para el despliegue en Vercel.
+
+
+BackEnd
+Ubicación: BackEnd
+Estructura de Carpetas
+* src: Contiene la lógica del servidor.
+* auth: Manejo de autenticación y generación de tokens JWT.
+* admin: Controladores y servicios para la gestión de administradores.
+* alumno: Controladores y servicios para la gestión de alumnos.
+* materia: Controladores y servicios para la gestión de materias.
+* Middleware: Middleware para validaciones y autenticación.
+* shared: Configuración de la base de datos y utilidades comunes.
+* utils: Funciones auxiliares y scripts.
+* tests: Pruebas unitarias y de integración.
+
+
+Archivos Clave
+* app.ts: Configuración principal del servidor Express.
+* package.json: Dependencias y scripts del BackEnd.
+* .env: Variables de entorno para la configuración del servidor.
+* tsconfig.json: Configuración de TypeScript.
+
+________________
+
+Funcionalidades Principales
+Para Administradores
+* Gestión de alumnos: Crear, editar, eliminar y consultar información de alumnos.
+* Gestión de materias: Crear, editar, eliminar y consultar materias.
+* Gestión de inscripciones: Inscribir alumnos en materias.
+* Autenticación segura con roles.
+Para Alumnos
+* Consulta de información personal.
+* Inscripción en materias.
+* Visualización de materias inscritas.
+
+________________
+
+Configuración y Ejecución
+FrontEnd
+1. Instalar dependencias →  pnpm install
+2. Ejecutar el servidor de desarrollo →  ng serve -–o
+3. Acceder a la aplicación en: http://localhost:4200/.
+
+BackEnd
+1. Instalar dependencias → pnpm install
+2. Configurar las variables de entorno en el archivo .env.
+3. Ejecutar el servidor → pnpm start:dev
+4. La API estará disponible en: http://localhost:3000/.
+
+Pruebas
+FrontEnd
+Ejecutar pruebas unitarias → ng test
+Ejecutar pruebas end-to-end → ng e2e
+
+BackEnd
+Ejecutar pruebas unitarias → pnpm test

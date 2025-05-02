@@ -167,8 +167,13 @@ export class NavbarComponent implements OnInit {
         console.error('El token no contiene un ID válido'); // Manejar el caso en que no exista el ID
         return;
       }
-  
-      this.route.navigate([`/informacion/${userId}`]); // Redirigir al componente de información del usuario
+      if (this.isAdmin) {
+        // Si es administrador, redirigir a la información del administrador
+        this.route.navigate([`/admin/resultado/admins/${userId}`]);
+      } else if (this.isAlumno) {
+        // Si es alumno, redirigir a la información del alumno
+        this.route.navigate([`/informacion/${userId}`]);
+      }
     } catch (error) {
       console.error('Error al decodificar el token:', error); // Manejar errores al decodificar el token
     }
