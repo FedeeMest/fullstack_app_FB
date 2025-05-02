@@ -18,7 +18,7 @@ export class InscripcionService {
 
   // Método para obtener el token del localStorage
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token'); // Obtiene el token almacenado en el localStorage
+    const token = sessionStorage.getItem('token'); // Obtiene el token almacenado en el localStorage
     if (!token) {
       throw new Error('No token found'); // Lanza un error si no hay token
     }
