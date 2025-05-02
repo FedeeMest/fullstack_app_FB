@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt'; // Servicio para manejar y decodificar tokens JWT
 import { AuthStateService } from './auth-state.service'; // Servicio para manejar el estado de autenticación
-import { environment } from '../environments/../environments/environment';
+import { environment } from '../environments/environment.development';
 
 @Injectable({
   providedIn: 'root' // Hace que este servicio esté disponible en toda la aplicación
