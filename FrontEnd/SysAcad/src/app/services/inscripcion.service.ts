@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment.development'; // Importa las variables de entorno
+import { environment } from '../environments/environment'; // Importa las variables de entorno
 import { Inscripcion } from '../interfaces/inscripcion'; // Interfaz para el modelo de Inscripción
 import { Observable } from 'rxjs'; // Manejo de observables
 
