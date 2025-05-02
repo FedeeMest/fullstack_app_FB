@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt'; // Servicio para manejar y decodificar tokens JWT
 import { AuthStateService } from './auth-state.service'; // Servicio para manejar el estado de autenticación
-import { environment } from '../environments/environment.development';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root' // Hace que este servicio esté disponible en toda la aplicación
@@ -20,6 +20,15 @@ export class AuthService {
     // Realiza una solicitud POST al endpoint de login con las credenciales del usuario
     // Devuelve un observable con el token de autenticación
   }
+
+  changePassword(id: number, currentPassword: string, newPassword: string): Observable<void> {
+    // Enviar la contraseña actual y la nueva al backend con el ID del alumno
+    return this.http.put<void>(`${this.apiUrl}/api/alumnos/${id}/change-password`, {
+      currentPassword,
+      newPassword
+    });
+  }
+
 
   // Método para cerrar sesión
   logout(): void {
@@ -55,4 +64,6 @@ export class AuthService {
     }
     return null; // Devuelve null si no hay token o no se puede obtener el ID
   }
+
+
 }

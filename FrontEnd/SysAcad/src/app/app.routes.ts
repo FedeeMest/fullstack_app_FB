@@ -13,6 +13,7 @@ import { AdminsComponent } from './components/administrador/admin/admins/admins.
 import { AddUpdateAdminComponent } from './components/administrador/admin/add-update-admin/add-update-admin.component.js';
 import { InformacionComponent } from './components/alumnos/informacion/informacion.component';
 import { RoleGuard } from './guards/auth.guard';
+import { ChangepasswordComponent } from './components/changepassword/changepassword.component';
 
 export const routes: Routes = [
 
@@ -47,6 +48,8 @@ export const routes: Routes = [
         {path: "admins", component: AdminsComponent},
         {path: "add_admin", component: AddUpdateAdminComponent},
         {path: "editar_admin/:id", component: AddUpdateAdminComponent},
+        {path: "change-password/:id", component: ChangepasswordComponent},
+        
       ],
     },
 

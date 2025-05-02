@@ -21,6 +21,7 @@ function inputS(req: Request, res: Response, next: NextFunction) {
         password: req.body.password
     };
 
+    console.log('Datos procesados en el middleware:', req.body.inputS);
     // Eliminar campos no definidos del objeto
     Object.keys(req.body.inputS).forEach((key) => {
         if (req.body.inputS[key] === undefined) delete req.body.inputS[key];
@@ -110,10 +111,15 @@ async function add(req: Request, res: Response) {
     const em = orm.em.fork(); // Crear un EntityManager para la consulta
     const input = req.body.inputS; // Obtener los datos procesados por el middleware
     try {
+        // Verificar que la contraseña no esté vacía
+        if (!input.password) {
+            return res.status(400).json({ Error: 'La contraseña es requerida.' });
+        }
+
         // Encriptar la contraseña
         const salt = await bcrypt.genSalt(10); // Generar un salt
         const hashedPassword = await bcrypt.hash(input.password, salt); // Encriptar la contraseña
-        console.log(hashedPassword); // Loguear la contraseña encriptada (solo para depuración)
+        console.log('Contraseña hasheada antes de guardar:', hashedPassword); // Loguear la contraseña encriptada
 
         // Obtener el legajo más alto y asignar el siguiente
         const [alumnoConMaxLegajo] = await em.find(Alumno, {}, { orderBy: { legajo: 'DESC' }, limit: 1 });
@@ -123,8 +129,12 @@ async function add(req: Request, res: Response) {
         const rol = 'alumno';
         const nuevoAlumno = em.create(Alumno, { ...input, password: hashedPassword, legajo: maxLegajo, rol: rol });
 
+        console.log('Objeto alumno antes de guardar:', nuevoAlumno); // Loguear el objeto alumno antes de guardar
+
         // Guardar el alumno en la base de datos
         await em.persistAndFlush(nuevoAlumno);
+
+        console.log('Alumno guardado en la base de datos:', nuevoAlumno); // Loguear el alumno después de guardar
 
         res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
         return res.status(201).json({ Message: 'Alumno creado con éxito', data: nuevoAlumno }); // Devolver el alumno creado
@@ -173,8 +183,48 @@ async function remove(req: Request, res: Response) {
     } catch (error) {
         console.error('Error al eliminar alumno:', error); // Loguear el error
         return res.status(500).json({ Error: 'Error al eliminar el alumno.' }); // Devolver un error 500
+    }}
+
+    // Controlador para cambiar la contraseña de un alumno
+async function changePassword(req: Request, res: Response) {
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
+    const id = parseInt(req.params.id, 10); // Obtener el ID del alumno desde los parámetros
+    const { currentPassword, newPassword } = req.body; // Obtener las contraseñas del cuerpo de la solicitud
+
+    try {
+        // Buscar el alumno en la base de datos
+        const alumno = await em.findOne(Alumno, { id });
+        if (!alumno) {
+            // Si no se encuentra, devolver un error 404
+            return res.status(404).json({ Error: 'Alumno no encontrado.' });
+        }
+        console.log('Alumno encontrado:', alumno); // Loguear el alumno encontrado
+        console.log('Contraseña actual ingresada:', currentPassword);
+        console.log('Contraseña almacenada (hash):', alumno.password);
+
+        // Verificar que la contraseña actual coincida
+        const isMatch = await bcrypt.compare(currentPassword, alumno.password);
+        if (!isMatch) {
+            // Si no coincide, devolver un error 400
+            return res.status(400).json({ Error: 'La contraseña actual es incorrecta.' });
+        }
+
+        // Encriptar la nueva contraseña
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // Actualizar la contraseña del alumno
+        alumno.password = hashedPassword;
+        await em.flush(); // Guardar los cambios en la base de datos
+
+        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+        return res.status(200).json({ Message: 'Contraseña actualizada con éxito.' }); // Confirmar la actualización
+    } catch (error) {
+        console.error('Error al cambiar la contraseña:', error); // Loguear el error
+        return res.status(500).json({ Error: 'Error al cambiar la contraseña.' }); // Devolver un error 500
     }
 }
 
+
 // Exportar las funciones para usarlas en las rutas
-export { add, findAll, findLegajo, findInscripcionesByAlumnoId, findOne, remove, update, inputS };
+export { add, findAll, findLegajo, findInscripcionesByAlumnoId, findOne, remove, update, inputS, changePassword };
