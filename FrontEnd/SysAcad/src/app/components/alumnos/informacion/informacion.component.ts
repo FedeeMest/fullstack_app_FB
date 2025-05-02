@@ -16,6 +16,7 @@ import { JwtHelperService } from '@auth0/angular-jwt'; // Servicio para decodifi
 export class InformacionComponent implements OnInit {
   alumno: Alumno | null = null; // Información del alumno
   private jwtHelper = new JwtHelperService(); // Instancia del servicio para manejar el token JWT
+  id: number | null = null; // ID del usuario obtenido del token
 
   constructor(
     private activatedroute: ActivatedRoute, // Servicio para obtener parámetros de la ruta
@@ -33,15 +34,15 @@ export class InformacionComponent implements OnInit {
     }
 
     const decodedToken = this.jwtHelper.decodeToken(token); // Decodifica el token JWT
-    const tokenAlumnoId = decodedToken.id; // Obtiene el ID del alumno del token
+    this.id = decodedToken.id; // Obtiene el ID del usuario desde el token
 
     this.activatedroute.params.subscribe((params) => {
       const routeAlumnoId = +params['id']; // Obtiene el ID del alumno desde los parámetros de la ruta
 
       // Verificar si el ID del token coincide con el ID de la ruta
-      if (tokenAlumnoId !== routeAlumnoId) {
+      if (this.id !== routeAlumnoId) {
         console.error('Acceso denegado: El ID del token no coincide con el ID de la ruta'); // Muestra un error si los IDs no coinciden
-        this.router.navigate(['/informacion/' + tokenAlumnoId]); // Redirige al alumno correspondiente
+        this.router.navigate(['/informacion/' + this.id]); // Redirige al alumno correspondiente
         return;
       }
 
@@ -70,5 +71,14 @@ export class InformacionComponent implements OnInit {
   // Método para volver a la página anterior
   goBack(): void {
     this.location.back(); // Navega hacia atrás en el historial
+  }
+
+  // Método para ir al cambio de contraseña
+  goToChangePassword(): void {
+    if (this.id !== null) {
+      this.router.navigate([`/change-password/${this.id}`]); // Pasar el ID del alumno en la ruta
+    } else {
+      console.error('No se pudo obtener el ID del usuario desde el token'); // Muestra un error si no se puede obtener el ID
+    }
   }
 }
