@@ -16,6 +16,7 @@ export class ChangepasswordComponent {
   form: FormGroup;
   id: number; // ID del alumno
   role: string | null = null; // Rol del usuario
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -43,7 +44,7 @@ export class ChangepasswordComponent {
     const { currentPassword, newPassword, confirmPassword } = this.form.value;
 
     if (newPassword !== confirmPassword) {
-      this.toastr.error('La nueva contraseña y su confirmación no coinciden.', 'Error');
+      this.errorMessage = 'La nueva contraseña y su confirmación no coinciden.';
       return;
     }
 
@@ -52,10 +53,11 @@ export class ChangepasswordComponent {
       next: () => {
         this.toastr.success('Contraseña actualizada con éxito.', 'Éxito');
         this.form.reset();
+        this.errorMessage = null;
         this.location.back(); // Navegar hacia atrás en el historial del navegador
       },
       error: (error) => {
-        this.toastr.error(error.error.message || 'Error al cambiar la contraseña.', 'Error');
+        this.errorMessage = error.error.message || 'Error al cambiar la contraseña.';
         console.error('Error al cambiar la contraseña:', error);
       }
     });
