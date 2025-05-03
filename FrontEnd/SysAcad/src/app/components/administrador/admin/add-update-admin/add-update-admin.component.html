@@ -43,6 +43,10 @@
             <label for="usuario" class="form-label">Usuario:</label>
             <input formControlName="usuario" type="text" id="usuario" class="form-control">
           </div>
+          <!-- Campo: Contraseña -->
+          <div class="mb-2" *ngIf="id === 0">
+            <label for="password" class="form-label">Contraseña:</label>
+            <input formControlName="password" type="password" id="password" class="form-control">
           <!-- Botones de acción -->
           <div class="d-flex justify-content-center mt-2">
             <!-- Botón: Volver -->
