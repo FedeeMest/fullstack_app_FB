@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {inputS,findAll,findOne,add,update,remove} from './admin.controller.js';
+import {inputS,findAll,findOne,add,update,remove, changePassword} from './admin.controller.js';
 import { verifyRole } from '../Middleware/authMiddleware.js';
 
 
@@ -11,3 +11,4 @@ adminRouter.post("/",verifyRole(['admin']),inputS,add);
 adminRouter.put("/:id",verifyRole(['admin']),inputS,update);
 adminRouter.patch("/:id",verifyRole(['admin']),inputS,update);
 adminRouter.delete("/:id",verifyRole(['admin']),remove);
+adminRouter.put('/:id/change-password',verifyRole(['admin']),changePassword);

@@ -145,4 +145,8 @@ export class AddUpdateAdminComponent implements OnInit {
   volver(): void {
     this.location.back();
   }
+
+  goToChangePassword(): void {
+    this.router.navigate([`admin/change-password/${this.id}`]); // Pasar el ID del alumno en la ruta
+  }
 }
