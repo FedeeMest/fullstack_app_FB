@@ -26,7 +26,7 @@ export class ChangeadminComponent {
   ) {
     // Crear el formulario para cambiar la contraseña
     this.form = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(6)]], // Nueva contraseña requerida y con mínimo 6 caracteres
+      newPassword: ['', [Validators.required]], // Nueva contraseña requerida y con mínimo 6 caracteres
       confirmPassword: ['', Validators.required] // Confirmación de contraseña requerida
     });
 
