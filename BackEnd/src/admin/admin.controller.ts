@@ -68,7 +68,7 @@ async function add(req: Request, res: Response) {
     try {
         // Obtener el administrador con el número más alto
         const [adminConMaxNumero] = await em.find(Admin, {}, { orderBy: { numero: 'DESC' }, limit: 1 });
-        const maxNumero = adminConMaxNumero ? adminConMaxNumero.numero + 1 : 1; // Calcular el nuevo número
+        const maxNumero = adminConMaxNumero ? (parseInt(adminConMaxNumero.numero, 10) || 0) + 1 : 1;
 
         const rol = 'admin'; // Asignar el rol de administrador
 
