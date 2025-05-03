@@ -128,7 +128,37 @@ async function remove(req: Request, res: Response) {
         console.error('Error al eliminar admin:', error); // Loguear el error
         return res.status(500).json({ Error: 'Error al eliminar el admin.' }); // Devolver un error 500
     }
+    
+}
+
+async function changePassword(req: Request, res: Response) {
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
+    const id = parseInt(req.params.id, 10); // Obtener el ID del administrador desde los parámetros
+    const { newPassword } = req.body; // Obtener la nueva contraseña del cuerpo de la solicitud
+
+    try {
+        // Buscar el administrador en la base de datos
+        const admin = await em.findOne(Admin, { id });
+        if (!admin) {
+            // Si no se encuentra, devolver un error 404
+            return res.status(404).json({ Error: 'Administrador no encontrado.' });
+        }
+
+        // Encriptar la nueva contraseña
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // Actualizar la contraseña del administrador
+        admin.password = hashedPassword;
+        await em.flush(); // Guardar los cambios en la base de datos
+
+        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
+        return res.status(200).json({ Message: 'Contraseña actualizada con éxito.' }); // Confirmar la actualización
+    } catch (error) {
+        console.error('Error al cambiar la contraseña:', error); // Loguear el error
+        return res.status(500).json({ Error: 'Error al cambiar la contraseña.' }); // Devolver un error 500
+    }
 }
 
 // Exportar las funciones para usarlas en las rutas
-export { add, findAll, findOne, remove, update, inputS };
+export { add, findAll, findOne, remove, update, inputS, changePassword };

@@ -43,25 +43,14 @@
             <label for="usuario" class="form-label">Usuario:</label>
             <input formControlName="usuario" type="text" id="usuario" class="form-control">
           </div>
-          <!-- Campo: Contraseña -->
-          <div class="mb-2">
-            <label for="password" class="form-label">Contraseña:</label>
-            <input formControlName="password" type="password" id="password" class="form-control">
-          </div>
           <!-- Botones de acción -->
-          <div class="row mt-2 text-center">
+          <div class="d-flex justify-content-center mt-2">
             <!-- Botón: Volver -->
-            <div class="col-6">
-              <button (click)="volver()" type="button" class="btn btn-secondary btn-sm m-2">Volver</button>
-            </div>
+            <button (click)="volver()" type="button" class="btn btn-secondary btn-sm mx-2">Volver</button>
+            <!-- Botón: Cambiar Contraseña (solo al editar) -->
+            <button *ngIf="id !== 0" type="button" class="btn btn-light btn-sm mx-2" (click)="goToChangePassword()">Cambiar Contraseña</button>
             <!-- Botón: Aceptar -->
-            <div class="col-6">
-              <button [disabled]="form.invalid" type="submit" class="btn btn-light btn-sm m-2">Aceptar</button>
-            </div>
-            <!-- Nota: Campos obligatorios -->
-            <div>
-              <small class="ml-1 fw-bold">* Todos los campos son obligatorios.</small>
-            </div>
+            <button [disabled]="form.invalid" type="submit" class="btn btn-light btn-sm mx-2">Aceptar</button>
           </div>
         </form>
       </div>

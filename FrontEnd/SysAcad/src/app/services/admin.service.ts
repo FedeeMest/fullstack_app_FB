@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment.development'; // Importa las variables de entorno
+import { environment } from '../environments/environment'; // Importa las variables de entorno
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'; // Módulos para realizar solicitudes HTTP y manejar errores
 import { Observable, throwError } from 'rxjs'; // Manejo de observables y errores
 import { catchError } from 'rxjs/operators'; // Operador para manejar errores en las solicitudes HTTP
@@ -76,5 +76,12 @@ export class AdminService {
     return this.http.get<Admin>(this.myAppUrl + this.myApiUrl + "/" + id).pipe(
       catchError(this.handleError.bind(this)) // Maneja errores en la solicitud
     );
+  }
+
+  changePassword(id: number, newPassword: string): Observable<void> {
+    // Enviar la nueva contraseña al backend con el ID del administrador
+    return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}/${id}/change-password`, {
+      newPassword
+    });
   }
 }

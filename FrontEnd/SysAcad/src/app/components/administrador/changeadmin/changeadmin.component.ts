@@ -1,55 +1,50 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { AdminService } from '../../../services/admin.service';
 
 @Component({
-  selector: 'app-changepassword',
+  selector: 'app-changeadmin',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './changepassword.component.html',
-  styleUrl: './changepassword.component.css'
+  templateUrl: './changeadmin.component.html',
+  styleUrl: './changeadmin.component.css'
 })
-export class ChangepasswordComponent {
+export class ChangeadminComponent {
   form: FormGroup;
-  id: number; // ID del alumno
-  role: string | null = null; // Rol del usuario
+  id: number; // ID del administrador
   errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private adminService: AdminService,
     private toastr: ToastrService,
     private location: Location,
     private route: ActivatedRoute
   ) {
-    // Obtener el rol del usuario
-    this.role = this.authService.getRole();
-
-    // Crear el formulario dinámicamente según el rol
+    // Crear el formulario para cambiar la contraseña
     this.form = this.fb.group({
-      ...(this.role === 'alumno' && { currentPassword: ['', Validators.required] }), // Contraseña actual requerida solo para alumnos
       newPassword: ['', [Validators.required, Validators.minLength(6)]], // Nueva contraseña requerida y con mínimo 6 caracteres
       confirmPassword: ['', Validators.required] // Confirmación de contraseña requerida
     });
 
-    // Obtener el ID del alumno desde la URL
+    // Obtener el ID del administrador desde la URL
     this.id = Number(this.route.snapshot.paramMap.get('id'));
   }
 
   // Método para cambiar la contraseña
   changePassword(): void {
-    const { currentPassword, newPassword, confirmPassword } = this.form.value;
+    const { newPassword, confirmPassword } = this.form.value;
 
     if (newPassword !== confirmPassword) {
       this.errorMessage = 'La nueva contraseña y su confirmación no coinciden.';
       return;
     }
 
-    // Llamar al servicio con el ID del alumno
-    this.authService.changePassword(this.id, currentPassword || '', newPassword).subscribe({
+    // Llamar al servicio para cambiar la contraseña del administrador
+    this.adminService.changePassword(this.id, newPassword).subscribe({
       next: () => {
         this.toastr.success('Contraseña actualizada con éxito.', 'Éxito');
         this.form.reset();
