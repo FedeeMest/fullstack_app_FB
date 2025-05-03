@@ -117,7 +117,7 @@ BackEnd
 Pruebas
 FrontEnd
 Ejecutar pruebas unitarias → ng test
-Ejecutar pruebas end-to-end → ng e2e
+Ejecutar pruebas end-to-end → ng npx playwright test tests/gestion-materias.spec.ts
 
 BackEnd
 Ejecutar pruebas unitarias → pnpm test
