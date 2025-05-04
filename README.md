@@ -104,7 +104,10 @@ Estructura de Carpetas:
 **BackEnd**
 * Ejecutar pruebas unitarias → pnpm test
 
-# Configuración de la base de datos
+# Configuración de Docker (¡ENTORNO LOCAL!):
+` docker run --name ps8-dsw-h4g -v (reemplazar por dirección deseada) -e MYSQL_ROOT_HOST='%' -e MYSQL_ALLOW_EMPTY_PASSWORD="yes" -e MYSQL_PASSWORD="dsw" -e MYSQL_USER="dsw" -e MYSQL_DATABASE='sistema' -p 3306:3306 -d percona/percona-server `
+
+# Configuración de la base de datos (¡ENTORNO LOCAL!):
     DB_HOST=localhost
     DB_PORT=3306
     DB_USER=dsw
