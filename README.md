@@ -1,5 +1,4 @@
 # Documentación del Proyecto SysAcad
-Descripción del Proyecto
 SysAcad es una aplicación Full Stack diseñada para la gestión académica de una institución educativa. 
 Permite a los administradores gestionar alumnos, materias, inscripciones y otros aspectos relacionados con la administración académica. 
 Los alumnos pueden acceder a su información personal y realizar consultas relacionadas con su progreso académico.
