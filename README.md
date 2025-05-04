@@ -97,6 +97,14 @@ Estructura de Carpetas:
 3. Ejecutar el servidor → ` pnpm start:dev `
 4. La API estará disponible en: http://localhost:3000/.
 
+## Test
+**FrontEnd**
+* Ejecutar pruebas unitarias → ` ng test `
+* Ejecutar pruebas end-to-end → ` ng npx playwright test tests/gestion-materias.spec.ts `
+
+**BackEnd**
+* Ejecutar pruebas unitarias → pnpm test
+
 # Configuración de la base de datos
     DB_HOST=localhost
     DB_PORT=3306
