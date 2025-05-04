@@ -165,7 +165,7 @@ User: abrilabonizio - Password: abril02abonizz
 \
 **Credenciales para el uso de la app**\
 Admin:\
-`User: belenght - Password: belen123`\
+`User: usuario_administrador  - Password: admin123`\
 Alumno:\
-`User: fedems - Password: fede123`
+`User: usuario_alumno - Password: alumno123`
 
