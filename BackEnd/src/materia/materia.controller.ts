@@ -91,6 +91,17 @@ async function update(req: Request, res: Response) {
     const em = orm.em.fork(); // Crear un EntityManager para la consulta
     const id = parseInt(req.params.id); // Obtener el ID de la materia desde los parámetros
     const input = req.body.inputS; // Obtener los datos procesados por el middleware
+    
+    let materiaCheck = validarMateria(input.nombre); // Validar el nombre de la materia
+    let horasCheck = validarHorasMateria(input.horas_anuales); // Validar las horas anuales
+
+    if (!materiaCheck) {
+        return res.status(400).json({ mensaje: 'El nombre de la materia debe tener al menos 3 caracteres' });
+    }
+    if (!horasCheck) {
+        return res.status(400).json({ mensaje: 'Las horas anuales deben ser mayores a 0' });
+    }
+
     try {
         // Buscar la materia en la base de datos
         const materia = await em.findOne(Materia, { id });
