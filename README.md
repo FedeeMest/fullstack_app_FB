@@ -161,7 +161,7 @@ User: abrilabonizio - Password: abril02abonizz
 
 ## Uso del deployd de la app
 **URL del deployd**\
-`URL:`\
+`URL: https://fullstack-app-fb.vercel.app/`\
 \
 **Credenciales para el uso de la app**\
 Admin:\
