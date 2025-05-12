@@ -18,6 +18,7 @@ export class AlumnosComponent implements OnInit {
   alumnosFiltrados: Alumno[] = []; // Lista de alumnos filtrados según el plan seleccionado
   planesDisponibles: string[] = []; // Lista de planes disponibles
   filtroForm: FormGroup; // Formulario reactivo para manejar el filtro por plan
+  errorMessage: string | null = null; // Mensaje de error para mostrar al usuario
 
   constructor(
     private _alumnoService: AlumnosService, // Servicio para interactuar con la API
@@ -46,8 +47,10 @@ export class AlumnosComponent implements OnInit {
         this.listaAlumnos = response ?? []; // Asignar la lista de alumnos obtenida
         this.alumnosFiltrados = [...this.listaAlumnos]; // Inicializar la lista filtrada
         this.extraerPlanesDisponibles(); // Extraer los planes disponibles
+        this.errorMessage = null; // Limpiar el mensaje de error
       },
       error: (err) => {
+        this.errorMessage = `Error al cargar los alumnos: ${err.message}`;
         console.error('Error fetching data', err); // Loguear errores en la consola
       },
     });
@@ -91,8 +94,11 @@ export class AlumnosComponent implements OnInit {
             progressAnimation: 'decreasing',
           });
           this.getAlumnos(); // Actualizar la lista de alumnos
+          this.errorMessage = null; // Limpiar el mensaje de error
         },
         error: (err) => {
+          // Asignar el mensaje de error a la variable errorMessage
+          this.errorMessage = err.message;
           console.error('Error eliminando alumno', err); // Loguear errores en la consola
         },
       });
