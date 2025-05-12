@@ -177,6 +177,14 @@ async function remove(req: Request, res: Response) {
             // Si no se encuentra, devolver un error 404
             return res.status(404).json({ Error: 'Alumno no encontrado.' });
         }
+
+        // Verificar si el alumno tiene inscripciones
+        const inscripciones = await em.find(Inscripcion, { alumno: { id } });
+        if (inscripciones.length > 0) {
+            // Si tiene inscripciones, devolver un error 400
+            return res.status(400).json({ Error: 'No se puede eliminar el alumno porque está inscrito en materias.' });
+        }
+        
         await em.removeAndFlush(alumno); // Eliminar el alumno de la base de datos
         res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
         return res.status(200).json({ Message: 'Alumno eliminado con éxito.' }); // Confirmar la eliminación
