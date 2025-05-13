@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
-    endpoint: 'https://fullstackappfb-production.up.railway.app'
+    production: true,
+    endpoint: 'fullstackappfb-production.up.railway.app'
 };

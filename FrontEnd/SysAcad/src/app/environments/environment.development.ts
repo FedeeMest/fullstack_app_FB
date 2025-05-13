@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,// Placeholder
+    production: false,// Placeholder
     endpoint: 'http://localhost:3000'
 };
