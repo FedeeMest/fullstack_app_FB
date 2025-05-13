@@ -34,14 +34,29 @@ function inputS(req: Request, res: Response, next: NextFunction) {
 // Controlador para obtener todos los alumnos
 async function findAll(req: Request, res: Response) {
     const em = orm.em.fork(); // Crear un EntityManager para la consulta
+    const legajo = req.query.legajo ? parseInt(req.query.legajo as string, 10) : null; // Leer el legajo desde los query parameters
+
+    if (legajo !== null && isNaN(legajo)) {
+        // Validar que el legajo sea un número válido
+        return res.status(400).json({ Error: 'El legajo debe ser un número válido.' });
+    }
+
     try {
-        // Obtener todos los alumnos de la base de datos
-        const alumnos = await em.find(Alumno, {});
-        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
-        return res.status(200).json(alumnos); // Devolver la lista de alumnos
+        if (legajo !== null) {
+            // Si se proporciona un legajo, buscar el alumno por legajo
+            const alumno = await em.findOne(Alumno, { legajo });
+            if (!alumno) {
+                return res.status(404).json({ Error: 'Alumno no encontrado.' });
+            }
+            return res.status(200).json(alumno); // Devolver el alumno encontrado
+        } else {
+            // Si no se proporciona un legajo, obtener todos los alumnos
+            const alumnos = await em.find(Alumno, {});
+            return res.status(200).json(alumnos); // Devolver la lista de alumnos
+        }
     } catch (error) {
         console.error('Error al obtener alumnos:', error); // Loguear el error
-        return res.status(500).json({ Error: 'Error al obtener la lista de alumnos.' }); // Devolver un error 500
+        return res.status(500).json({ Error: 'Error al obtener los alumnos.' }); // Devolver un error 500
     }
 }
 
@@ -61,29 +76,6 @@ async function findOne(req: Request, res: Response) {
     } catch (error) {
         console.error('Error al buscar el alumno:', error); // Loguear el error
         return res.status(500).json({ Error: 'Error al buscar el alumno.' }); // Devolver un error 500
-    }
-}
-
-// Controlador para obtener un alumno por legajo
-async function findLegajo(req: Request, res: Response) {
-    const em = orm.em.fork(); // Crear un EntityManager para la consulta
-    const legajo = parseInt(req.params.legajo, 10); // Obtener el legajo desde los parámetros
-    if (isNaN(legajo)) {
-        // Validar que el legajo sea un número
-        return res.status(400).json({ Error: 'Legajo inválido.' });
-    }
-    try {
-        // Buscar el alumno en la base de datos por legajo
-        const alumno = await em.findOne(Alumno, { legajo });
-        if (!alumno) {
-            // Si no se encuentra, devolver un error 404
-            return res.status(404).json({ Error: 'Alumno no encontrado.' });
-        }
-        res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
-        return res.status(200).json(alumno); // Devolver el alumno encontrado
-    } catch (error) {
-        console.error('Error al buscar alumno por legajo:', error); // Loguear el error
-        return res.status(500).json({ Error: 'Error al buscar el alumno por legajo.' }); // Devolver un error 500
     }
 }
 
@@ -235,4 +227,4 @@ async function remove(req: Request, res: Response) {
 
 
 // Exportar las funciones para usarlas en las rutas
-export { add, findAll, findLegajo, findInscripcionesByAlumnoId, findOne, remove, update, inputS, changePassword };
+export { add, findAll, findInscripcionesByAlumnoId, findOne, remove, update, inputS, changePassword };

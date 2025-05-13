@@ -14,8 +14,8 @@ export class AuthStateService {
 
   // Verificar si el usuario está autenticado
   private isLoggedIn(): boolean {
-    if (typeof window !== 'undefined' && localStorage) { // Verificar si estamos en el navegador
-      return !!localStorage.getItem('token'); // Devuelve true si hay un token en el localStorage
+    if (typeof window !== 'undefined' && sessionStorage) { // Verificar si estamos en el navegador
+      return !!sessionStorage.getItem('token'); // Devuelve true si hay un token en el localStorage
     }
     return false; // Si no estamos en el navegador, asumimos que no está autenticado
   }
