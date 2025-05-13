@@ -1,6 +1,6 @@
 import { Entity, Property, PrimaryKey } from '@mikro-orm/core';
 
-@Entity()
+@Entity({ discriminatorColumn: 'rol' })
 export class Usuario {
   @PrimaryKey({ nullable: false })
   id!: number;
