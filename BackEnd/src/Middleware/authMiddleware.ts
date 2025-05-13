@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
+import { orm } from '../shared/db/orm.js';
 import jwt from 'jsonwebtoken';
+import { Usuario } from '../shared/usuario/usuario.entity.js';
 
 // Extiende la interfaz Request de Express para incluir la propiedad `user`
 // Esto permite almacenar el payload decodificado del token JWT en `req.user`
@@ -13,8 +15,9 @@ declare global {
 
 // Middleware para verificar el rol del usuario
 export const verifyRole = (roles: string[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     // Obtener el encabezado de autorización
+    const em = orm.em.fork(); // Crear un EntityManager para la consulta
     const authHeader = req.headers['authorization'];
 
     // Verificar si el encabezado de autorización está presente y tiene el formato correcto
@@ -30,12 +33,14 @@ export const verifyRole = (roles: string[]) => {
       if (!process.env.JWT_SECRET) {
         throw new Error('JWT_SECRET is not defined in environment variables');
       }
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded; // Almacenar el payload decodificado en `req.user`
+      const decoded = jwt.verify(token, process.env.JWT_SECRET) as { id: number; rol: string };
+      const userId = decoded.id;
+      const userRole = decoded.rol;
 
-      // Verificar si el rol del usuario está incluido en los roles permitidos
-      if (!roles.includes(req.user.rol)) {
-        return res.status(403).send('Access denied'); // Devolver un error 403 si el rol no tiene acceso
+      // Validar el usuario en la base de datos
+      const usuario = await em.findOne(Usuario, { id: userId });
+      if (!usuario || usuario.rol !== userRole || !roles.includes(usuario.rol)) {
+        return res.status(403).send('Access denied'); // Rechazar si el usuario no existe o el rol no coincide
       }
 
       // Si todo está bien, pasar al siguiente middleware o controlador

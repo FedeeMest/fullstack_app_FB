@@ -8,6 +8,13 @@
       <button type="button" class="btn btn-light btn-sm mt-2 mt-md-0" (click)="goAdd()">Agregar Alumno</button>
     </div>
 
+       <!-- Mensaje de error -->
+       <div class="d-flex justify-content-center">
+        <div *ngIf="errorMessage" class="alert alert-danger mb-2 mt-2" role="alert">
+          {{ errorMessage }}
+        </div>
+      </div>
+
     <!-- Cuerpo de la tarjeta -->
     <div class="card-body">
       <!-- Formulario para filtrar alumnos por plan -->
