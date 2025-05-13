@@ -18,7 +18,7 @@
             <!-- Encabezado de la tabla -->
             <thead style="position: sticky; top: 0; background-color: #444; z-index: 1;">
               <tr>
-                <th scope="col">Numero</th>
+                <th scope="col">Id</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
                 <th scope="col">Acciones</th>
@@ -29,7 +29,7 @@
               <!-- Iterar sobre la lista de administradores -->
               <tr *ngFor="let admin of listaAdmins" class="table-active">
                 <!-- Columna: Número del administrador -->
-                <th scope="row" class="text-center align-middle">{{ admin.numero }}</th>
+                <th scope="row" class="text-center align-middle">{{ admin.id }}</th>
                 <!-- Columna: Nombre del administrador -->
                 <td class="text-center align-middle">{{ admin.nombre }}</td>
                 <!-- Columna: Apellido del administrador -->

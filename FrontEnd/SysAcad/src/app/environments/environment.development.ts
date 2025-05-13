@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    endpoint: 'https://fullstackappfb-production.up.railway.app' // Placeholder
+    production: true,// Placeholder
+    endpoint: 'http://localhost:3000'
 };
