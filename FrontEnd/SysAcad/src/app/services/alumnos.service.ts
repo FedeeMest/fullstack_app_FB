@@ -80,8 +80,7 @@ export class AlumnosService {
 
   // Método para obtener un alumno por su legajo
   getAlumnoByLegajo(legajo: number): Observable<Alumno | null> {
-    console.log('Llamando a la API para buscar alumno con legajo:', legajo);
-    return this.http.get<Alumno>(this.myAppUrl + this.myApiUrl + "/" + "legajo" + "/" + legajo).pipe(
+    return this.http.get<Alumno>(`${this.myAppUrl}${this.myApiUrl}?legajo=${legajo}`).pipe(
       catchError(this.handleError.bind(this)) // Maneja errores en la solicitud
     );
   }
