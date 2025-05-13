@@ -66,19 +66,13 @@ async function add(req: Request, res: Response) {
     const em = orm.em.fork(); // Crear un EntityManager para la consulta
     const input = req.body.inputS; // Obtener los datos procesados por el middleware
     try {
-        // Obtener el administrador con el número más alto
-        const [adminConMaxNumero] = await em.find(Admin, {}, { orderBy: { numero: 'DESC' }, limit: 1 });
-        const maxNumero = adminConMaxNumero ? (parseInt(adminConMaxNumero.numero, 10) || 0) + 1 : 1;
-
-        const rol = 'admin'; // Asignar el rol de administrador
-
         // Generar un salt y encriptar la contraseña
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(input.password, salt);
         console.log(hashedPassword); // Loguear la contraseña encriptada (solo para depuración)
 
         // Crear una nueva instancia de administrador
-        const nuevoAdmin = em.create(Admin, { ...input, numero: maxNumero, rol: rol, password: hashedPassword });
+        const nuevoAdmin = em.create(Admin, { ...input, password: hashedPassword });
         await em.persistAndFlush(nuevoAdmin); // Guardar el administrador en la base de datos
         res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitudes desde cualquier origen
         return res.status(201).json({ Message: 'Admin creado con éxito', data: nuevoAdmin }); // Devolver el administrador creado
